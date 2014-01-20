@@ -10,7 +10,12 @@ import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.physics.box2d.joints.DistanceJointDef;
 import com.badlogic.gdx.physics.box2d.joints.RevoluteJointDef;
 
-public class GameScreen implements Screen {
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+public class GameScreen implements Screen, ContactListener{
 
     World world = new World(new Vector2(0, 0), true);
     Box2DDebugRenderer debugRenderer;
@@ -24,6 +29,7 @@ public class GameScreen implements Screen {
     private Body headPart;
     private Body bodyPartCenter;
     private Body bodyPartTail;
+    private Set<Body> smallEnemies;
 
     private float touchDownX = 0;
     private float touchDownY = 0;
@@ -32,6 +38,8 @@ public class GameScreen implements Screen {
     float forceX = 0;
     float forceFactor = 46000;
 
+    private List<Body> toBeDestructed = new ArrayList<Body>();
+
     public void initialize() {
         camera = new OrthographicCamera();
         camera.viewportHeight = 320;
@@ -39,9 +47,9 @@ public class GameScreen implements Screen {
         camera.position.set(camera.viewportWidth * .5f, camera.viewportHeight * .5f, 0f);
         camera.update();
         debugRenderer = new Box2DDebugRenderer();
-
+        world.setContactListener(this);
         //Ground body
-        createWall(0, 10,(camera.viewportWidth) * 2, 10.0f);
+        createWall(0, 10, (camera.viewportWidth) * 2, 10.0f);
         //Top body
         createWall(0, camera.viewportHeight-10,(camera.viewportWidth) * 2, 10.0f);
         //Left body
@@ -52,7 +60,34 @@ public class GameScreen implements Screen {
         createCreature();
         createJoints();
 
+        createSmallEnemies();
+
         handleTouches();
+
+    }
+
+    private void createSmallEnemies() {
+        smallEnemies = new HashSet<Body>();
+
+        BodyDef smallEnemyDef = new BodyDef();
+        smallEnemyDef.position.set( new Vector2( 100, 200));
+        smallEnemyDef.type = BodyDef.BodyType.DynamicBody;
+        Body enemyBody = world.createBody( smallEnemyDef);
+        CircleShape circleShape = new CircleShape();
+        circleShape.setRadius(2f);
+        FixtureDef smallEnemyFix = new FixtureDef();
+        smallEnemyFix.shape = circleShape;
+        smallEnemyFix.restitution = 0.5f;
+        smallEnemyFix.density = 0f;
+        enemyBody.createFixture(smallEnemyFix);
+        smallEnemies.add(enemyBody);
+
+        smallEnemyDef.position.set( new Vector2( 200, 100));
+        enemyBody = world.createBody( smallEnemyDef);
+        enemyBody.createFixture( smallEnemyFix);
+        smallEnemies.add( enemyBody);
+
+        circleShape.dispose();
 
     }
 
@@ -230,6 +265,7 @@ public class GameScreen implements Screen {
         Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
         debugRenderer.render(world, camera.combined);
         world.step(BOX_STEP, BOX_VELOCITY_ITERATIONS, BOX_POSITION_ITERATIONS);
+        handleToBeDestructed();
     }
 
     @Override
@@ -251,5 +287,40 @@ public class GameScreen implements Screen {
     }
     @Override
     public void resume() {
+    }
+
+    @Override
+    public void beginContact(Contact contact) {
+        Body bodyA = contact.getFixtureA().getBody();
+        Body bodyB = contact.getFixtureB().getBody();
+        if ( bodyA.equals( headPart) && smallEnemies.contains( bodyB)){
+            smallEnemies.remove(bodyB);
+            toBeDestructed.add(bodyB);
+        } else if ( bodyB.equals( headPart) && smallEnemies.contains( bodyA)){
+            smallEnemies.remove( bodyA);
+            toBeDestructed.add( bodyA);
+        }
+    }
+
+    private void handleToBeDestructed(){
+        List<Body> temp = new ArrayList<Body>( toBeDestructed);
+        for( Body aBody: temp){
+            world.destroyBody( aBody);
+            toBeDestructed.remove( aBody);
+        }
+    }
+    @Override
+    public void endContact(Contact contact) {
+
+    }
+
+    @Override
+    public void preSolve(Contact contact, Manifold manifold) {
+
+    }
+
+    @Override
+    public void postSolve(Contact contact, ContactImpulse contactImpulse) {
+
     }
 }
