@@ -28,6 +28,9 @@ public class GameScreen implements Screen {
     private float touchDownX = 0;
     private float touchDownY = 0;
 
+    private float centerReferenceX;
+    private float centerReferenceY;
+
     float forceY = 0;
     float forceX = 0;
     float forceFactor = 46000;
@@ -41,7 +44,7 @@ public class GameScreen implements Screen {
         debugRenderer = new Box2DDebugRenderer();
 
         //Ground body
-        createWall(0, 10,(camera.viewportWidth) * 2, 10.0f);
+        createWall(0, 10, (camera.viewportWidth) * 2, 10.0f);
         //Top body
         createWall(0, camera.viewportHeight-10,(camera.viewportWidth) * 2, 10.0f);
         //Left body
@@ -65,14 +68,14 @@ public class GameScreen implements Screen {
         groundBody.createFixture(groundBox, 0.0f);
     }
 
+    private RevoluteJointDef revoluteJointDef;
+
     private void createJoints() {
-        RevoluteJointDef revoluteJointDef = new RevoluteJointDef();
+        revoluteJointDef = new RevoluteJointDef();
 
         revoluteJointDef.enableLimit = false;
         revoluteJointDef.bodyA = headPart;
         revoluteJointDef.bodyB = bodyPartCenter;
-        revoluteJointDef.lowerAngle = (float)Math.toRadians(-45);
-        revoluteJointDef.upperAngle = (float)Math.toRadians(45);
         revoluteJointDef.referenceAngle = 0;
         revoluteJointDef.initialize(headPart, bodyPartCenter, headPart.getWorldCenter());
 
@@ -89,6 +92,15 @@ public class GameScreen implements Screen {
         revoluteJointDef2.initialize(bodyPartCenter, bodyPartTail, bodyPartCenter.getWorldCenter());
 
         world.createJoint(revoluteJointDef2);
+
+//        RevoluteJointDef revoluteJointDef3 = new RevoluteJointDef();
+//        revoluteJointDef3.enableLimit = false;
+//        revoluteJointDef3.bodyA = headPart;
+//        revoluteJointDef3.bodyB = bodyPartTail;
+//        revoluteJointDef3.referenceAngle = 0;
+//        revoluteJointDef3.initialize(headPart,bodyPartTail,headPart.getWorldCenter());
+//
+//        world.createJoint(revoluteJointDef3);
 
         DistanceJointDef distanceJointDef_head_left = new DistanceJointDef();
         distanceJointDef_head_left.initialize(headPart, bodyPartCenter, headPart.getWorldCenter(), bodyPartCenter.getWorldCenter());
@@ -108,9 +120,11 @@ public class GameScreen implements Screen {
         bodyPartCenter = addBodyPart(camera.viewportWidth * 0.48f, camera.viewportHeight * 0.5f);
         bodyPartTail = addBodyPart(camera.viewportWidth * 0.46f, camera.viewportHeight * 0.5f);
 
-        headPart.setLinearDamping(1f);
-        bodyPartCenter.setLinearDamping(1f);
-        bodyPartTail.setLinearDamping(1f);
+//        headPart.setLinearDamping(3f);
+//        bodyPartCenter.setLinearDamping(3f);
+//        bodyPartTail.setLinearDamping(3f);
+        centerReferenceX = headPart.getPosition().x;
+        centerReferenceY = headPart.getPosition().y;
     }
 
     private void handleTouches(){
@@ -134,11 +148,19 @@ public class GameScreen implements Screen {
             public boolean touchDown(int i, int i2, int i3, int i4) {
                 touchDownX = i;
                 touchDownY = i2;
+                headPart.setLinearDamping(0);
+                bodyPartCenter.setLinearDamping(0);
+                bodyPartTail.setLinearDamping(0);
                 return false;
             }
 
             @Override
             public boolean touchUp(int i, int i2, int i3, int i4) {
+                headPart.setLinearDamping(3f);
+                bodyPartCenter.setLinearDamping(3f);
+                bodyPartTail.setLinearDamping(3f);
+                forceX = 0;
+                forceY = 0;
                 return false;
             }
 
@@ -147,19 +169,25 @@ public class GameScreen implements Screen {
 
                 if(forceX>0 && (i-touchDownX)<0){
                     forceX = 0;
-                }
-                if(forceY>0 && (touchDownY -i2)<0){
-                    forceY= 0;
+                } else if(forceX<0 && (i-touchDownX)>0){
+                    forceX = 0;
+                } else if (i>touchDownX){
+                    forceX += forceFactor;
+                } else {
+                    forceX -= forceFactor;
                 }
 
-                if(forceX<0 && (i-touchDownX)>0){
-                    forceX = 0;
-                }
-                if(forceY<0 && (touchDownY -i2)>0){
+                if(forceY>0 && (touchDownY -i2)<0){
                     forceY= 0;
+                } else if(forceY<0 && (touchDownY -i2)>0){
+                    forceY= 0;
+                } else if (i2>touchDownY){
+                    forceY -= forceFactor;
+                } else {
+                    forceY += forceFactor;
                 }
-                forceX += (i-touchDownX)* forceFactor;
-                forceY += (touchDownY -i2) * forceFactor;
+
+
                 touchDownX = i;
                 touchDownY = i2;
 
@@ -220,8 +248,8 @@ public class GameScreen implements Screen {
 
     private void applyForce(float deltaTime) {
         headPart.applyForce(forceX*deltaTime,forceY*deltaTime, headPart.getWorldCenter().x, headPart.getWorldCenter().y,true);
-        forceX -= forceX*deltaTime;
-        forceY -= forceY*deltaTime;
+//        forceX -= forceX*deltaTime;
+//        forceY -= forceY*deltaTime;
     }
 
     @Override
@@ -230,6 +258,24 @@ public class GameScreen implements Screen {
         Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
         debugRenderer.render(world, camera.combined);
         world.step(BOX_STEP, BOX_VELOCITY_ITERATIONS, BOX_POSITION_ITERATIONS);
+        moveCamera();
+        rotateHead();
+    }
+
+    private void rotateHead() {
+//        revoluteJointDef.
+    }
+
+    float diffX = 0;
+    float diffY = 0;
+
+    private void moveCamera() {
+        diffX = headPart.getPosition().x-centerReferenceX;
+        diffY = headPart.getPosition().y - centerReferenceY;
+        camera.translate(diffX,diffY);
+        camera.update();
+        centerReferenceX = headPart.getPosition().x;
+        centerReferenceY = headPart.getPosition().y;
     }
 
     @Override
