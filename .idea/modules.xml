@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/GreedyUSO.iml" filepath="$PROJECT_DIR$/GreedyUSO.iml" />
+      <module fileurl="file://$PROJECT_DIR$/android/GreedyUSO-android.iml" filepath="$PROJECT_DIR$/android/GreedyUSO-android.iml" />
+      <module fileurl="file://$PROJECT_DIR$/core/GreedyUSO-core.iml" filepath="$PROJECT_DIR$/core/GreedyUSO-core.iml" />
+      <module fileurl="file://$PROJECT_DIR$/desktop/GreedyUSO-desktop.iml" filepath="$PROJECT_DIR$/desktop/GreedyUSO-desktop.iml" />
+    </modules>
+  </component>
+</project>
+
