@@ -1,6 +1,6 @@
 package GreedyUSO.android;
 
-import GreedyUSO.core.Game;
+import GreedyUSO.core.GreedyGame;
 
 import android.os.Bundle;
 
@@ -14,6 +14,6 @@ public class GameActivity extends AndroidApplication {
 			super.onCreate(savedInstanceState);
 			AndroidApplicationConfiguration config = new AndroidApplicationConfiguration();
 			config.useGL20 = true;
-			initialize(new Game(), config);
+			initialize(new GreedyGame(), config);
 	}
 }
