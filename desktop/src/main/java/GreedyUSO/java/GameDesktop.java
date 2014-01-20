@@ -1,9 +1,9 @@
 package GreedyUSO.java;
 
+import GreedyUSO.core.GreedyGame;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 
-import GreedyUSO.core.Game;
 import com.badlogic.gdx.utils.GdxNativesLoader;
 
 public class GameDesktop {
@@ -12,6 +12,6 @@ public class GameDesktop {
 		config.useGL20 = true;
 //        config.b
         GdxNativesLoader.load();
-		new LwjglApplication(new Game(), config);
+		new LwjglApplication(new GreedyGame(), config);
 	}
 }
