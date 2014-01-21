@@ -1,5 +1,6 @@
 package GreedyUSO.core.model;
 
+import GreedyUSO.core.view.GameScreen;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -17,6 +18,7 @@ public class Entity implements Renderable{
         this.body = body;
         this.texture = texture;
         this.sprite = new Sprite( texture);
+        this.sprite.flip( true, false);
         update();
     }
 
@@ -24,18 +26,18 @@ public class Entity implements Renderable{
     @Override
     public void render( Batch batch) {
        // Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT | GL10.GL_DEPTH_BUFFER_BIT);
-        //Gdx.app.log("Entity", "posX: " + posX + " posY:" + posY);
-        sprite.setPosition(posX, posY);
+        //sprite.setPosition( posX, posY);
+        sprite.setX( posX);
+        sprite.setY( posY);
         sprite.setRotation((float) Math.toDegrees(body.getAngle()));
-        sprite.setScale(0.1f);
         batch.begin();
         sprite.draw( batch);
         batch.end();
     }
 
     public void update(){
-        this.posX = body.getPosition().x;
-        this.posY = body.getPosition().y;
+        this.posX = body.getPosition().x * GameScreen.PIXELS_PER_METER;
+        this.posY = body.getPosition().y * GameScreen.PIXELS_PER_METER;
     }
 
 
