@@ -2,7 +2,34 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="daab4426-f815-4729-a87f-bb913acb831c" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/desktop/assets/body.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/desktop/content/body/body0.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/desktop/content/body/body1.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/desktop/content/body/body2.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/desktop/content/body/body3.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/android/tools/gdx-tools.jar" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/android/tools/gdx.jar" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/desktop/assets/head.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/desktop/content/head/head_02.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/desktop/content/head/head_03.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/desktop/content/head/head_04.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/desktop/content/head/head_05.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/desktop/content/head/head_06.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/core/src/main/java/GreedyUSO/core/model/CreatureBody.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/core/src/main/java/GreedyUSO/core/model/Head.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/desktop/assets/body.atlas" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/desktop/assets/head.atlas" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/desktop/content/body/pack.json" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/desktop/content/head/pack.json" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/desktop/assets/biting-head0001.png" afterPath="" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/desktop/assets/head01.png" afterPath="$PROJECT_DIR$/desktop/content/head/head_01.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/android/target/generated-sources/r/GreedyUSO/android/BuildConfig.java" afterPath="$PROJECT_DIR$/android/target/generated-sources/r/GreedyUSO/android/BuildConfig.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/main/java/GreedyUSO/core/model/Entity.java" afterPath="$PROJECT_DIR$/core/src/main/java/GreedyUSO/core/model/Entity.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/desktop/src/main/java/GreedyUSO/java/GameDesktop.java" afterPath="$PROJECT_DIR$/desktop/src/main/java/GreedyUSO/java/GameDesktop.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/main/java/GreedyUSO/core/view/GameScreen.java" afterPath="$PROJECT_DIR$/core/src/main/java/GreedyUSO/core/view/GameScreen.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/main/java/GreedyUSO/core/model/Renderable.java" afterPath="$PROJECT_DIR$/core/src/main/java/GreedyUSO/core/model/Renderable.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/encodings.xml" afterPath="$PROJECT_DIR$/.idea/encodings.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="GreedyUSO.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -66,44 +93,10 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="biting-head0001.png" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/desktop/assets/biting-head0001.png">
-          <provider selected="true" editor-type-id="images">
-            <state />
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="TextureRegion.class" pinned="false" current="false" current-in-tab="false">
-        <entry file="jar://$M2_REPO$/com/badlogicgames/gdx/gdx/1.0-SNAPSHOT/gdx-1.0-20140120.163209-198.jar!/com/badlogic/gdx/graphics/g2d/TextureRegion.class">
+      <file leaf-file-name="CreatureBody.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/core/src/main/java/GreedyUSO/core/model/CreatureBody.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="15" column="11" selection-start="344" selection-end="344" vertical-scroll-proportion="-9.44" vertical-offset="16" max-vertical-offset="1638">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Box2DDebugRenderer.class" pinned="false" current="false" current-in-tab="false">
-        <entry file="jar://$M2_REPO$/com/badlogicgames/gdx/gdx/1.0-SNAPSHOT/gdx-1.0-20140120.163209-198.jar!/com/badlogic/gdx/physics/box2d/Box2DDebugRenderer.class">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="33" column="11" selection-start="1646" selection-end="1646" vertical-scroll-proportion="1.36" vertical-offset="610" max-vertical-offset="1674">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="AndroidManifest.xml" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/android/AndroidManifest.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="20" column="67" selection-start="902" selection-end="902" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="468">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Entity.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/core/src/main/java/GreedyUSO/core/model/Entity.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="20" column="37" selection-start="605" selection-end="605" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="900">
+            <state line="13" column="59" selection-start="469" selection-end="469" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="414">
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -111,46 +104,82 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="workspace.xml" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/.idea/workspace.xml">
+      <file leaf-file-name="body.atlas" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/desktop/assets/body.atlas">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="27" column="40" selection-start="1323" selection-end="1323" vertical-scroll-proportion="0.0" vertical-offset="18" max-vertical-offset="20160">
+            <state line="1" column="0" selection-start="1" selection-end="1" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="702">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name=".gitignore" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/.gitignore">
+      <file leaf-file-name="GameScreen.java" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/core/src/main/java/GreedyUSO/core/view/GameScreen.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="651">
+            <state line="294" column="35" selection-start="10575" selection-end="10575" vertical-scroll-proportion="0.61044174" vertical-offset="4836" max-vertical-offset="7290">
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="pack.json" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/desktop/content/body/pack.json">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="5" column="28" selection-start="101" selection-end="101" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="198">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Sprite.class" pinned="false" current="false" current-in-tab="false">
-        <entry file="jar://$M2_REPO$/com/badlogicgames/gdx/gdx/1.0-SNAPSHOT/gdx-1.0-20140120.163209-198.jar!/com/badlogic/gdx/graphics/g2d/Sprite.class">
+      <file leaf-file-name="body.png" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/desktop/assets/body.png">
+          <provider selected="true" editor-type-id="images">
+            <state />
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="head.png" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/desktop/assets/head.png">
+          <provider selected="true" editor-type-id="images">
+            <state />
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Entity.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/core/src/main/java/GreedyUSO/core/model/Entity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="25" column="11" selection-start="742" selection-end="742" vertical-scroll-proportion="-9.28" vertical-offset="200" max-vertical-offset="2214">
+            <state line="38" column="47" selection-start="1173" selection-end="1173" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1008">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Renderable.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/core/src/main/java/GreedyUSO/core/model/Renderable.java">
+      <file leaf-file-name="Animation.class" pinned="false" current="false" current-in-tab="false">
+        <entry file="jar://$M2_REPO$/com/badlogicgames/gdx/gdx/1.0-SNAPSHOT/gdx-1.0-20140120.163209-198.jar!/com/badlogic/gdx/graphics/g2d/Animation.class">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="9" column="34" selection-start="180" selection-end="180" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="306">
+            <state line="26" column="55" selection-start="1261" selection-end="1261" vertical-scroll-proportion="-16.12" vertical-offset="47" max-vertical-offset="756">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="pom.xml" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/android/pom.xml">
+      <file leaf-file-name="Head.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/core/src/main/java/GreedyUSO/core/model/Head.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="86" column="43" selection-start="2672" selection-end="2672" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="3150">
+            <state line="7" column="13" selection-start="240" selection-end="240" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="378">
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="pack.json" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/desktop/content/head/pack.json">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="5" column="1" selection-start="101" selection-end="101" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="198">
               <folding />
             </state>
           </provider>
@@ -171,16 +200,20 @@
       <list>
         <option value="$PROJECT_DIR$/desktop/pom.xml" />
         <option value="$PROJECT_DIR$/android/pom.xml" />
-        <option value="$PROJECT_DIR$/desktop/src/main/java/GreedyUSO/java/GameDesktop.java" />
         <option value="$PROJECT_DIR$/desktop/src/main/java/GreedyUSO/java/view/GameScreen.java" />
         <option value="$PROJECT_DIR$/core/src/main/java/GreedyUSO/core/Game.java" />
         <option value="$PROJECT_DIR$/core/src/main/java/GreedyUSO/core/GreedyGame.java" />
         <option value="$PROJECT_DIR$/pom.xml" />
         <option value="$PROJECT_DIR$/android/AndroidManifest.xml" />
-        <option value="$PROJECT_DIR$/core/src/main/java/GreedyUSO/core/model/Renderable.java" />
-        <option value="$PROJECT_DIR$/core/src/main/java/GreedyUSO/core/view/GameScreen.java" />
-        <option value="$PROJECT_DIR$/core/src/main/java/GreedyUSO/core/model/Entity.java" />
         <option value="$PROJECT_DIR$/.idea/workspace.xml" />
+        <option value="$PROJECT_DIR$/desktop/assets/head.atlas" />
+        <option value="$PROJECT_DIR$/core/src/main/java/GreedyUSO/core/model/Renderable.java" />
+        <option value="$PROJECT_DIR$/desktop/src/main/java/GreedyUSO/java/GameDesktop.java" />
+        <option value="$PROJECT_DIR$/core/src/main/java/GreedyUSO/core/model/Head.java" />
+        <option value="$PROJECT_DIR$/core/src/main/java/GreedyUSO/core/model/Entity.java" />
+        <option value="$PROJECT_DIR$/desktop/assets/body.atlas" />
+        <option value="$PROJECT_DIR$/core/src/main/java/GreedyUSO/core/model/CreatureBody.java" />
+        <option value="$PROJECT_DIR$/core/src/main/java/GreedyUSO/core/view/GameScreen.java" />
       </list>
     </option>
   </component>
@@ -230,6 +263,7 @@
     </navigator>
     <panes>
       <pane id="PackagesPane" />
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -289,6 +323,50 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="GreedyUSO" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="GreedyUSO" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="desktop" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="content" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="head" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="GreedyUSO" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="GreedyUSO" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="desktop" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="content" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="body" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -450,6 +528,24 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="tools" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="GreedyUSO" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="GreedyUSO" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="android" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value="src" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -468,7 +564,6 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -501,6 +596,16 @@
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder2" value="2" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth3" value="1130" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder3" value="3" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/desktop/content/body" />
+      <recent name="$PROJECT_DIR$/desktop/content/head" />
+      <recent name="$PROJECT_DIR$/android" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/desktop/content/head" />
+    </key>
   </component>
   <component name="RunManager" selected="Application.GameDesktop">
     <configuration default="false" name="GameDesktop" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
@@ -559,6 +664,19 @@
       <option name="PORT" value="5005" />
       <method />
     </configuration>
+    <configuration default="true" type="Applet" factoryName="Applet">
+      <module name="" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="HTML_FILE_NAME" />
+      <option name="HTML_USED" value="false" />
+      <option name="WIDTH" value="400" />
+      <option name="HEIGHT" value="300" />
+      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
+      <option name="VM_PARAMETERS" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <method />
+    </configuration>
     <configuration default="true" type="TestNG" factoryName="TestNG">
       <module name="" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
@@ -584,19 +702,6 @@
       <envs />
       <properties />
       <listeners />
-      <method />
-    </configuration>
-    <configuration default="true" type="Applet" factoryName="Applet">
-      <module name="" />
-      <option name="MAIN_CLASS_NAME" />
-      <option name="HTML_FILE_NAME" />
-      <option name="HTML_USED" value="false" />
-      <option name="WIDTH" value="400" />
-      <option name="HEIGHT" value="300" />
-      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
-      <option name="VM_PARAMETERS" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
       <method />
     </configuration>
     <configuration default="true" type="Application" factoryName="Application">
@@ -696,7 +801,7 @@
     <editor active="true" />
     <layout>
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32953465" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32953465" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32953465" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -715,7 +820,7 @@
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24876441" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.26210827" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.26210827" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
@@ -748,39 +853,18 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/core/src/main/java/GreedyUSO/core/GreedyGame.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="16" column="26" selection-start="377" selection-end="377" vertical-scroll-proportion="0.0" vertical-offset="288" max-vertical-offset="810">
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$M2_REPO$/com/badlogicgames/gdx/gdx-backend-lwjgl/1.0-SNAPSHOT/gdx-backend-lwjgl-1.0-20140120.030259-195.jar!/com/badlogic/gdx/backends/lwjgl/LwjglApplication.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="86" column="16" selection-start="4350" selection-end="4350" vertical-scroll-proportion="0.0" vertical-offset="1548" max-vertical-offset="1746">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/core/src/main/java/GreedyUSO/core/view/GameScreen.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="352" column="47" selection-start="11921" selection-end="11921" vertical-scroll-proportion="0.0" vertical-offset="6336" max-vertical-offset="6588">
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#1846#1852#0" expanded="true" />
-            <element signature="e#1905#1913#0" expanded="true" />
-            <element signature="e#14230#14236#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="jar://$M2_REPO$/com/badlogicgames/gdx/gdx/1.0-SNAPSHOT/gdx-1.0-20140120.030136-196.jar!/com/badlogic/gdx/physics/box2d/Body.class">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="108" column="16" selection-start="4921" selection-end="4921" vertical-scroll-proportion="0.0" vertical-offset="1944" max-vertical-offset="4374">
-          <folding />
-        </state>
+        <state line="108" column="16" selection-start="4921" selection-end="4921" vertical-scroll-proportion="0.0" vertical-offset="1944" max-vertical-offset="4374" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/desktop/src/main/java/GreedyUSO/java/GameDesktop.java">
@@ -801,9 +885,7 @@
     </entry>
     <entry file="jar://$M2_REPO$/com/badlogicgames/gdx/gdx-backend-lwjgl/1.0-SNAPSHOT/gdx-backend-lwjgl-1.0-20140120.030259-195.jar!/com/badlogic/gdx/backends/lwjgl/LwjglApplication.class">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="86" column="16" selection-start="4350" selection-end="4350" vertical-scroll-proportion="0.0" vertical-offset="1548" max-vertical-offset="1746">
-          <folding />
-        </state>
+        <state line="86" column="16" selection-start="4350" selection-end="4350" vertical-scroll-proportion="0.0" vertical-offset="1548" max-vertical-offset="1746" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/core/src/main/java/GreedyUSO/core/view/GameScreen.java">
@@ -811,18 +893,13 @@
         <state line="329" column="57" selection-start="11239" selection-end="11239" vertical-scroll-proportion="0.0" vertical-offset="5922" max-vertical-offset="6588">
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#1846#1852#0" expanded="true" />
-            <element signature="e#1905#1913#0" expanded="true" />
-            <element signature="e#14230#14236#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="jar://$M2_REPO$/com/badlogicgames/gdx/gdx/1.0-SNAPSHOT/gdx-1.0-20140120.030136-196.jar!/com/badlogic/gdx/physics/box2d/Body.class">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="108" column="16" selection-start="4933" selection-end="4933" vertical-scroll-proportion="0.0" vertical-offset="1944" max-vertical-offset="4374">
-          <folding />
-        </state>
+        <state line="108" column="16" selection-start="4933" selection-end="4933" vertical-scroll-proportion="0.0" vertical-offset="1944" max-vertical-offset="4374" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/desktop/src/main/java/GreedyUSO/java/GameDesktop.java">
@@ -843,9 +920,7 @@
     </entry>
     <entry file="jar://$M2_REPO$/com/badlogicgames/gdx/gdx-backend-lwjgl/1.0-SNAPSHOT/gdx-backend-lwjgl-1.0-20140120.030259-195.jar!/com/badlogic/gdx/backends/lwjgl/LwjglApplication.class">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="86" column="16" selection-start="4350" selection-end="4350" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1746">
-          <folding />
-        </state>
+        <state line="86" column="16" selection-start="4350" selection-end="4350" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1746" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/core/src/main/java/GreedyUSO/core/view/GameScreen.java">
@@ -853,18 +928,13 @@
         <state line="304" column="51" selection-start="10705" selection-end="10705" vertical-scroll-proportion="0.0" vertical-offset="5472" max-vertical-offset="6588">
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#1846#1852#0" expanded="true" />
-            <element signature="e#1905#1913#0" expanded="true" />
-            <element signature="e#14230#14236#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="jar://$M2_REPO$/com/badlogicgames/gdx/gdx/1.0-SNAPSHOT/gdx-1.0-20140120.030136-196.jar!/com/badlogic/gdx/physics/box2d/Body.class">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="108" column="16" selection-start="4933" selection-end="4933" vertical-scroll-proportion="0.0" vertical-offset="1944" max-vertical-offset="4374">
-          <folding />
-        </state>
+        <state line="108" column="16" selection-start="4933" selection-end="4933" vertical-scroll-proportion="0.0" vertical-offset="1944" max-vertical-offset="4374" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/desktop/src/main/java/GreedyUSO/java/GameDesktop.java">
@@ -885,9 +955,7 @@
     </entry>
     <entry file="jar://$M2_REPO$/com/badlogicgames/gdx/gdx-backend-lwjgl/1.0-SNAPSHOT/gdx-backend-lwjgl-1.0-20140120.030259-195.jar!/com/badlogic/gdx/backends/lwjgl/LwjglApplication.class">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="86" column="16" selection-start="4350" selection-end="4350" vertical-scroll-proportion="0.0" vertical-offset="1548" max-vertical-offset="1746">
-          <folding />
-        </state>
+        <state line="86" column="16" selection-start="4350" selection-end="4350" vertical-scroll-proportion="0.0" vertical-offset="1548" max-vertical-offset="1746" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/core/src/main/java/GreedyUSO/core/view/GameScreen.java">
@@ -895,9 +963,6 @@
         <state line="266" column="27" selection-start="9326" selection-end="9326" vertical-scroll-proportion="0.0" vertical-offset="4788" max-vertical-offset="6552">
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#1846#1852#0" expanded="true" />
-            <element signature="e#1905#1913#0" expanded="true" />
-            <element signature="e#14230#14236#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -920,9 +985,7 @@
     </entry>
     <entry file="jar://$M2_REPO$/com/badlogicgames/gdx/gdx-backend-lwjgl/1.0-SNAPSHOT/gdx-backend-lwjgl-1.0-20140120.030259-195.jar!/com/badlogic/gdx/backends/lwjgl/LwjglApplication.class">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="86" column="16" selection-start="4350" selection-end="4350" vertical-scroll-proportion="0.0" vertical-offset="1548" max-vertical-offset="1746">
-          <folding />
-        </state>
+        <state line="86" column="16" selection-start="4350" selection-end="4350" vertical-scroll-proportion="0.0" vertical-offset="1548" max-vertical-offset="1746" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/core/src/main/java/GreedyUSO/core/view/GameScreen.java">
@@ -930,9 +993,6 @@
         <state line="56" column="0" selection-start="1815" selection-end="1815" vertical-scroll-proportion="0.0" vertical-offset="1008" max-vertical-offset="4698">
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#1846#1852#0" expanded="true" />
-            <element signature="e#1905#1913#0" expanded="true" />
-            <element signature="e#14230#14236#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -958,18 +1018,9 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/desktop/src/main/java/GreedyUSO/java/GameDesktop.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="13" column="32" selection-start="460" selection-end="460" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="414">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://$M2_REPO$/com/badlogicgames/gdx/gdx/1.0-SNAPSHOT/gdx-1.0-20140120.030136-196.jar!/com/badlogic/gdx/physics/box2d/Body.class">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="108" column="16" selection-start="4921" selection-end="4921" vertical-scroll-proportion="0.0" vertical-offset="1944" max-vertical-offset="4374">
-          <folding />
-        </state>
+        <state line="108" column="16" selection-start="4921" selection-end="4921" vertical-scroll-proportion="0.0" vertical-offset="1944" max-vertical-offset="4374" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/pom.xml">
@@ -981,9 +1032,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/../../android-sdk/sources/android-17/com/android/server/am/ActivityManagerService.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="9566" column="95" selection-start="399339" selection-end="399339" vertical-scroll-proportion="0.4546851" vertical-offset="168616" max-vertical-offset="261324">
-          <folding />
-        </state>
+        <state line="9566" column="95" selection-start="399339" selection-end="399339" vertical-scroll-proportion="0.4546851" vertical-offset="168616" max-vertical-offset="261324" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/android/src/main/java/GreedyUSO/android/GameActivity.java">
@@ -995,18 +1044,7 @@
     </entry>
     <entry file="jar://$M2_REPO$/com/badlogicgames/gdx/gdx-backend-lwjgl/1.0-SNAPSHOT/gdx-backend-lwjgl-1.0-20140120.030259-195.jar!/com/badlogic/gdx/backends/lwjgl/LwjglApplication.class">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="86" column="16" selection-start="4350" selection-end="4350" vertical-scroll-proportion="0.6896552" vertical-offset="1108" max-vertical-offset="1746">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/core/src/main/java/GreedyUSO/core/GreedyGame.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="21" column="49" selection-start="450" selection-end="450" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="792">
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
-        </state>
+        <state line="86" column="16" selection-start="4350" selection-end="4350" vertical-scroll-proportion="0.6896552" vertical-offset="1108" max-vertical-offset="1746" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/android/proguard.cfg">
@@ -1025,75 +1063,40 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/android/AndroidManifest.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="20" column="67" selection-start="902" selection-end="902" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="468">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/core/src/main/java/GreedyUSO/core/model/Renderable.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="9" column="34" selection-start="180" selection-end="180" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="306">
+        <state line="20" column="0" selection-start="902" selection-end="902" vertical-scroll-proportion="0.0" vertical-offset="360" max-vertical-offset="468">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="jar://$M2_REPO$/com/badlogicgames/gdx/gdx/1.0-SNAPSHOT/gdx-1.0-20140120.163209-198.jar!/com/badlogic/gdx/graphics/g2d/SpriteBatch.class">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="31" column="11" selection-start="1227" selection-end="1227" vertical-scroll-proportion="-13.76" vertical-offset="196" max-vertical-offset="1998">
-          <folding />
-        </state>
+        <state line="31" column="11" selection-start="1227" selection-end="1227" vertical-scroll-proportion="-13.76" vertical-offset="196" max-vertical-offset="1998" />
       </provider>
     </entry>
     <entry file="jar://$M2_REPO$/com/badlogicgames/gdx/gdx/1.0-SNAPSHOT/gdx-1.0-20140120.163209-198.jar!/com/badlogic/gdx/physics/box2d/Box2DDebugRenderer.class">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="33" column="11" selection-start="1646" selection-end="1646" vertical-scroll-proportion="1.36" vertical-offset="610" max-vertical-offset="1674">
+        <state line="33" column="11" selection-start="1646" selection-end="1646" vertical-scroll-proportion="0.0" vertical-offset="594" max-vertical-offset="1692">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/desktop/assets/biting-head0001.png">
-      <provider selected="true" editor-type-id="images">
-        <state />
-      </provider>
-    </entry>
     <entry file="jar://$M2_REPO$/com/badlogicgames/gdx/gdx/1.0-SNAPSHOT/gdx-1.0-20140120.163209-198.jar!/com/badlogic/gdx/graphics/g2d/Sprite.class">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="25" column="11" selection-start="742" selection-end="742" vertical-scroll-proportion="-9.28" vertical-offset="200" max-vertical-offset="2214">
+        <state line="25" column="11" selection-start="742" selection-end="742" vertical-scroll-proportion="0.0" vertical-offset="450" max-vertical-offset="2232">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="jar://$M2_REPO$/com/badlogicgames/gdx/gdx/1.0-SNAPSHOT/gdx-1.0-20140120.163209-198.jar!/com/badlogic/gdx/graphics/g2d/TextureRegion.class">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="15" column="11" selection-start="344" selection-end="344" vertical-scroll-proportion="-9.44" vertical-offset="16" max-vertical-offset="1638">
+        <state line="15" column="11" selection-start="344" selection-end="344" vertical-scroll-proportion="0.0" vertical-offset="270" max-vertical-offset="1656">
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/core/src/main/java/GreedyUSO/core/view/GameScreen.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="132" column="79" selection-start="4563" selection-end="4563" vertical-scroll-proportion="0.0" vertical-offset="2046" max-vertical-offset="7830">
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#1846#1852#0" expanded="true" />
-            <element signature="e#1905#1913#0" expanded="true" />
-            <element signature="e#14230#14236#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/core/src/main/java/GreedyUSO/core/model/Entity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="20" column="37" selection-start="605" selection-end="605" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="900">
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/.idea/workspace.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="27" column="40" selection-start="1323" selection-end="1323" vertical-scroll-proportion="0.0" vertical-offset="18" max-vertical-offset="20160">
+        <state line="47" column="40" selection-start="3031" selection-end="3031" vertical-scroll-proportion="0.0" vertical-offset="846" max-vertical-offset="21168">
           <folding />
         </state>
       </provider>
@@ -1102,6 +1105,108 @@
       <provider selected="true" editor-type-id="text-editor">
         <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="651">
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/desktop/assets/head.atlas">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="722">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/desktop/assets/head.png">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/core/src/main/java/GreedyUSO/core/model/Renderable.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="9" column="47" selection-start="193" selection-end="193" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="306">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/core/src/main/java/GreedyUSO/core/GreedyGame.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="10" column="0" selection-start="226" selection-end="226" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="792">
+          <folding>
+            <element signature="imports" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$M2_REPO$/com/badlogicgames/gdx/gdx/1.0-SNAPSHOT/gdx-1.0-20140120.163209-198.jar!/com/badlogic/gdx/graphics/g2d/Animation.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="26" column="55" selection-start="1261" selection-end="1261" vertical-scroll-proportion="-16.12" vertical-offset="47" max-vertical-offset="756">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/desktop/src/main/java/GreedyUSO/java/GameDesktop.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="18" column="42" selection-start="555" selection-end="555" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="360">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/desktop/content/head/pack.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="5" column="1" selection-start="101" selection-end="101" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="198">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/desktop/content/body/pack.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="5" column="28" selection-start="101" selection-end="101" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="198">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/desktop/assets/body.png">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/desktop/assets/body.atlas">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="1" column="0" selection-start="1" selection-end="1" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="702">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/core/src/main/java/GreedyUSO/core/model/Head.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="7" column="13" selection-start="240" selection-end="240" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="378">
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/core/src/main/java/GreedyUSO/core/model/CreatureBody.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="13" column="59" selection-start="469" selection-end="469" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="414">
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/core/src/main/java/GreedyUSO/core/model/Entity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="38" column="47" selection-start="1173" selection-end="1173" vertical-scroll-proportion="0.0" vertical-offset="286" max-vertical-offset="1008">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/core/src/main/java/GreedyUSO/core/view/GameScreen.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="294" column="35" selection-start="10575" selection-end="10575" vertical-scroll-proportion="0.61044174" vertical-offset="4836" max-vertical-offset="7290">
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

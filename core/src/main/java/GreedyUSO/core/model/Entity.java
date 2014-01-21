@@ -1,34 +1,42 @@
 package GreedyUSO.core.model;
 
 import GreedyUSO.core.view.GameScreen;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.physics.box2d.Body;
 
 public class Entity implements Renderable{
 
-    private float posX;
-    private float posY;
-    private Body body;
-    private Texture texture;
-    private Sprite sprite;
+    public static final float FRAME_DURATION = 0.10f;
 
-    public Entity( Body body, Texture texture){
+    protected float posX;
+    protected float posY;
+    protected Body body;
+    protected TextureAtlas animSheetAtlas;
+    protected TextureRegion[] animFrames;
+    protected TextureRegion currentFrame;
+    protected Animation animation;
+    protected Sprite sprite;
+
+    float stateTime;
+
+    public Entity( Body body, TextureAtlas textureAtlas, int numberOfFrames){
         this.body = body;
-        this.texture = texture;
-        this.sprite = new Sprite( texture);
-        this.sprite.flip( true, false);
+        this.animSheetAtlas = textureAtlas;
+        this.animFrames = new TextureRegion[numberOfFrames];
+        this.sprite = new Sprite();
+        stateTime = 0f;
         update();
     }
 
 
     @Override
-    public void render( Batch batch) {
-       // Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT | GL10.GL_DEPTH_BUFFER_BIT);
-        //sprite.setPosition( posX, posY);
-        sprite.setX( posX);
-        sprite.setY( posY);
+    public void render( Batch batch, float delta) {
+        stateTime += delta;
+        currentFrame = animation.getKeyFrame( stateTime, true);
+        sprite = new Sprite( currentFrame);
+        sprite.flip( true, false);
+        sprite.setX(posX - sprite.getWidth()/2);
+        sprite.setY(posY - sprite.getHeight()/2);
         sprite.setRotation((float) Math.toDegrees(body.getAngle()));
         batch.begin();
         sprite.draw( batch);
