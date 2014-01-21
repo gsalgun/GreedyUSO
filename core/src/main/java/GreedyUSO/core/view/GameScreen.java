@@ -5,6 +5,9 @@ import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.physics.box2d.joints.DistanceJointDef;
@@ -31,11 +34,11 @@ public class GameScreen implements Screen, ContactListener{
     private Body bodyPartTail;
     private Set<Body> smallEnemies;
 
+    private Sprite kafaSprite;
+    private SpriteBatch spriteBatch;
+
     private float touchDragX = 0;
     private float touchDragY = 0;
-
-    private float touchDownX = 0;
-    private float touchDownY = 0;
 
     private float centerReferenceX;
     private float centerReferenceY;
@@ -69,7 +72,6 @@ public class GameScreen implements Screen, ContactListener{
         createSmallEnemies();
 
         handleTouches();
-
     }
 
     private void createSmallEnemies() {
@@ -113,45 +115,19 @@ public class GameScreen implements Screen, ContactListener{
         Vector2 centerTailJointPoint = new Vector2(bodyPartCenter.getWorldCenter().x - 3, bodyPartCenter.getWorldCenter().y);
         Vector2 tailCenterJointPoint = new Vector2(bodyPartTail.getWorldCenter().x + 3, bodyPartTail.getWorldCenter().y);
 
-
-        RevoluteJointDef revoluteJointDef = new RevoluteJointDef();
-
-        revoluteJointDef.enableLimit = false;
-        revoluteJointDef.bodyA = headPart;
-        revoluteJointDef.bodyB = bodyPartCenter;
-        revoluteJointDef.lowerAngle = (float)Math.toRadians(-45);
-        revoluteJointDef.upperAngle = (float)Math.toRadians(45);
-        revoluteJointDef.referenceAngle = 0;
-        revoluteJointDef.initialize(headPart, bodyPartCenter, headPart.getWorldCenter());
-
-        world.createJoint(revoluteJointDef);
-
-        RevoluteJointDef revoluteJointDef2 = new RevoluteJointDef();
-
-        revoluteJointDef2.enableLimit = true;
-        revoluteJointDef2.bodyA = bodyPartCenter;
-        revoluteJointDef2.bodyB = bodyPartTail;
-        revoluteJointDef2.lowerAngle = (float)Math.toRadians(-45);
-        revoluteJointDef2.upperAngle = (float)Math.toRadians(45);
-        revoluteJointDef2.referenceAngle = 0;
-        revoluteJointDef2.initialize(bodyPartCenter, bodyPartTail, bodyPartCenter.getWorldCenter());
-
-        world.createJoint(revoluteJointDef2);
-
-
         DistanceJointDef distanceJointDef_head_center = new DistanceJointDef();
-        distanceJointDef_head_center.initialize(headPart, bodyPartCenter, headPart.getWorldCenter(), bodyPartCenter.getWorldCenter());
+        distanceJointDef_head_center.initialize(headPart, bodyPartCenter,headJointPoint, centerHeadJointPoint);
         distanceJointDef_head_center.dampingRatio = 0;
-        distanceJointDef_head_center.frequencyHz = 60;
-        distanceJointDef_head_center.length = 10;
+        distanceJointDef_head_center.frequencyHz = 100;
+        distanceJointDef_head_center.length = 1.5f;
         distanceJointDef_head_center.collideConnected = true;
         world.createJoint(distanceJointDef_head_center);
 
         DistanceJointDef distanceJointDef_center_tail = new DistanceJointDef();
-        distanceJointDef_center_tail.initialize(bodyPartCenter, bodyPartTail, bodyPartCenter.getWorldCenter(), bodyPartTail.getWorldCenter());
+        distanceJointDef_center_tail.initialize(bodyPartCenter, bodyPartTail, centerTailJointPoint, tailCenterJointPoint);
         distanceJointDef_center_tail.dampingRatio = 0;
-        distanceJointDef_center_tail.frequencyHz = 70;
-        distanceJointDef_center_tail.length = 10;
+        distanceJointDef_center_tail.frequencyHz = 100;
+        distanceJointDef_center_tail.length = 1.5f;
         distanceJointDef_center_tail.collideConnected = true;
         world.createJoint(distanceJointDef_center_tail);
     }
@@ -186,21 +162,23 @@ public class GameScreen implements Screen, ContactListener{
             public boolean touchDown(int i, int i2, int i3, int i4) {
                 touchDragX = i;
                 touchDragY = i2;
-                touchDownX = i;
-                touchDownY = i2;
+
                 headPart.setLinearDamping(0);
                 bodyPartCenter.setLinearDamping(0);
                 bodyPartTail.setLinearDamping(0);
+
                 return false;
             }
 
             @Override
             public boolean touchUp(int i, int i2, int i3, int i4) {
+
                 headPart.setLinearDamping(2f);
                 bodyPartCenter.setLinearDamping(2f);
                 bodyPartTail.setLinearDamping(2f);
                 forceX = 0;
                 forceY = 0;
+
                 return false;
             }
 
@@ -210,11 +188,12 @@ public class GameScreen implements Screen, ContactListener{
                 deltaY = touchDragY - i2;
                 headPart.applyForceToCenter(forceFactor * deltaX, forceFactor * deltaY ,true);
 
-                System.out.println("deltaX: " + deltaX);
-                System.out.println("deltaY: " + deltaY);
-
                 touchDragX = i;
                 touchDragY = i2;
+
+
+                //
+                setHeadAngle();
 
                 return false;
             }
@@ -231,59 +210,7 @@ public class GameScreen implements Screen, ContactListener{
         });
     }
 
-    private float deltaX=0;
-    private float deltaY=0;
-
-    private Body addHead(float x, float y){
-        //Dynamic Body
-        BodyDef bodyDef = new BodyDef();
-        bodyDef.type = BodyDef.BodyType.DynamicBody;
-        bodyDef.position.set(x,y);
-        Body body = world.createBody(bodyDef);
-        CircleShape dynamicCircle = new CircleShape();
-        dynamicCircle.setRadius(5f);
-        FixtureDef fixtureDef = new FixtureDef();
-        fixtureDef.shape = dynamicCircle;
-        fixtureDef.density = 1.0f;
-        fixtureDef.friction = 1.0f;
-        fixtureDef.restitution = 0.5f;
-        body.createFixture(fixtureDef);
-        body.setFixedRotation(true);
-        return body;
-    }
-
-    private Body addBodyPart(float x, float y){
-        //Dynamic Body
-        BodyDef bodyDef = new BodyDef();
-        bodyDef.type = BodyDef.BodyType.DynamicBody;
-        bodyDef.position.set(x,y);
-        Body body = world.createBody(bodyDef);
-        CircleShape dynamicCircle = new CircleShape();
-        dynamicCircle.setRadius(3f);
-        FixtureDef fixtureDef = new FixtureDef();
-        fixtureDef.shape = dynamicCircle;
-        fixtureDef.density = 0.01f;
-        fixtureDef.friction = 1.0f;
-        fixtureDef.restitution = 0.5f;
-        body.createFixture(fixtureDef);
-        return body;
-    }
-
-    @Override
-    public void dispose() {
-    }
-
-    @Override
-    public void render(float v) {
-        Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
-        debugRenderer.render(world, camera.combined);
-        world.step(BOX_STEP, BOX_VELOCITY_ITERATIONS, BOX_POSITION_ITERATIONS);
-        handleToBeDestructed();
-        moveCamera();
-
-
-
-        //
+    private void setHeadAngle() {
         Vector2 velocity = headPart.getLinearVelocity();
 
         float angle;
@@ -305,18 +232,60 @@ public class GameScreen implements Screen, ContactListener{
         {
             angle += Math.toRadians(180);
         }
+
         headPart.setTransform(headPart.getPosition(), angle);
-
-
     }
 
-    private void rotateHead(float angle) {
-        if(angle!=0){
-            headPart.setTransform(headPart.getPosition(),0);
-            headPart.setTransform(headPart.getPosition(), angle);
-            headPart.setAngularVelocity(0);
-        }
+    private float deltaX=0;
+    private float deltaY=0;
+
+    private Body addHead(float x, float y){
+        BodyDef bodyDef = new BodyDef();
+        bodyDef.type = BodyDef.BodyType.DynamicBody;
+        bodyDef.position.set(x,y);
+        Body body = world.createBody(bodyDef);
+        CircleShape dynamicCircle = new CircleShape();
+        dynamicCircle.setRadius(5f);
+        FixtureDef fixtureDef = new FixtureDef();
+        fixtureDef.shape = dynamicCircle;
+        fixtureDef.density = 1.0f;
+        fixtureDef.friction = 1.0f;
+        fixtureDef.restitution = 0.5f;
+        body.createFixture(fixtureDef);
+        body.setFixedRotation(true);
+        return body;
     }
+
+    private Body addBodyPart(float x, float y){
+        BodyDef bodyDef = new BodyDef();
+        bodyDef.type = BodyDef.BodyType.DynamicBody;
+        bodyDef.position.set(x,y);
+        Body body = world.createBody(bodyDef);
+        CircleShape dynamicCircle = new CircleShape();
+        dynamicCircle.setRadius(3f);
+        FixtureDef fixtureDef = new FixtureDef();
+        fixtureDef.shape = dynamicCircle;
+        fixtureDef.density = 0.01f;
+        fixtureDef.friction = 1.0f;
+        fixtureDef.restitution = 0.5f;
+        body.createFixture(fixtureDef);
+        body.setAngularDamping(55);
+        return body;
+    }
+
+    @Override
+    public void dispose() {
+    }
+
+    @Override
+    public void render(float v) {
+        Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
+        debugRenderer.render(world, camera.combined);
+        world.step(BOX_STEP, BOX_VELOCITY_ITERATIONS, BOX_POSITION_ITERATIONS);
+        handleToBeDestructed();
+        moveCamera();
+    }
+
 
     float diffX = 0;
     float diffY = 0;
