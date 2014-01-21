@@ -1,15 +1,17 @@
 package GreedyUSO.core.view;
 
+import GreedyUSO.core.model.CreatureBody;
 import GreedyUSO.core.model.Entity;
+import GreedyUSO.core.model.Head;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.physics.box2d.joints.DistanceJointDef;
@@ -132,16 +134,16 @@ public class GameScreen implements Screen, ContactListener{
 
     private void createJoints() {
 
-        Vector2 headJointPoint = new Vector2(headPart.getWorldCenter().x - 5, headPart.getWorldCenter().y);
-        Vector2 centerHeadJointPoint = new Vector2(bodyPartCenter.getWorldCenter().x + 3, bodyPartCenter.getWorldCenter().y);
-        Vector2 centerTailJointPoint = new Vector2(bodyPartCenter.getWorldCenter().x - 3, bodyPartCenter.getWorldCenter().y);
-        Vector2 tailCenterJointPoint = new Vector2(bodyPartTail.getWorldCenter().x + 3, bodyPartTail.getWorldCenter().y);
+        Vector2 headJointPoint = new Vector2(headPart.getWorldCenter().x - 90/PIXELS_PER_METER, headPart.getWorldCenter().y);
+        Vector2 centerHeadJointPoint = new Vector2(bodyPartCenter.getWorldCenter().x + 52/PIXELS_PER_METER, bodyPartCenter.getWorldCenter().y);
+        Vector2 centerTailJointPoint = new Vector2(bodyPartCenter.getWorldCenter().x - 52/PIXELS_PER_METER, bodyPartCenter.getWorldCenter().y);
+        Vector2 tailCenterJointPoint = new Vector2(bodyPartTail.getWorldCenter().x + 52/PIXELS_PER_METER, bodyPartTail.getWorldCenter().y);
 
         DistanceJointDef distanceJointDef_head_center = new DistanceJointDef();
         distanceJointDef_head_center.initialize(headPart, bodyPartCenter,headJointPoint, centerHeadJointPoint);
         distanceJointDef_head_center.dampingRatio = 0;
         distanceJointDef_head_center.frequencyHz = 100;
-        distanceJointDef_head_center.length = 1.5f;
+        distanceJointDef_head_center.length = 5f;
         distanceJointDef_head_center.collideConnected = true;
         world.createJoint(distanceJointDef_head_center);
 
@@ -149,16 +151,18 @@ public class GameScreen implements Screen, ContactListener{
         distanceJointDef_center_tail.initialize(bodyPartCenter, bodyPartTail, centerTailJointPoint, tailCenterJointPoint);
         distanceJointDef_center_tail.dampingRatio = 0;
         distanceJointDef_center_tail.frequencyHz = 100;
-        distanceJointDef_center_tail.length = 1.5f;
+        distanceJointDef_center_tail.length = 5f;
         distanceJointDef_center_tail.collideConnected = true;
         world.createJoint(distanceJointDef_center_tail);
     }
 
     private void createCreature() {
         headPart = addHead( worldWidth/2,worldHeight/2);
-        entities.add( new Entity( headPart, new Texture( Gdx.files.internal("head01.png"))));
+        entities.add( new Head( headPart, new TextureAtlas( Gdx.files.internal("head.atlas"))));
         bodyPartCenter = addBodyPart( worldWidth * 0.48f, worldHeight * 0.5f);
+        entities.add( new CreatureBody( bodyPartCenter, new TextureAtlas( Gdx.files.internal("body.atlas"))));
         bodyPartTail = addBodyPart( worldWidth * 0.46f, worldHeight * 0.5f);
+        entities.add( new CreatureBody( bodyPartTail, new TextureAtlas( Gdx.files.internal("body.atlas"))));
 
 //        headPart.setLinearDamping(1f);
 //        bodyPartCenter.setLinearDamping(1f);
@@ -271,10 +275,10 @@ public class GameScreen implements Screen, ContactListener{
         bodyDef.position.set(x,y);
         Body body = world.createBody(bodyDef);
         CircleShape dynamicCircle = new CircleShape();
-        dynamicCircle.setRadius(5f/PIXELS_PER_METER);
+        dynamicCircle.setRadius(90f/PIXELS_PER_METER);
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = dynamicCircle;
-        fixtureDef.density = 1.0f;
+        fixtureDef.density = 0.01f;
         fixtureDef.friction = 1.0f;
         fixtureDef.restitution = 0.5f;
         body.createFixture(fixtureDef);
@@ -288,14 +292,14 @@ public class GameScreen implements Screen, ContactListener{
         bodyDef.position.set(x,y);
         Body body = world.createBody(bodyDef);
         CircleShape dynamicCircle = new CircleShape();
-        dynamicCircle.setRadius(3f/PIXELS_PER_METER);
+        dynamicCircle.setRadius(32f/PIXELS_PER_METER);
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = dynamicCircle;
-        fixtureDef.density = 0.01f;
-        fixtureDef.friction = 1.0f;
+        fixtureDef.density = 0.0001f;
+        fixtureDef.friction = 0.1f;
         fixtureDef.restitution = 0.5f;
         body.createFixture(fixtureDef);
-        body.setAngularDamping(55);
+        body.setAngularDamping(200);
         return body;
     }
 
@@ -322,7 +326,7 @@ public class GameScreen implements Screen, ContactListener{
         Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
         debugRenderer.render(world, camera.combined.scale(PIXELS_PER_METER, PIXELS_PER_METER, PIXELS_PER_METER));
         for( Entity entity: entities){
-            entity.render( batch);
+            entity.render( batch, v);
         }
     }
 

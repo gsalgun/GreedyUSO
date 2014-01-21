@@ -1,0 +1,33 @@
+
+body.png
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+body0
+  rotate: false
+  xy: 2, 58
+  size: 78, 64
+  orig: 78, 64
+  offset: 0, 0
+  index: -1
+body1
+  rotate: false
+  xy: 2, 2
+  size: 66, 54
+  orig: 66, 54
+  offset: 0, 0
+  index: -1
+body2
+  rotate: false
+  xy: 70, 12
+  size: 52, 44
+  orig: 52, 44
+  offset: 0, 0
+  index: -1
+body3
+  rotate: false
+  xy: 82, 88
+  size: 40, 34
+  orig: 40, 34
+  offset: 0, 0
+  index: -1

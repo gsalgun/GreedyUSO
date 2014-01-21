@@ -7,5 +7,5 @@ import com.badlogic.gdx.graphics.g2d.Batch;
  */
 public interface Renderable {
 
-    public void render(Batch batch);
+    public void render(Batch batch, float delta);
 }
