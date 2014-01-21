@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
@@ -21,9 +22,9 @@ import java.util.Set;
 
 public class GameScreen implements Screen, ContactListener{
 
-    World world;
-    Box2DDebugRenderer debugRenderer;
-    OrthographicCamera camera;
+    private World world;
+    private Box2DDebugRenderer debugRenderer;
+    private OrthographicCamera camera;
 
     static final float BOX_STEP=1/60f;
     static final int BOX_VELOCITY_ITERATIONS=6;
@@ -72,8 +73,6 @@ public class GameScreen implements Screen, ContactListener{
         world = new World( new Vector2(0, 0), true);
         camera = new OrthographicCamera();
         camera.setToOrtho( false, screenWidth, screenHeight);
-//        camera.viewportHeight = 320;
-//        camera.viewportWidth = 480;
         camera.position.set( screenWidth * .5f, screenHeight * .5f, 0f);
         //camera.update();
         debugRenderer = new Box2DDebugRenderer();
@@ -94,13 +93,130 @@ public class GameScreen implements Screen, ContactListener{
 
         handleTouches();
         isAccelerometerAvailable = Gdx.input.isPeripheralAvailable(Input.Peripheral.Accelerometer);
+        loadBackGrounds();
+
+    }
+
+    private List<Sprite> backgrounds = new ArrayList<Sprite>();
+
+    private void loadBackGrounds() {
+        Sprite background11 = new Sprite(new Texture(Gdx.files.internal("background11.jpg")));
+        Sprite background12 = new Sprite(new Texture(Gdx.files.internal("background11.jpg")));
+        Sprite background13 = new Sprite(new Texture(Gdx.files.internal("background11.jpg")));
+        Sprite background14 = new Sprite(new Texture(Gdx.files.internal("background11.jpg")));
+        Sprite background15 = new Sprite(new Texture(Gdx.files.internal("background11.jpg")));
+        Sprite background21 = new Sprite(new Texture(Gdx.files.internal("background11.jpg")));
+        Sprite background22 = new Sprite(new Texture(Gdx.files.internal("background11.jpg")));
+        Sprite background23 = new Sprite(new Texture(Gdx.files.internal("background11.jpg")));
+        Sprite background24 = new Sprite(new Texture(Gdx.files.internal("background11.jpg")));
+        Sprite background25 = new Sprite(new Texture(Gdx.files.internal("background11.jpg")));
+        Sprite background31 = new Sprite(new Texture(Gdx.files.internal("background11.jpg")));
+        Sprite background32 = new Sprite(new Texture(Gdx.files.internal("background11.jpg")));
+        Sprite background33 = new Sprite(new Texture(Gdx.files.internal("background11.jpg")));
+        Sprite background34 = new Sprite(new Texture(Gdx.files.internal("background11.jpg")));
+        Sprite background35 = new Sprite(new Texture(Gdx.files.internal("background11.jpg")));
+        Sprite background41 = new Sprite(new Texture(Gdx.files.internal("background11.jpg")));
+        Sprite background42 = new Sprite(new Texture(Gdx.files.internal("background11.jpg")));
+        Sprite background43 = new Sprite(new Texture(Gdx.files.internal("background11.jpg")));
+        Sprite background44 = new Sprite(new Texture(Gdx.files.internal("background11.jpg")));
+        Sprite background45 = new Sprite(new Texture(Gdx.files.internal("background11.jpg")));
+        Sprite background51 = new Sprite(new Texture(Gdx.files.internal("background11.jpg")));
+        Sprite background52 = new Sprite(new Texture(Gdx.files.internal("background11.jpg")));
+        Sprite background53 = new Sprite(new Texture(Gdx.files.internal("background11.jpg")));
+        Sprite background54 = new Sprite(new Texture(Gdx.files.internal("background11.jpg")));
+        Sprite background55 = new Sprite(new Texture(Gdx.files.internal("background11.jpg")));
+        Sprite background61 = new Sprite(new Texture(Gdx.files.internal("background11.jpg")));
+        Sprite background62 = new Sprite(new Texture(Gdx.files.internal("background11.jpg")));
+        Sprite background63 = new Sprite(new Texture(Gdx.files.internal("background11.jpg")));
+        Sprite background64 = new Sprite(new Texture(Gdx.files.internal("background11.jpg")));
+        Sprite background65 = new Sprite(new Texture(Gdx.files.internal("background11.jpg")));
+        Sprite background71 = new Sprite(new Texture(Gdx.files.internal("background11.jpg")));
+        Sprite background72 = new Sprite(new Texture(Gdx.files.internal("background11.jpg")));
+        Sprite background73 = new Sprite(new Texture(Gdx.files.internal("background11.jpg")));
+        Sprite background74 = new Sprite(new Texture(Gdx.files.internal("background11.jpg")));
+        Sprite background75 = new Sprite(new Texture(Gdx.files.internal("background11.jpg")));
+
+
+
+
+        background11.setPosition(-2560,2400);
+        background12.setPosition(-1280,2400);
+        background13.setPosition(0    ,2400);
+        background14.setPosition(1280 ,2400);
+        background15.setPosition(2560 ,2400);
+        background21.setPosition(-2560,1600);
+        background22.setPosition(-1280,1600);
+        background23.setPosition(0    ,1600);
+        background24.setPosition(1280 ,1600);
+        background25.setPosition(2560 ,1600);
+        background31.setPosition(-2560,800);
+        background32.setPosition(-1280,800);
+        background33.setPosition(0    ,800);
+        background34.setPosition(1280 ,800);
+        background35.setPosition(2560 ,800);
+        background41.setPosition(-2560,0);
+        background42.setPosition(-1280,0);
+        background43.setPosition(0    ,0);
+        background44.setPosition(1280 ,0);
+        background45.setPosition(2560 ,0);
+        background51.setPosition(-2560,-800);
+        background52.setPosition(-1280,-800);
+        background53.setPosition(0    ,-800);
+        background54.setPosition(1280 ,-800);
+        background55.setPosition(2560 ,-800);
+        background61.setPosition(-2560,-1600);
+        background62.setPosition(-1280,-1600);
+        background63.setPosition(0    ,-1600);
+        background64.setPosition(1280 ,-1600);
+        background65.setPosition(2560 ,-1600);
+        background71.setPosition(-2560,-2400);
+        background72.setPosition(-1280,-2400);
+        background73.setPosition(0    ,-2400);
+        background74.setPosition(1280 ,-2400);
+        background75.setPosition(2560 ,-2400);
+
+        backgrounds.add( background11);
+        backgrounds.add( background12);
+        backgrounds.add( background13);
+        backgrounds.add( background14);
+        backgrounds.add( background15);
+        backgrounds.add( background21);
+        backgrounds.add( background22);
+        backgrounds.add( background23);
+        backgrounds.add( background24);
+        backgrounds.add( background25);
+        backgrounds.add( background31);
+        backgrounds.add( background32);
+        backgrounds.add( background33);
+        backgrounds.add( background34);
+        backgrounds.add( background35);
+        backgrounds.add( background41);
+        backgrounds.add( background42);
+        backgrounds.add( background43);
+        backgrounds.add( background44);
+        backgrounds.add( background45);
+        backgrounds.add( background51);
+        backgrounds.add( background52);
+        backgrounds.add( background53);
+        backgrounds.add( background54);
+        backgrounds.add( background55);
+        backgrounds.add( background61);
+        backgrounds.add( background62);
+        backgrounds.add( background63);
+        backgrounds.add( background64);
+        backgrounds.add( background65);
+        backgrounds.add( background71);
+        backgrounds.add( background72);
+        backgrounds.add( background73);
+        backgrounds.add( background74);
+        backgrounds.add( background75);
     }
 
     private void createSmallEnemies() {
         smallEnemies = new HashSet<Body>();
 
         BodyDef smallEnemyDef = new BodyDef();
-        smallEnemyDef.position.set( new Vector2( 100, 200));
+        smallEnemyDef.position.set( new Vector2(100, 200));
         smallEnemyDef.type = BodyDef.BodyType.DynamicBody;
         Body enemyBody = world.createBody( smallEnemyDef);
         CircleShape circleShape = new CircleShape();
@@ -312,6 +428,7 @@ public class GameScreen implements Screen, ContactListener{
             headPart.applyForceToCenter(y * forceFactor, -1f * x * forceFactor, true);
         }
         world.step(BOX_STEP, BOX_VELOCITY_ITERATIONS, BOX_POSITION_ITERATIONS);
+
         for ( Entity entity: entities){
             entity.update();
         }
@@ -319,11 +436,22 @@ public class GameScreen implements Screen, ContactListener{
         moveCamera();
         camera.update();
         batch.setProjectionMatrix(camera.combined);
+
+
         Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
+
+        batch.begin();
+
+        for(Sprite sprite:backgrounds){
+            sprite.draw(batch);
+        }
+        batch.end();
+
         debugRenderer.render(world, camera.combined.scale(PIXELS_PER_METER, PIXELS_PER_METER, PIXELS_PER_METER));
         for( Entity entity: entities){
             entity.render( batch);
         }
+
     }
 
 

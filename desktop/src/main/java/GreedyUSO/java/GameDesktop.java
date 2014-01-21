@@ -10,7 +10,8 @@ public class GameDesktop {
 	public static void main (String[] args) {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
 		config.useGL20 = true;
-//        config.b
+        config.width = 1280;
+        config.height = 800;
         GdxNativesLoader.load();
 		new LwjglApplication(new GreedyGame(), config);
 	}
