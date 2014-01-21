@@ -103,14 +103,14 @@ public class GameScreen implements Screen, ContactListener{
         groundBody.createFixture(groundBox, 0.0f);
     }
 
-    private RevoluteJointDef revoluteJointDef;
-
     private void createJoints() {
-        revoluteJointDef = new RevoluteJointDef();
+        RevoluteJointDef revoluteJointDef = new RevoluteJointDef();
 
         revoluteJointDef.enableLimit = false;
         revoluteJointDef.bodyA = headPart;
         revoluteJointDef.bodyB = bodyPartCenter;
+        revoluteJointDef.lowerAngle = (float)Math.toRadians(-45);
+        revoluteJointDef.upperAngle = (float)Math.toRadians(45);
         revoluteJointDef.referenceAngle = 0;
         revoluteJointDef.initialize(headPart, bodyPartCenter, headPart.getWorldCenter());
 
@@ -128,14 +128,6 @@ public class GameScreen implements Screen, ContactListener{
 
         world.createJoint(revoluteJointDef2);
 
-//        RevoluteJointDef revoluteJointDef3 = new RevoluteJointDef();
-//        revoluteJointDef3.enableLimit = false;
-//        revoluteJointDef3.bodyA = headPart;
-//        revoluteJointDef3.bodyB = bodyPartTail;
-//        revoluteJointDef3.referenceAngle = 0;
-//        revoluteJointDef3.initialize(headPart,bodyPartTail,headPart.getWorldCenter());
-//
-//        world.createJoint(revoluteJointDef3);
 
         DistanceJointDef distanceJointDef_head_left = new DistanceJointDef();
         distanceJointDef_head_left.initialize(headPart, bodyPartCenter, headPart.getWorldCenter(), bodyPartCenter.getWorldCenter());
@@ -155,9 +147,9 @@ public class GameScreen implements Screen, ContactListener{
         bodyPartCenter = addBodyPart(camera.viewportWidth * 0.48f, camera.viewportHeight * 0.5f);
         bodyPartTail = addBodyPart(camera.viewportWidth * 0.46f, camera.viewportHeight * 0.5f);
 
-//        headPart.setLinearDamping(3f);
-//        bodyPartCenter.setLinearDamping(3f);
-//        bodyPartTail.setLinearDamping(3f);
+//        headPart.setLinearDamping(1f);
+//        bodyPartCenter.setLinearDamping(1f);
+//        bodyPartTail.setLinearDamping(1f);
         centerReferenceX = headPart.getPosition().x;
         centerReferenceY = headPart.getPosition().y;
     }
@@ -191,9 +183,9 @@ public class GameScreen implements Screen, ContactListener{
 
             @Override
             public boolean touchUp(int i, int i2, int i3, int i4) {
-                headPart.setLinearDamping(3f);
-                bodyPartCenter.setLinearDamping(3f);
-                bodyPartTail.setLinearDamping(3f);
+                headPart.setLinearDamping(2f);
+                bodyPartCenter.setLinearDamping(2f);
+                bodyPartTail.setLinearDamping(2f);
                 forceX = 0;
                 forceY = 0;
                 return false;
@@ -201,27 +193,34 @@ public class GameScreen implements Screen, ContactListener{
 
             @Override
             public boolean touchDragged(int i, int i2, int i3) {
+//                if(forceX>0 && (i-touchDownX)<0){
+//                    forceX = 0;
+//                } else if(forceX<0 && (i-touchDownX)>0){
+//                    forceX = 0;
+//                } else if (i>touchDownX){
+//                    forceX += forceFactor;
+//                } else {
+//                    forceX -= forceFactor;
+//                }
+//
+//                if(forceY>0 && (touchDownY -i2)<0){
+//                    forceY= 0;
+//                } else if(forceY<0 && (touchDownY -i2)>0){
+//                    forceY= 0;
+//                } else if (i2>touchDownY){
+//                    forceY -= forceFactor;
+//                } else {
+//                    forceY += forceFactor;
+//                }
 
-                if(forceX>0 && (i-touchDownX)<0){
-                    forceX = 0;
-                } else if(forceX<0 && (i-touchDownX)>0){
-                    forceX = 0;
-                } else if (i>touchDownX){
-                    forceX += forceFactor;
-                } else {
-                    forceX -= forceFactor;
-                }
 
-                if(forceY>0 && (touchDownY -i2)<0){
-                    forceY= 0;
-                } else if(forceY<0 && (touchDownY -i2)>0){
-                    forceY= 0;
-                } else if (i2>touchDownY){
-                    forceY -= forceFactor;
-                } else {
-                    forceY += forceFactor;
-                }
 
+
+
+                deltaX = i-touchDownX;
+                deltaY = touchDownY - i2;
+                mouseDirectionAngle = (float) Math.atan(deltaY/deltaX);
+                headPart.applyForceToCenter(forceFactor * deltaX, forceFactor * deltaY,true);
 
                 touchDownX = i;
                 touchDownY = i2;
@@ -240,6 +239,10 @@ public class GameScreen implements Screen, ContactListener{
             }
         });
     }
+
+    private float deltaX=0;
+    private float deltaY=0;
+    private float mouseDirectionAngle;
 
     private Body addHead(float x, float y){
         //Dynamic Body
@@ -273,7 +276,6 @@ public class GameScreen implements Screen, ContactListener{
         fixtureDef.friction = 1.0f;
         fixtureDef.restitution = 0.5f;
         body.createFixture(fixtureDef);
-//        body.setFixedRotation(true);
         return body;
     }
 
@@ -282,9 +284,9 @@ public class GameScreen implements Screen, ContactListener{
     }
 
     private void applyForce(float deltaTime) {
-        headPart.applyForce(forceX*deltaTime,forceY*deltaTime, headPart.getWorldCenter().x, headPart.getWorldCenter().y,true);
-//        forceX -= forceX*deltaTime;
-//        forceY -= forceY*deltaTime;
+//        headPart.applyForce(forceX*deltaTime,forceY*deltaTime, headPart.getWorldCenter().x, headPart.getWorldCenter().y,true);
+//        headPart.applyForce(forceFactor * Math.cos(mouseDirectionAngle), forceFactor*Math.sin(mouseDirectionAngle), headPart.getWorldCenter().x, headPart.getWorldCenter().y,true);
+//        headPart.setLinearVelocity(forceX*deltaTime,forceY*deltaTime);
     }
 
     @Override
@@ -299,7 +301,7 @@ public class GameScreen implements Screen, ContactListener{
     }
 
     private void rotateHead() {
-//        revoluteJointDef.
+//        headPart.setAngularVelocity(deltaX/deltaY);
     }
 
     float diffX = 0;
