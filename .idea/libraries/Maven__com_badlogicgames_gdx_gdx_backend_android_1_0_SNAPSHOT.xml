@@ -1,13 +1,13 @@
 <component name="libraryTable">
   <library name="Maven: com.badlogicgames.gdx:gdx-backend-android:1.0-SNAPSHOT">
     <CLASSES>
-      <root url="jar://$M2_REPO$/com/badlogicgames/gdx/gdx-backend-android/1.0-SNAPSHOT/gdx-backend-android-1.0-20140120.030238-195.jar!/" />
+      <root url="jar://$M2_REPO$/com/badlogicgames/gdx/gdx-backend-android/1.0-SNAPSHOT/gdx-backend-android-1.0-20140120.163325-197.jar!/" />
     </CLASSES>
     <JAVADOC>
-      <root url="jar://$M2_REPO$/com/badlogicgames/gdx/gdx-backend-android/1.0-SNAPSHOT/gdx-backend-android-1.0-20140120.030238-195-javadoc.jar!/" />
+      <root url="jar://$M2_REPO$/com/badlogicgames/gdx/gdx-backend-android/1.0-SNAPSHOT/gdx-backend-android-1.0-20140120.163325-197-javadoc.jar!/" />
     </JAVADOC>
     <SOURCES>
-      <root url="jar://$M2_REPO$/com/badlogicgames/gdx/gdx-backend-android/1.0-SNAPSHOT/gdx-backend-android-1.0-20140120.030238-195-sources.jar!/" />
+      <root url="jar://$M2_REPO$/com/badlogicgames/gdx/gdx-backend-android/1.0-SNAPSHOT/gdx-backend-android-1.0-20140120.163325-197-sources.jar!/" />
     </SOURCES>
   </library>
 </component>

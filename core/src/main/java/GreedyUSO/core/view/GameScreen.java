@@ -1,10 +1,15 @@
 package GreedyUSO.core.view;
 
+import GreedyUSO.core.model.Entity;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.physics.box2d.joints.DistanceJointDef;
@@ -23,8 +28,12 @@ public class GameScreen implements Screen, ContactListener{
     static final float BOX_STEP=1/60f;
     static final int BOX_VELOCITY_ITERATIONS=6;
     static final int BOX_POSITION_ITERATIONS=2;
-    static final float WORLD_TO_BOX=0.01f;
-    static final float BOX_WORLD_TO=100f;
+    public static final float WORLD_TO_BOX=0.01f;
+    public static final float BOX_TO_WORLD =100f;
+
+    public static float ConvertToBox( float x){
+        return x * WORLD_TO_BOX;
+    }
 
     private Body headPart;
     private Body bodyPartCenter;
@@ -42,6 +51,11 @@ public class GameScreen implements Screen, ContactListener{
     float forceFactor = 46000;
 
     private List<Body> toBeDestructed = new ArrayList<Body>();
+    private List<Entity> entities = new ArrayList<Entity>();
+
+    private boolean isAccelerometerAvailable;
+
+    private Batch batch = new SpriteBatch();
 
     public void initialize() {
         camera = new OrthographicCamera();
@@ -52,13 +66,13 @@ public class GameScreen implements Screen, ContactListener{
         debugRenderer = new Box2DDebugRenderer();
         world.setContactListener(this);
         //Ground body
-        createWall(0, 10, (camera.viewportWidth) * 2, 10.0f);
+        createWall(0, ConvertToBox(10), (camera.viewportWidth) * 2, ConvertToBox(10.0f));
         //Top body
-        createWall(0, camera.viewportHeight-10,(camera.viewportWidth) * 2, 10.0f);
+        createWall(0, ConvertToBox(camera.viewportHeight-10),ConvertToBox((camera.viewportWidth) * 2), ConvertToBox(10.0f));
         //Left body
-        createWall(10, 0,10.0f,(camera.viewportHeight) * 2);
+        createWall(ConvertToBox(10), 0, ConvertToBox(10.0f), ConvertToBox((camera.viewportHeight) * 2));
         //Right body
-        createWall(camera.viewportWidth-10, 0,10.0f,(camera.viewportHeight) * 2);
+        createWall(ConvertToBox(camera.viewportWidth-10), 0, ConvertToBox(10.0f), ConvertToBox((camera.viewportHeight) * 2));
 
         createCreature();
         createJoints();
@@ -66,6 +80,7 @@ public class GameScreen implements Screen, ContactListener{
         createSmallEnemies();
 
         handleTouches();
+        isAccelerometerAvailable = Gdx.input.isPeripheralAvailable(Input.Peripheral.Accelerometer);
 
     }
 
@@ -144,6 +159,7 @@ public class GameScreen implements Screen, ContactListener{
 
     private void createCreature() {
         headPart = addHead(camera.viewportWidth * 0.5f, camera.viewportHeight * 0.5f);
+        entities.add( new Entity( headPart, new Texture( Gdx.files.internal("biting-head0001.png"))));
         bodyPartCenter = addBodyPart(camera.viewportWidth * 0.48f, camera.viewportHeight * 0.5f);
         bodyPartTail = addBodyPart(camera.viewportWidth * 0.46f, camera.viewportHeight * 0.5f);
 
@@ -291,12 +307,23 @@ public class GameScreen implements Screen, ContactListener{
 
     @Override
     public void render(float v) {
+        if ( isAccelerometerAvailable){
+            float x = Gdx.input.getAccelerometerX();
+            float y = Gdx.input.getAccelerometerY();
+            headPart.applyForceToCenter(y * forceFactor, -1f * x * forceFactor, true);
+        }
         applyForce(v);
         Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
         debugRenderer.render(world, camera.combined);
         world.step(BOX_STEP, BOX_VELOCITY_ITERATIONS, BOX_POSITION_ITERATIONS);
+        for ( Entity entity: entities){
+            entity.update();
+        }
         handleToBeDestructed();
         moveCamera();
+        for( Entity entity: entities){
+            entity.render( batch);
+        }
         rotateHead();
     }
 
@@ -310,7 +337,7 @@ public class GameScreen implements Screen, ContactListener{
     private void moveCamera() {
         diffX = headPart.getPosition().x-centerReferenceX;
         diffY = headPart.getPosition().y - centerReferenceY;
-        camera.translate(diffX,diffY);
+        camera.translate(diffX, diffY);
         camera.update();
         centerReferenceX = headPart.getPosition().x;
         centerReferenceY = headPart.getPosition().y;

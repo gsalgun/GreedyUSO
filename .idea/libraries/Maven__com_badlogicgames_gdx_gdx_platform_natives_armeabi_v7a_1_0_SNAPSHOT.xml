@@ -1,13 +1,13 @@
 <component name="libraryTable">
   <library name="Maven: com.badlogicgames.gdx:gdx-platform:natives-armeabi-v7a:1.0-SNAPSHOT">
     <CLASSES>
-      <root url="jar://$M2_REPO$/com/badlogicgames/gdx/gdx-platform/1.0-SNAPSHOT/gdx-platform-1.0-20140120.030155-196-natives-armeabi-v7a.jar!/" />
+      <root url="jar://$M2_REPO$/com/badlogicgames/gdx/gdx-platform/1.0-SNAPSHOT/gdx-platform-1.0-20140120.163232-198-natives-armeabi-v7a.jar!/" />
     </CLASSES>
     <JAVADOC>
-      <root url="jar://$M2_REPO$/com/badlogicgames/gdx/gdx-platform/1.0-SNAPSHOT/gdx-platform-1.0-20140120.030155-196-javadoc.jar!/" />
+      <root url="jar://$M2_REPO$/com/badlogicgames/gdx/gdx-platform/1.0-SNAPSHOT/gdx-platform-1.0-20140120.163232-198-javadoc.jar!/" />
     </JAVADOC>
     <SOURCES>
-      <root url="jar://$M2_REPO$/com/badlogicgames/gdx/gdx-platform/1.0-SNAPSHOT/gdx-platform-1.0-20140120.030155-196-sources.jar!/" />
+      <root url="jar://$M2_REPO$/com/badlogicgames/gdx/gdx-platform/1.0-SNAPSHOT/gdx-platform-1.0-20140120.163232-198-sources.jar!/" />
     </SOURCES>
   </library>
 </component>
