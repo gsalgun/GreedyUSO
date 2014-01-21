@@ -40,6 +40,9 @@ public class GameScreen implements Screen, ContactListener{
     private Body bodyPartTail;
     private Set<Body> smallEnemies;
 
+    private float touchDragX = 0;
+    private float touchDragY = 0;
+
     private float touchDownX = 0;
     private float touchDownY = 0;
 
@@ -66,13 +69,13 @@ public class GameScreen implements Screen, ContactListener{
         debugRenderer = new Box2DDebugRenderer();
         world.setContactListener(this);
         //Ground body
-        createWall(0, ConvertToBox(10), (camera.viewportWidth) * 2, ConvertToBox(10.0f));
+        createWall(0, 10, (camera.viewportWidth) * 2, 10.0f);
         //Top body
-        createWall(0, ConvertToBox(camera.viewportHeight-10),ConvertToBox((camera.viewportWidth) * 2), ConvertToBox(10.0f));
+        createWall(0, camera.viewportHeight-10,(camera.viewportWidth) * 2, 10.0f);
         //Left body
-        createWall(ConvertToBox(10), 0, ConvertToBox(10.0f), ConvertToBox((camera.viewportHeight) * 2));
+        createWall(10, 0,10.0f,(camera.viewportHeight) * 2);
         //Right body
-        createWall(ConvertToBox(camera.viewportWidth-10), 0, ConvertToBox(10.0f), ConvertToBox((camera.viewportHeight) * 2));
+        createWall(camera.viewportWidth-10, 0,10.0f,(camera.viewportHeight) * 2);
 
         createCreature();
         createJoints();
@@ -119,6 +122,13 @@ public class GameScreen implements Screen, ContactListener{
     }
 
     private void createJoints() {
+
+        Vector2 headJointPoint = new Vector2(headPart.getWorldCenter().x - 5, headPart.getWorldCenter().y);
+        Vector2 centerHeadJointPoint = new Vector2(bodyPartCenter.getWorldCenter().x + 3, bodyPartCenter.getWorldCenter().y);
+        Vector2 centerTailJointPoint = new Vector2(bodyPartCenter.getWorldCenter().x - 3, bodyPartCenter.getWorldCenter().y);
+        Vector2 tailCenterJointPoint = new Vector2(bodyPartTail.getWorldCenter().x + 3, bodyPartTail.getWorldCenter().y);
+
+
         RevoluteJointDef revoluteJointDef = new RevoluteJointDef();
 
         revoluteJointDef.enableLimit = false;
@@ -144,17 +154,21 @@ public class GameScreen implements Screen, ContactListener{
         world.createJoint(revoluteJointDef2);
 
 
-        DistanceJointDef distanceJointDef_head_left = new DistanceJointDef();
-        distanceJointDef_head_left.initialize(headPart, bodyPartCenter, headPart.getWorldCenter(), bodyPartCenter.getWorldCenter());
-        distanceJointDef_head_left.length = 10;
-        distanceJointDef_head_left.collideConnected = true;
-        world.createJoint(distanceJointDef_head_left);
+        DistanceJointDef distanceJointDef_head_center = new DistanceJointDef();
+        distanceJointDef_head_center.initialize(headPart, bodyPartCenter, headPart.getWorldCenter(), bodyPartCenter.getWorldCenter());
+        distanceJointDef_head_center.dampingRatio = 0;
+        distanceJointDef_head_center.frequencyHz = 60;
+        distanceJointDef_head_center.length = 10;
+        distanceJointDef_head_center.collideConnected = true;
+        world.createJoint(distanceJointDef_head_center);
 
-        DistanceJointDef distanceJointDef_body_left = new DistanceJointDef();
-        distanceJointDef_body_left.initialize(bodyPartCenter, bodyPartTail, bodyPartCenter.getWorldCenter(), bodyPartTail.getWorldCenter());
-        distanceJointDef_body_left.length = 10;
-        distanceJointDef_body_left.collideConnected = true;
-        world.createJoint(distanceJointDef_body_left);
+        DistanceJointDef distanceJointDef_center_tail = new DistanceJointDef();
+        distanceJointDef_center_tail.initialize(bodyPartCenter, bodyPartTail, bodyPartCenter.getWorldCenter(), bodyPartTail.getWorldCenter());
+        distanceJointDef_center_tail.dampingRatio = 0;
+        distanceJointDef_center_tail.frequencyHz = 70;
+        distanceJointDef_center_tail.length = 10;
+        distanceJointDef_center_tail.collideConnected = true;
+        world.createJoint(distanceJointDef_center_tail);
     }
 
     private void createCreature() {
@@ -189,6 +203,8 @@ public class GameScreen implements Screen, ContactListener{
 
             @Override
             public boolean touchDown(int i, int i2, int i3, int i4) {
+                touchDragX = i;
+                touchDragY = i2;
                 touchDownX = i;
                 touchDownY = i2;
                 headPart.setLinearDamping(0);
@@ -209,37 +225,15 @@ public class GameScreen implements Screen, ContactListener{
 
             @Override
             public boolean touchDragged(int i, int i2, int i3) {
-//                if(forceX>0 && (i-touchDownX)<0){
-//                    forceX = 0;
-//                } else if(forceX<0 && (i-touchDownX)>0){
-//                    forceX = 0;
-//                } else if (i>touchDownX){
-//                    forceX += forceFactor;
-//                } else {
-//                    forceX -= forceFactor;
-//                }
-//
-//                if(forceY>0 && (touchDownY -i2)<0){
-//                    forceY= 0;
-//                } else if(forceY<0 && (touchDownY -i2)>0){
-//                    forceY= 0;
-//                } else if (i2>touchDownY){
-//                    forceY -= forceFactor;
-//                } else {
-//                    forceY += forceFactor;
-//                }
+                deltaX = i- touchDragX;
+                deltaY = touchDragY - i2;
+                headPart.applyForceToCenter(forceFactor * deltaX, forceFactor * deltaY ,true);
 
+                System.out.println("deltaX: " + deltaX);
+                System.out.println("deltaY: " + deltaY);
 
-
-
-
-                deltaX = i-touchDownX;
-                deltaY = touchDownY - i2;
-                mouseDirectionAngle = (float) Math.atan(deltaY/deltaX);
-                headPart.applyForceToCenter(forceFactor * deltaX, forceFactor * deltaY,true);
-
-                touchDownX = i;
-                touchDownY = i2;
+                touchDragX = i;
+                touchDragY = i2;
 
                 return false;
             }
@@ -258,7 +252,6 @@ public class GameScreen implements Screen, ContactListener{
 
     private float deltaX=0;
     private float deltaY=0;
-    private float mouseDirectionAngle;
 
     private Body addHead(float x, float y){
         //Dynamic Body
@@ -299,12 +292,6 @@ public class GameScreen implements Screen, ContactListener{
     public void dispose() {
     }
 
-    private void applyForce(float deltaTime) {
-//        headPart.applyForce(forceX*deltaTime,forceY*deltaTime, headPart.getWorldCenter().x, headPart.getWorldCenter().y,true);
-//        headPart.applyForce(forceFactor * Math.cos(mouseDirectionAngle), forceFactor*Math.sin(mouseDirectionAngle), headPart.getWorldCenter().x, headPart.getWorldCenter().y,true);
-//        headPart.setLinearVelocity(forceX*deltaTime,forceY*deltaTime);
-    }
-
     @Override
     public void render(float v) {
         if ( isAccelerometerAvailable){
@@ -312,7 +299,6 @@ public class GameScreen implements Screen, ContactListener{
             float y = Gdx.input.getAccelerometerY();
             headPart.applyForceToCenter(y * forceFactor, -1f * x * forceFactor, true);
         }
-        applyForce(v);
         Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
         debugRenderer.render(world, camera.combined);
         world.step(BOX_STEP, BOX_VELOCITY_ITERATIONS, BOX_POSITION_ITERATIONS);
@@ -324,11 +310,40 @@ public class GameScreen implements Screen, ContactListener{
         for( Entity entity: entities){
             entity.render( batch);
         }
-        rotateHead();
+
+        //
+        Vector2 velocity = headPart.getLinearVelocity();
+
+        float angle;
+
+        if (velocity.x == 0)
+        {
+            angle = velocity.y > 0 ? 0 : (float) Math.toRadians(360);
+        }
+        else if(velocity.y == 0)
+        {
+            angle = (float) (velocity.x > 0 ? Math.toRadians(180) : 3 * Math.toRadians(180));
+        }
+        else
+        {
+            angle = (float) (Math.atan(velocity.y / velocity.x) + Math.toRadians(180));
+        }
+
+        if (velocity.x > 0)
+        {
+            angle += Math.toRadians(180);
+        }
+        headPart.setTransform(headPart.getPosition(), angle);
+
+
     }
 
-    private void rotateHead() {
-//        headPart.setAngularVelocity(deltaX/deltaY);
+    private void rotateHead(float angle) {
+        if(angle!=0){
+            headPart.setTransform(headPart.getPosition(),0);
+            headPart.setTransform(headPart.getPosition(), angle);
+            headPart.setAngularVelocity(0);
+        }
     }
 
     float diffX = 0;
