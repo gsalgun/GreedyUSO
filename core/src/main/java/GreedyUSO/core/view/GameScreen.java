@@ -594,7 +594,7 @@ public class GameScreen implements Screen, ContactListener{
         }
         batch.end();
 
-		debugRenderer.render(world, camera.combined.scale(PIXELS_PER_METER, PIXELS_PER_METER, PIXELS_PER_METER));
+//		debugRenderer.render(world, camera.combined.scale(PIXELS_PER_METER, PIXELS_PER_METER, PIXELS_PER_METER));
         for(int i = entities.size()-1; i>=0; i--){
             entities.get(i).render( batch, v);
         }
