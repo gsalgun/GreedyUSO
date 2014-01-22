@@ -1,6 +1,7 @@
 package GreedyUSO.core.view;
 
 import GreedyUSO.core.model.Entity;
+import GreedyUSO.core.model.SensorData;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
@@ -53,6 +54,7 @@ public class GameScreen implements Screen, ContactListener{
     public static final float PIXELS_PER_METER = 1f;
     private Body evilBodyMouth;
     private Label scoreLabel;
+    private List<Body> sensors = new ArrayList<Body>();
 
     public static float ConvertToBox( float x){
         return x * WORLD_TO_BOX;
@@ -283,6 +285,19 @@ public class GameScreen implements Screen, ContactListener{
         smallEnemies.add( enemyBody);
         entities.add( new Entity( enemyBody, "smallEnemy.atlas", "smallEnemy"));
 
+        BodyDef smallEnemySensorDef = new BodyDef();
+        smallEnemySensorDef.position.set( new Vector2( 200 / PIXELS_PER_METER, 100 / PIXELS_PER_METER));
+        smallEnemySensorDef.type = BodyDef.BodyType.StaticBody;
+        Body sensorBody = world.createBody( smallEnemySensorDef);
+        circleShape.setRadius( 80f / PIXELS_PER_METER);
+        FixtureDef sensorFix = new FixtureDef();
+        sensorFix.isSensor = true;
+        sensorFix.shape = circleShape;
+        sensorBody.createFixture( sensorFix);
+        sensorBody.setUserData( new SensorData( enemyBody));
+        sensors.add( sensorBody);
+
+
         circleShape.dispose();
 
     }
@@ -370,7 +385,9 @@ public class GameScreen implements Screen, ContactListener{
 
     private void createCreature() {
         headPart = addHead( worldWidth/2,worldHeight/2);
-        entities.add( new Entity( headPart, "head.atlas", "head"));
+        Entity headEntity = new Entity( headPart, "head.atlas", "head");
+        headEntity.setAnimating( false);
+        entities.add( headEntity);
         bodyPart1 = addBodyPart( headPart.getPosition().x - HEAD_LENGTH - JOINT_LENGTH, worldHeight * 0.5f);
         entities.add( new Entity( bodyPart1, "body.atlas", "body0"));
         bodyPart2 = addBodyPart( bodyPart1.getPosition().x - BODY_LENGTH - JOINT_LENGTH , worldHeight * 0.5f);
@@ -621,6 +638,14 @@ public class GameScreen implements Screen, ContactListener{
                 scoreLabel.setText("GAME OVER");
             }
             toBeRemoved = bodyA;
+        }else if ( bodyA.equals( headPart) && sensors.contains( bodyB)){
+            toBeRemoved = bodyB;
+            ((SensorData)bodyB.getUserData()).ownerBody.setLinearVelocity(new Vector2( -10 * forceFactor,0));
+            ((Entity)headPart.getUserData()).setAnimating(true);
+        }else if ( bodyB.equals( headPart) && sensors.contains( bodyA)){
+            toBeRemoved = bodyA;
+            ((SensorData)bodyA.getUserData()).ownerBody.setLinearVelocity(new Vector2( -10 * forceFactor,0));
+            ((Entity)headPart.getUserData()).setAnimating(true);
         }
         if ( toBeRemoved != null){
             smallEnemies.remove( toBeRemoved);
