@@ -17,6 +17,7 @@ import com.badlogic.gdx.physics.box2d.joints.WeldJointDef;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.sun.jmx.remote.internal.ArrayQueue;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -29,20 +30,29 @@ public class GameScreen implements Screen, ContactListener{
     private final float HEAD_RADIUS = 50;
 
 
-    private float HEAD_LENGTH=60;
-    private float HEAD_HEIGHT=40;
+    private float HEAD_LENGTH=60 / PIXELS_PER_METER;
+    private float HEAD_HEIGHT=40/ PIXELS_PER_METER;
 
-    private float BODY_LENGTH=30;
-    private float BODY_HEIGHT=20;
+    private float BODY_LENGTH=30 / PIXELS_PER_METER;
+    private float BODY_HEIGHT=20 / PIXELS_PER_METER;
 
-    private final int JOINT_LENGTH = 1;
+    private float TAIL1_LENGTH=25 / PIXELS_PER_METER;
+    private float TAIL1_HEIGHT=20 / PIXELS_PER_METER;
+
+    private float TAIL2_LENGTH=20 / PIXELS_PER_METER;
+    private float TAIL2_HEIGHT=20 / PIXELS_PER_METER;
+
+    private float TAIL3_LENGTH=15 / PIXELS_PER_METER;
+    private float TAIL3_HEIGHT=20 / PIXELS_PER_METER;
+
+    private final float JOINT_LENGTH = 1 / PIXELS_PER_METER;
     private World world;
     private Box2DDebugRenderer debugRenderer;
     private OrthographicCamera camera;
 
     static final float WORLD_STEP =1/60f;
-    static final int VELOCITY_ITERATIONS =6;
-    static final int POSITION_ITERATIONS =10;
+    static final int VELOCITY_ITERATIONS =50;
+    static final int POSITION_ITERATIONS =50;
     public static final float WORLD_TO_BOX=0.01f;
     public static final float BOX_TO_WORLD =100f;
 
@@ -50,9 +60,9 @@ public class GameScreen implements Screen, ContactListener{
     private int screenHeight;
     private float worldWidth;
     private float worldHeight;
-    public static final float PIXELS_PER_METER = 1f;
     private Body evilBodyMouth;
     private Label scoreLabel;
+    public static final float PIXELS_PER_METER = 15f;
 
     public static float ConvertToBox( float x){
         return x * WORLD_TO_BOX;
@@ -61,6 +71,8 @@ public class GameScreen implements Screen, ContactListener{
     private Body headPart;
     private Body bodyPart1;
     private Body bodyPart2;
+    private Body bodyPart3;
+    private Body bodyPart4;
     private Body tailPart;
     private Set<Body> smallEnemies;
 
@@ -70,9 +82,9 @@ public class GameScreen implements Screen, ContactListener{
     private float centerReferenceX;
     private float centerReferenceY;
 
-    float forceY = 0;
-    float forceX = 0;
-    float forceFactor = 3000000;
+    float forceFactor = 50;
+//    private static final float FORCE_THRESHOLD = 8000;
+
 
     private List<Body> toBeDestructed = new ArrayList<Body>();
     private List<Entity> entities = new ArrayList<Entity>();
@@ -95,20 +107,19 @@ public class GameScreen implements Screen, ContactListener{
         initializeUI();
 
         world = new World( new Vector2(0, 0), true);
+        world.setVelocityThreshold(1000);
         camera = new OrthographicCamera();
         camera.setToOrtho( false, screenWidth, screenHeight);
         camera.position.set( screenWidth * .5f, screenHeight * .5f, 0);
         //camera.update();
         debugRenderer = new Box2DDebugRenderer();
         world.setContactListener(this);
-        //Ground body
-        createWall(0, -(camera.viewportHeight * 2) + 10, (camera.viewportWidth) * 2, 10.0f);
-        //Top body
-        createWall(0, (camera.viewportHeight * 2) + camera.viewportHeight-10,(camera.viewportWidth) * 2, 10.0f);
-        //Left body
-        createWall(-(camera.viewportWidth * 2) + 10, 0,10.0f,(camera.viewportHeight) * 2);
-        //Right body
-        createWall((camera.viewportWidth * 2) + camera.viewportWidth-10, 0,10.0f,(camera.viewportHeight) * 2);
+
+        //Walls
+//        createWall(0, -(camera.viewportHeight * 2) + 10, (camera.viewportWidth) * 2, 10.0f);
+//        createWall(0, (camera.viewportHeight * 2) + camera.viewportHeight-10,(camera.viewportWidth) * 2, 10.0f);
+//        createWall(-(camera.viewportWidth * 2) + 10, 0,10.0f,(camera.viewportHeight) * 2);
+//        createWall((camera.viewportWidth * 2) + camera.viewportWidth-10, 0,10.0f,(camera.viewportHeight) * 2);
 
         createCreature();
         createJoints();
@@ -148,41 +159,41 @@ public class GameScreen implements Screen, ContactListener{
     private List<Sprite> backgrounds = new ArrayList<Sprite>();
 
     private void loadBackGrounds() {
-        Sprite background11 = new Sprite(new Texture(Gdx.files.internal("background11.jpg")));
-        Sprite background12 = new Sprite(new Texture(Gdx.files.internal("background11.jpg")));
-        Sprite background13 = new Sprite(new Texture(Gdx.files.internal("background11.jpg")));
-        Sprite background14 = new Sprite(new Texture(Gdx.files.internal("background11.jpg")));
-        Sprite background15 = new Sprite(new Texture(Gdx.files.internal("background11.jpg")));
-        Sprite background21 = new Sprite(new Texture(Gdx.files.internal("background11.jpg")));
-        Sprite background22 = new Sprite(new Texture(Gdx.files.internal("background11.jpg")));
-        Sprite background23 = new Sprite(new Texture(Gdx.files.internal("background11.jpg")));
-        Sprite background24 = new Sprite(new Texture(Gdx.files.internal("background11.jpg")));
-        Sprite background25 = new Sprite(new Texture(Gdx.files.internal("background11.jpg")));
-        Sprite background31 = new Sprite(new Texture(Gdx.files.internal("background11.jpg")));
-        Sprite background32 = new Sprite(new Texture(Gdx.files.internal("background11.jpg")));
-        Sprite background33 = new Sprite(new Texture(Gdx.files.internal("background11.jpg")));
-        Sprite background34 = new Sprite(new Texture(Gdx.files.internal("background11.jpg")));
-        Sprite background35 = new Sprite(new Texture(Gdx.files.internal("background11.jpg")));
-        Sprite background41 = new Sprite(new Texture(Gdx.files.internal("background11.jpg")));
-        Sprite background42 = new Sprite(new Texture(Gdx.files.internal("background11.jpg")));
-        Sprite background43 = new Sprite(new Texture(Gdx.files.internal("background11.jpg")));
-        Sprite background44 = new Sprite(new Texture(Gdx.files.internal("background11.jpg")));
-        Sprite background45 = new Sprite(new Texture(Gdx.files.internal("background11.jpg")));
-        Sprite background51 = new Sprite(new Texture(Gdx.files.internal("background11.jpg")));
-        Sprite background52 = new Sprite(new Texture(Gdx.files.internal("background11.jpg")));
-        Sprite background53 = new Sprite(new Texture(Gdx.files.internal("background11.jpg")));
-        Sprite background54 = new Sprite(new Texture(Gdx.files.internal("background11.jpg")));
-        Sprite background55 = new Sprite(new Texture(Gdx.files.internal("background11.jpg")));
-        Sprite background61 = new Sprite(new Texture(Gdx.files.internal("background11.jpg")));
-        Sprite background62 = new Sprite(new Texture(Gdx.files.internal("background11.jpg")));
-        Sprite background63 = new Sprite(new Texture(Gdx.files.internal("background11.jpg")));
-        Sprite background64 = new Sprite(new Texture(Gdx.files.internal("background11.jpg")));
-        Sprite background65 = new Sprite(new Texture(Gdx.files.internal("background11.jpg")));
-        Sprite background71 = new Sprite(new Texture(Gdx.files.internal("background11.jpg")));
-        Sprite background72 = new Sprite(new Texture(Gdx.files.internal("background11.jpg")));
-        Sprite background73 = new Sprite(new Texture(Gdx.files.internal("background11.jpg")));
-        Sprite background74 = new Sprite(new Texture(Gdx.files.internal("background11.jpg")));
-        Sprite background75 = new Sprite(new Texture(Gdx.files.internal("background11.jpg")));
+        Sprite background11 = new Sprite(new Texture(Gdx.files.internal("BG_A1.png")));
+        Sprite background12 = new Sprite(new Texture(Gdx.files.internal("BG_A2.png")));
+        Sprite background13 = new Sprite(new Texture(Gdx.files.internal("BG_A3.png")));
+        Sprite background14 = new Sprite(new Texture(Gdx.files.internal("BG_A4.png")));
+        Sprite background15 = new Sprite(new Texture(Gdx.files.internal("BG_A5.png")));
+        Sprite background21 = new Sprite(new Texture(Gdx.files.internal("BG_B1.png")));
+        Sprite background22 = new Sprite(new Texture(Gdx.files.internal("BG_B2.png")));
+        Sprite background23 = new Sprite(new Texture(Gdx.files.internal("BG_B3.png")));
+        Sprite background24 = new Sprite(new Texture(Gdx.files.internal("BG_B4.png")));
+        Sprite background25 = new Sprite(new Texture(Gdx.files.internal("BG_B5.png")));
+        Sprite background31 = new Sprite(new Texture(Gdx.files.internal("BG_C1.png")));
+        Sprite background32 = new Sprite(new Texture(Gdx.files.internal("BG_C2.png")));
+        Sprite background33 = new Sprite(new Texture(Gdx.files.internal("BG_C3.png")));
+        Sprite background34 = new Sprite(new Texture(Gdx.files.internal("BG_C4.png")));
+        Sprite background35 = new Sprite(new Texture(Gdx.files.internal("BG_C5.png")));
+        Sprite background41 = new Sprite(new Texture(Gdx.files.internal("BG_D1.png")));
+        Sprite background42 = new Sprite(new Texture(Gdx.files.internal("BG_D2.png")));
+        Sprite background43 = new Sprite(new Texture(Gdx.files.internal("BG_D3.png")));
+        Sprite background44 = new Sprite(new Texture(Gdx.files.internal("BG_D4.png")));
+        Sprite background45 = new Sprite(new Texture(Gdx.files.internal("BG_D5.png")));
+        Sprite background51 = new Sprite(new Texture(Gdx.files.internal("BG_E1.png")));
+        Sprite background52 = new Sprite(new Texture(Gdx.files.internal("BG_E2.png")));
+        Sprite background53 = new Sprite(new Texture(Gdx.files.internal("BG_E3.png")));
+        Sprite background54 = new Sprite(new Texture(Gdx.files.internal("BG_E4.png")));
+        Sprite background55 = new Sprite(new Texture(Gdx.files.internal("BG_E5.png")));
+        Sprite background61 = new Sprite(new Texture(Gdx.files.internal("BG_F1.png")));
+        Sprite background62 = new Sprite(new Texture(Gdx.files.internal("BG_F2.png")));
+        Sprite background63 = new Sprite(new Texture(Gdx.files.internal("BG_F3.png")));
+        Sprite background64 = new Sprite(new Texture(Gdx.files.internal("BG_F4.png")));
+        Sprite background65 = new Sprite(new Texture(Gdx.files.internal("BG_F5.png")));
+        Sprite background71 = new Sprite(new Texture(Gdx.files.internal("BG_G1.png")));
+        Sprite background72 = new Sprite(new Texture(Gdx.files.internal("BG_G2.png")));
+        Sprite background73 = new Sprite(new Texture(Gdx.files.internal("BG_G3.png")));
+        Sprite background74 = new Sprite(new Texture(Gdx.files.internal("BG_G4.png")));
+        Sprite background75 = new Sprite(new Texture(Gdx.files.internal("BG_G5.png")));
 
 
 
@@ -340,7 +351,7 @@ public class GameScreen implements Screen, ContactListener{
 
     private void createJoints() {
 
-        WeldJointDef revoluteJointDef_1 = new WeldJointDef();
+        RevoluteJointDef revoluteJointDef_1 = new RevoluteJointDef();
         revoluteJointDef_1.initialize(headPart, bodyPart1, bodyPart1.getPosition());
         revoluteJointDef_1.localAnchorA.set(-HEAD_LENGTH-JOINT_LENGTH,0);
         revoluteJointDef_1.localAnchorB.set(BODY_LENGTH, 0);
@@ -352,31 +363,47 @@ public class GameScreen implements Screen, ContactListener{
         revoluteJointDef_2.localAnchorA.set(-BODY_LENGTH-JOINT_LENGTH,0);
         revoluteJointDef_2.localAnchorB.set(BODY_LENGTH, 0);
         revoluteJointDef_2.collideConnected = true;
-//        revoluteJointDef_2.enableMotor = true;
-//        revoluteJointDef_2.maxMotorTorque = 1;
-//        revoluteJointDef_2.motorSpeed = 10;
         world.createJoint(revoluteJointDef_2);
 
         RevoluteJointDef revoluteJointDef_3 = new RevoluteJointDef();
-        revoluteJointDef_3.initialize(bodyPart2, tailPart, tailPart.getPosition());
+        revoluteJointDef_3.initialize(bodyPart2, bodyPart3, bodyPart3.getPosition());
         revoluteJointDef_3.localAnchorA.set(-BODY_LENGTH-JOINT_LENGTH,0);
-        revoluteJointDef_3.localAnchorB.set(BODY_LENGTH, 0);
+        revoluteJointDef_3.localAnchorB.set(TAIL1_LENGTH, 0);
         revoluteJointDef_3.collideConnected = true;
-//        revoluteJointDef_3.enableMotor = true;
-//        revoluteJointDef_3.maxMotorTorque = 1;
-//        revoluteJointDef_3.motorSpeed = 10;
         world.createJoint(revoluteJointDef_3);
+
+        RevoluteJointDef revoluteJointDef_4 = new RevoluteJointDef();
+        revoluteJointDef_4.initialize(bodyPart3, bodyPart4, bodyPart4.getPosition());
+        revoluteJointDef_4.localAnchorA.set(-TAIL1_LENGTH-JOINT_LENGTH,0);
+        revoluteJointDef_4.localAnchorB.set(TAIL2_LENGTH, 0);
+        revoluteJointDef_4.collideConnected = true;
+        world.createJoint(revoluteJointDef_4);
+
+        RevoluteJointDef revoluteJointDef_5 = new RevoluteJointDef();
+        revoluteJointDef_5.initialize(bodyPart4, tailPart, tailPart.getPosition());
+        revoluteJointDef_5.localAnchorA.set(-TAIL2_LENGTH-JOINT_LENGTH,0);
+        revoluteJointDef_5.localAnchorB.set(TAIL3_LENGTH, 0);
+        revoluteJointDef_5.collideConnected = true;
+        world.createJoint(revoluteJointDef_5);
+
     }
 
     private void createCreature() {
         headPart = addHead( worldWidth/2,worldHeight/2);
         entities.add( new Entity( headPart, "head.atlas", "head"));
-        bodyPart1 = addBodyPart( headPart.getPosition().x - HEAD_LENGTH - JOINT_LENGTH, worldHeight * 0.5f);
+        bodyPart1 = addBodyPart( headPart.getPosition().x - HEAD_LENGTH - JOINT_LENGTH, worldHeight * 0.5f, BODY_LENGTH,BODY_HEIGHT);
         entities.add( new Entity( bodyPart1, "body.atlas", "body0"));
-        bodyPart2 = addBodyPart( bodyPart1.getPosition().x - BODY_LENGTH - JOINT_LENGTH , worldHeight * 0.5f);
+        bodyPart2 = addBodyPart( bodyPart1.getPosition().x - BODY_LENGTH - JOINT_LENGTH , worldHeight * 0.5f, BODY_LENGTH,BODY_HEIGHT);
         entities.add(new Entity( bodyPart2, "body.atlas", "body0"));
-        tailPart = addTail(bodyPart2.getPosition().x - BODY_LENGTH - JOINT_LENGTH, worldHeight * 0.5f);
-        entities.add( new Entity( tailPart, "body.atlas", "body0"));
+
+        bodyPart3 = addBodyPart( bodyPart2.getPosition().x - BODY_LENGTH - JOINT_LENGTH , worldHeight * 0.5f, TAIL1_LENGTH,TAIL1_HEIGHT);
+        entities.add(new Entity(bodyPart3, "body.atlas", "body1"));
+
+        bodyPart4 = addBodyPart( bodyPart3.getPosition().x - BODY_LENGTH - JOINT_LENGTH , worldHeight * 0.5f, TAIL2_LENGTH,TAIL2_HEIGHT);
+        entities.add(new Entity(bodyPart4, "body.atlas", "body2"));
+
+        tailPart = addTail(bodyPart4.getPosition().x - BODY_LENGTH - JOINT_LENGTH, worldHeight * 0.5f, TAIL3_LENGTH,TAIL3_HEIGHT);
+        entities.add( new Entity( tailPart, "body.atlas", "body3"));
 
         centerReferenceX = headPart.getPosition().x * PIXELS_PER_METER;
         centerReferenceY = headPart.getPosition().y * PIXELS_PER_METER;
@@ -423,15 +450,16 @@ public class GameScreen implements Screen, ContactListener{
 
             @Override
             public boolean touchDragged(int i, int i2, int i3) {
-                deltaX = i- touchDragX;
+                deltaX = i - touchDragX;
                 deltaY = touchDragY - i2;
-                headPart.applyForceToCenter(forceFactor * deltaX, forceFactor * deltaY ,true);
+                float xForce = forceFactor * deltaX;
+                float yForce = forceFactor * deltaY;
+                headPart.applyForceToCenter(xForce, yForce, true);
 
                 touchDragX = i;
                 touchDragY = i2;
 
                 setHeadAngle();
-
                 return false;
             }
 
@@ -447,30 +475,31 @@ public class GameScreen implements Screen, ContactListener{
         });
     }
 
+
+    float xFactor = 0;
+    float yFactor = 0;
+    float angle = 0;
+
     private void setHeadAngle() {
         Vector2 velocity = headPart.getLinearVelocity();
 
-        float angle;
+        xFactor = velocity.x;
+        yFactor = velocity.y;
 
-        if (velocity.x == 0)
-        {
-            angle = velocity.y > 0 ? 0 : (float) Math.toRadians(360);
-        }
-        else if(velocity.y == 0)
-        {
-            angle = (float) (velocity.x > 0 ? Math.toRadians(180) : 3 * Math.toRadians(180));
-        }
-        else
-        {
-            angle = (float) (Math.atan(velocity.y / velocity.x) + Math.toRadians(180));
+        if ( xFactor== 0) {
+            angle = yFactor > 0 ? 0 : (float) Math.toRadians(360);
+        } else if (yFactor == 0) {
+            angle = (float) (xFactor > 0 ? Math.toRadians(180) : 3 * Math.toRadians(180));
+        } else {
+            angle = (float) (Math.atan(yFactor / xFactor) + Math.toRadians(180));
         }
 
-        if (velocity.x > 0)
-        {
+        if (xFactor > 0) {
             angle += Math.toRadians(180);
         }
 
         headPart.setTransform(headPart.getPosition(), angle);
+
     }
 
     private float deltaX=0;
@@ -486,32 +515,32 @@ public class GameScreen implements Screen, ContactListener{
         shape.set(new Vector2[]{new Vector2(HEAD_LENGTH,-HEAD_HEIGHT),new Vector2(HEAD_LENGTH,HEAD_HEIGHT),new Vector2(-HEAD_LENGTH,-HEAD_HEIGHT),new Vector2(-HEAD_LENGTH,HEAD_HEIGHT)});
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = shape;
-        fixtureDef.density = 11f;
-        fixtureDef.friction = 0.2f;
+        fixtureDef.density = 0.1f;
+        fixtureDef.friction = 0.00001f;
         fixtureDef.restitution = 0.3f;
         body.createFixture(fixtureDef);
         body.setFixedRotation(true);
         return body;
     }
 
-    private Body addBodyPart(float x, float y){
+    private Body addBodyPart(float x, float y, float bodyLength, float bodyHeight){
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.DynamicBody;
         bodyDef.position.set(x,y);
         Body body = world.createBody(bodyDef);
         PolygonShape shape = new PolygonShape();
-        shape.set(new Vector2[]{new Vector2(BODY_LENGTH,-BODY_HEIGHT),new Vector2(BODY_LENGTH,BODY_HEIGHT),new Vector2(-BODY_LENGTH,-BODY_HEIGHT),new Vector2(-BODY_LENGTH,BODY_HEIGHT)});
+        shape.set(new Vector2[]{new Vector2(bodyLength,-bodyHeight),new Vector2(bodyLength,bodyHeight),new Vector2(-bodyLength,-bodyHeight),new Vector2(-bodyLength,bodyHeight)});
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = shape;
-        fixtureDef.density = 11f;
-        fixtureDef.friction = 0.2f;
+        fixtureDef.density = 0.1f;
+        fixtureDef.friction = 0.00001f;
         fixtureDef.restitution = 0.3f;
         body.createFixture(fixtureDef);
-        body.setAngularDamping(3);
+        body.setAngularDamping(55);
         return body;
     }
 
-    private Body addTail(float x, float y){
+    private Body addTail(float x, float y, float bodyLength, float bodyHeight){
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.DynamicBody;
         bodyDef.position.set(x,y);
@@ -519,13 +548,14 @@ public class GameScreen implements Screen, ContactListener{
         CircleShape dynamicCircle = new CircleShape();
         dynamicCircle.setRadius(BODY_PART_RADIUS /PIXELS_PER_METER);
         PolygonShape shape = new PolygonShape();
-        shape.set(new Vector2[]{new Vector2(BODY_LENGTH,-BODY_HEIGHT),new Vector2(BODY_LENGTH,BODY_HEIGHT),new Vector2(-BODY_LENGTH,-BODY_HEIGHT),new Vector2(-BODY_LENGTH,BODY_HEIGHT)});
+        shape.set(new Vector2[]{new Vector2(bodyLength,-bodyHeight),new Vector2(bodyLength,bodyHeight),new Vector2(-bodyLength,-bodyHeight),new Vector2(-bodyLength,bodyHeight)});
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = shape;
         fixtureDef.density = 0.01f;
-        fixtureDef.friction = 0.2f;
+        fixtureDef.friction = 0.00001f;
         fixtureDef.restitution = 0.3f;
         body.createFixture(fixtureDef);
+        body.setAngularDamping(55);
         return body;
     }
 
@@ -536,16 +566,17 @@ public class GameScreen implements Screen, ContactListener{
         stage.dispose();
     }
 
+
     @Override
     public void render(float v) {
-        if ( isAccelerometerAvailable){
+        if (isAccelerometerAvailable) {
             float x = Gdx.input.getAccelerometerX();
             float y = Gdx.input.getAccelerometerY();
             headPart.applyForceToCenter(y * forceFactor, -1f * x * forceFactor, true);
         }
         world.step(WORLD_STEP, VELOCITY_ITERATIONS, POSITION_ITERATIONS);
 
-        for ( Entity entity: entities){
+        for (Entity entity : entities) {
             entity.update();
         }
         handleToBeDestructed();
@@ -558,12 +589,12 @@ public class GameScreen implements Screen, ContactListener{
 
         batch.begin();
 
-        for(Sprite sprite:backgrounds){
+        for (Sprite sprite : backgrounds) {
             sprite.draw(batch);
         }
         batch.end();
 
-        debugRenderer.render(world, camera.combined.scale(PIXELS_PER_METER, PIXELS_PER_METER, PIXELS_PER_METER));
+		debugRenderer.render(world, camera.combined.scale(PIXELS_PER_METER, PIXELS_PER_METER, PIXELS_PER_METER));
         for(int i = entities.size()-1; i>=0; i--){
             entities.get(i).render( batch, v);
         }
@@ -607,7 +638,7 @@ public class GameScreen implements Screen, ContactListener{
     }
 
     @Override
-    public void beginContact(Contact contact) {
+ public void beginContact(Contact contact) {
         Body bodyA = contact.getFixtureA().getBody();
         Body bodyB = contact.getFixtureB().getBody();
         Body toBeRemoved = null;
@@ -633,7 +664,7 @@ public class GameScreen implements Screen, ContactListener{
         List<Body> temp = new ArrayList<Body>( toBeDestructed);
         for( Body aBody: temp){
             world.destroyBody( aBody);
-            toBeDestructed.remove( aBody);
+            toBeDestructed.remove(aBody);
         }
     }
     @Override
