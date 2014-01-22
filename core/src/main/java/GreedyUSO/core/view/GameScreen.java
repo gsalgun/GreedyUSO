@@ -18,6 +18,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.physics.box2d.joints.RevoluteJointDef;
 import com.badlogic.gdx.physics.box2d.joints.WeldJointDef;
+import com.sun.jmx.remote.internal.ArrayQueue;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -36,7 +37,7 @@ public class GameScreen implements Screen, ContactListener{
     private float BODY_LENGTH=30;
     private float BODY_HEIGHT=20;
 
-    private final int JOINT_LENGTH = 10;
+    private final int JOINT_LENGTH = 1;
     private World world;
     private Box2DDebugRenderer debugRenderer;
     private OrthographicCamera camera;
@@ -74,7 +75,7 @@ public class GameScreen implements Screen, ContactListener{
     float forceFactor = 3000000;
 
     private List<Body> toBeDestructed = new ArrayList<Body>();
-    private List<Entity> entities = new ArrayList<Entity>();
+    private List<Entity> entities = new ArrayQueue<Entity>(20);
 
     private boolean isAccelerometerAvailable;
 
@@ -109,7 +110,7 @@ public class GameScreen implements Screen, ContactListener{
 
         handleTouches();
         isAccelerometerAvailable = Gdx.input.isPeripheralAvailable(Input.Peripheral.Accelerometer);
-//        loadBackGrounds();
+        loadBackGrounds();
 
     }
 
@@ -449,8 +450,8 @@ public class GameScreen implements Screen, ContactListener{
         shape.set(new Vector2[]{new Vector2(HEAD_LENGTH,-HEAD_HEIGHT),new Vector2(HEAD_LENGTH,HEAD_HEIGHT),new Vector2(-HEAD_LENGTH,-HEAD_HEIGHT),new Vector2(-HEAD_LENGTH,HEAD_HEIGHT)});
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = shape;
-        fixtureDef.density = 1f;
-        fixtureDef.friction = 0;
+        fixtureDef.density = 11f;
+        fixtureDef.friction = 0.2f;
         fixtureDef.restitution = 0.3f;
         body.createFixture(fixtureDef);
         body.setFixedRotation(true);
@@ -466,9 +467,9 @@ public class GameScreen implements Screen, ContactListener{
         shape.set(new Vector2[]{new Vector2(BODY_LENGTH,-BODY_HEIGHT),new Vector2(BODY_LENGTH,BODY_HEIGHT),new Vector2(-BODY_LENGTH,-BODY_HEIGHT),new Vector2(-BODY_LENGTH,BODY_HEIGHT)});
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = shape;
-        fixtureDef.density = 1.2f;
-        fixtureDef.friction = 0;
-        fixtureDef.restitution = 0.9f;
+        fixtureDef.density = 11f;
+        fixtureDef.friction = 0.2f;
+        fixtureDef.restitution = 0.3f;
         body.createFixture(fixtureDef);
         body.setAngularDamping(3);
         return body;
@@ -485,9 +486,9 @@ public class GameScreen implements Screen, ContactListener{
         shape.set(new Vector2[]{new Vector2(BODY_LENGTH,-BODY_HEIGHT),new Vector2(BODY_LENGTH,BODY_HEIGHT),new Vector2(-BODY_LENGTH,-BODY_HEIGHT),new Vector2(-BODY_LENGTH,BODY_HEIGHT)});
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = shape;
-        fixtureDef.density = 1.2f;
-        fixtureDef.friction = 1;
-        fixtureDef.restitution = 0.9f;
+        fixtureDef.density = 0.01f;
+        fixtureDef.friction = 0.2f;
+        fixtureDef.restitution = 0.3f;
         body.createFixture(fixtureDef);
         return body;
     }
@@ -520,13 +521,13 @@ public class GameScreen implements Screen, ContactListener{
         batch.begin();
 
         for(Sprite sprite:backgrounds){
-//            sprite.draw(batch);
+            sprite.draw(batch);
         }
         batch.end();
 
-        debugRenderer.render(world, camera.combined.scale(PIXELS_PER_METER, PIXELS_PER_METER, PIXELS_PER_METER));
-        for( Entity entity: entities){
-            entity.render( batch, v);
+//        debugRenderer.render(world, camera.combined.scale(PIXELS_PER_METER, PIXELS_PER_METER, PIXELS_PER_METER));
+        for(int i = entities.size()-1; i>=0; i--){
+            entities.get(i).render( batch, v);
         }
     }
 
