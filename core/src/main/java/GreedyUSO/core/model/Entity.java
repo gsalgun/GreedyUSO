@@ -1,46 +1,55 @@
 package GreedyUSO.core.model;
 
 import GreedyUSO.core.view.GameScreen;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
+import com.badlogic.gdx.physics.box2d.Shape;
 
 public class Entity implements Renderable{
 
     public static final float FRAME_DURATION = 0.10f;
 
-    protected float posX;
-    protected float posY;
-    protected float width;
-    protected float height;
-    protected Body body;
-    protected TextureAtlas animSheetAtlas;
-    protected TextureRegion[] animFrames;
-    protected TextureRegion currentFrame;
-    protected Animation animation;
-    protected Sprite sprite;
+    private float posX;
+    private float posY;
+    private float bodyWidth;
+    private float bodyHeight;
+    private Body body;
+    private TextureAtlas animSheetAtlas;
+    private TextureRegion[] animFrames;
+    private TextureRegion currentFrame;
+    private Animation animation;
+    private Sprite sprite;
+    private boolean isAnimating;
 
     float stateTime;
 
-    public Entity( Body body, TextureAtlas textureAtlas, int numberOfFrames){
+    public Entity( Body body, String atlasName, String frameName){
         this.body = body;
-        this.animSheetAtlas = textureAtlas;
-        this.animFrames = new TextureRegion[numberOfFrames];
-        this.sprite = new Sprite();
+        body.setUserData( this);
+        this.animSheetAtlas = new TextureAtlas( Gdx.files.internal(atlasName));
+        this.animFrames = animSheetAtlas.findRegions(frameName).toArray(TextureRegion.class);
+        this.animation = new Animation( FRAME_DURATION, animFrames);
         stateTime = 0f;
+        this.isAnimating = true;
         update();
     }
 
 
     @Override
     public void render( Batch batch, float delta) {
-        stateTime += delta;
         currentFrame = animation.getKeyFrame( stateTime, true);
+        if ( isAnimating){
+            stateTime += delta;
+        }else{
+            stateTime = 0f;
+        }
         sprite = new Sprite( currentFrame);
         sprite.flip( true, false);
-        sprite.setOrigin(width,sprite.getHeight()/2);
-        sprite.setX(posX - width);
+        sprite.setOrigin(bodyWidth,sprite.getHeight()/2);
+        sprite.setX(posX - bodyWidth);
         sprite.setY(posY - sprite.getHeight()/2);
         sprite.setRotation((float) Math.toDegrees(body.getAngle()));
         batch.begin();
@@ -52,9 +61,19 @@ public class Entity implements Renderable{
         this.posX = body.getPosition().x * GameScreen.PIXELS_PER_METER;
         this.posY = body.getPosition().y * GameScreen.PIXELS_PER_METER;
         Vector2 vector2 = new Vector2();
-        ((PolygonShape)body.getFixtureList().get(0).getShape()).getVertex(1,vector2);
-        this.width = vector2.x;
-        this.height = vector2.y;
+        Shape bodyShape = body.getFixtureList().get(0).getShape();
+        if ( bodyShape instanceof  PolygonShape){
+            ((PolygonShape)bodyShape).getVertex(1, vector2);
+            this.bodyWidth = vector2.x;
+            this.bodyHeight = vector2.y;
+        }else{
+            this.bodyHeight = bodyShape.getRadius();
+            this.bodyWidth = bodyShape.getRadius();
+        }
+    }
+
+    public void setAnimating( boolean isAnimating){
+        this.isAnimating = isAnimating;
     }
 
 

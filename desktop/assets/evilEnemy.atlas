@@ -1,0 +1,47 @@
+
+evilEnemy.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+evil3
+  rotate: false
+  xy: 328, 167
+  size: 22, 56
+  orig: 22, 56
+  offset: 0, 0
+  index: -1
+evil4
+  rotate: false
+  xy: 2, 2
+  size: 20, 60
+  orig: 20, 60
+  offset: 0, 0
+  index: -1
+evil5
+  rotate: false
+  xy: 328, 125
+  size: 15, 40
+  orig: 15, 40
+  offset: 0, 0
+  index: -1
+evil6
+  rotate: false
+  xy: 24, 17
+  size: 15, 45
+  orig: 15, 45
+  offset: 0, 0
+  index: -1
+evilBody
+  rotate: false
+  xy: 2, 64
+  size: 161, 159
+  orig: 161, 159
+  offset: 0, 0
+  index: 1
+evilBody
+  rotate: false
+  xy: 165, 64
+  size: 161, 159
+  orig: 161, 159
+  offset: 0, 0
+  index: 2
