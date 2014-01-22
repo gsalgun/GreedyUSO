@@ -1,6 +1,8 @@
 package GreedyUSO.core.view;
 
+import GreedyUSO.core.model.CreatureBody;
 import GreedyUSO.core.model.Entity;
+import GreedyUSO.core.model.Head;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
@@ -11,9 +13,11 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
-import com.badlogic.gdx.physics.box2d.joints.DistanceJointDef;
+import com.badlogic.gdx.physics.box2d.joints.RevoluteJointDef;
+import com.badlogic.gdx.physics.box2d.joints.WeldJointDef;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -22,13 +26,24 @@ import java.util.Set;
 
 public class GameScreen implements Screen, ContactListener{
 
+    private final int BODY_PART_RADIUS = 30;
+    private final float HEAD_RADIUS = 50;
+
+
+    private float HEAD_LENGTH=60;
+    private float HEAD_HEIGHT=40;
+
+    private float BODY_LENGTH=30;
+    private float BODY_HEIGHT=20;
+
+    private final int JOINT_LENGTH = 10;
     private World world;
     private Box2DDebugRenderer debugRenderer;
     private OrthographicCamera camera;
 
-    static final float BOX_STEP=1/60f;
-    static final int BOX_VELOCITY_ITERATIONS=6;
-    static final int BOX_POSITION_ITERATIONS=2;
+    static final float WORLD_STEP =1/60f;
+    static final int VELOCITY_ITERATIONS =6;
+    static final int POSITION_ITERATIONS =10;
     public static final float WORLD_TO_BOX=0.01f;
     public static final float BOX_TO_WORLD =100f;
 
@@ -43,8 +58,9 @@ public class GameScreen implements Screen, ContactListener{
     }
 
     private Body headPart;
-    private Body bodyPartCenter;
-    private Body bodyPartTail;
+    private Body bodyPart1;
+    private Body bodyPart2;
+    private Body tailPart;
     private Set<Body> smallEnemies;
 
     private float touchDragX = 0;
@@ -55,7 +71,7 @@ public class GameScreen implements Screen, ContactListener{
 
     float forceY = 0;
     float forceX = 0;
-    float forceFactor = 46000;
+    float forceFactor = 3000000;
 
     private List<Body> toBeDestructed = new ArrayList<Body>();
     private List<Entity> entities = new ArrayList<Entity>();
@@ -73,7 +89,7 @@ public class GameScreen implements Screen, ContactListener{
         world = new World( new Vector2(0, 0), true);
         camera = new OrthographicCamera();
         camera.setToOrtho( false, screenWidth, screenHeight);
-        camera.position.set( screenWidth * .5f, screenHeight * .5f, 0f);
+        camera.position.set( screenWidth * .5f, screenHeight * .5f, 0);
         //camera.update();
         debugRenderer = new Box2DDebugRenderer();
         world.setContactListener(this);
@@ -93,7 +109,7 @@ public class GameScreen implements Screen, ContactListener{
 
         handleTouches();
         isAccelerometerAvailable = Gdx.input.isPeripheralAvailable(Input.Peripheral.Accelerometer);
-        loadBackGrounds();
+//        loadBackGrounds();
 
     }
 
@@ -216,7 +232,7 @@ public class GameScreen implements Screen, ContactListener{
         smallEnemies = new HashSet<Body>();
 
         BodyDef smallEnemyDef = new BodyDef();
-        smallEnemyDef.position.set( new Vector2(100, 200));
+        smallEnemyDef.position.set( new Vector2( 100, 200));
         smallEnemyDef.type = BodyDef.BodyType.DynamicBody;
         Body enemyBody = world.createBody( smallEnemyDef);
         CircleShape circleShape = new CircleShape();
@@ -248,37 +264,83 @@ public class GameScreen implements Screen, ContactListener{
 
     private void createJoints() {
 
-        Vector2 headJointPoint = new Vector2(headPart.getWorldCenter().x - 5, headPart.getWorldCenter().y);
-        Vector2 centerHeadJointPoint = new Vector2(bodyPartCenter.getWorldCenter().x + 3, bodyPartCenter.getWorldCenter().y);
-        Vector2 centerTailJointPoint = new Vector2(bodyPartCenter.getWorldCenter().x - 3, bodyPartCenter.getWorldCenter().y);
-        Vector2 tailCenterJointPoint = new Vector2(bodyPartTail.getWorldCenter().x + 3, bodyPartTail.getWorldCenter().y);
+        WeldJointDef revoluteJointDef_1 = new WeldJointDef();
+        revoluteJointDef_1.initialize(headPart, bodyPart1, bodyPart1.getPosition());
+        revoluteJointDef_1.localAnchorA.set(-HEAD_LENGTH-JOINT_LENGTH,0);
+        revoluteJointDef_1.localAnchorB.set(BODY_LENGTH, 0);
+        revoluteJointDef_1.collideConnected = true;
+        world.createJoint(revoluteJointDef_1);
 
-        DistanceJointDef distanceJointDef_head_center = new DistanceJointDef();
-        distanceJointDef_head_center.initialize(headPart, bodyPartCenter,headJointPoint, centerHeadJointPoint);
-        distanceJointDef_head_center.dampingRatio = 0;
-        distanceJointDef_head_center.frequencyHz = 100;
-        distanceJointDef_head_center.length = 1.5f;
-        distanceJointDef_head_center.collideConnected = true;
-        world.createJoint(distanceJointDef_head_center);
+        RevoluteJointDef revoluteJointDef_2 = new RevoluteJointDef();
+        revoluteJointDef_2.initialize(bodyPart1, bodyPart2, bodyPart2.getPosition());
+        revoluteJointDef_2.localAnchorA.set(-BODY_LENGTH-JOINT_LENGTH,0);
+        revoluteJointDef_2.localAnchorB.set(BODY_LENGTH, 0);
+        revoluteJointDef_2.collideConnected = true;
+//        revoluteJointDef_2.enableMotor = true;
+//        revoluteJointDef_2.maxMotorTorque = 1;
+//        revoluteJointDef_2.motorSpeed = 10;
+        world.createJoint(revoluteJointDef_2);
 
-        DistanceJointDef distanceJointDef_center_tail = new DistanceJointDef();
-        distanceJointDef_center_tail.initialize(bodyPartCenter, bodyPartTail, centerTailJointPoint, tailCenterJointPoint);
-        distanceJointDef_center_tail.dampingRatio = 0;
-        distanceJointDef_center_tail.frequencyHz = 100;
-        distanceJointDef_center_tail.length = 1.5f;
-        distanceJointDef_center_tail.collideConnected = true;
-        world.createJoint(distanceJointDef_center_tail);
+        RevoluteJointDef revoluteJointDef_3 = new RevoluteJointDef();
+        revoluteJointDef_3.initialize(bodyPart2, tailPart, tailPart.getPosition());
+        revoluteJointDef_3.localAnchorA.set(-BODY_LENGTH-JOINT_LENGTH,0);
+        revoluteJointDef_3.localAnchorB.set(BODY_LENGTH, 0);
+        revoluteJointDef_3.collideConnected = true;
+//        revoluteJointDef_3.enableMotor = true;
+//        revoluteJointDef_3.maxMotorTorque = 1;
+//        revoluteJointDef_3.motorSpeed = 10;
+        world.createJoint(revoluteJointDef_3);
+
+//
+//
+//        Vector2 headJointPoint = new Vector2(headPart.getWorldCenter().x - HEAD_RADIUS/PIXELS_PER_METER, headPart.getWorldCenter().y);
+//        Vector2 centerHeadJointPoint = new Vector2(bodyPart1.getWorldCenter().x + BODY_PART_RADIUS/PIXELS_PER_METER, bodyPart1.getWorldCenter().y);
+//        Vector2 centerTailJointPoint = new Vector2(bodyPart1.getWorldCenter().x - BODY_PART_RADIUS/PIXELS_PER_METER, bodyPart1.getWorldCenter().y);
+//        Vector2 tailCenterJointPoint = new Vector2(bodyPart2.getWorldCenter().x + BODY_PART_RADIUS/PIXELS_PER_METER, bodyPart2.getWorldCenter().y);
+//
+//        Vector2 tailLastJointPoint = new Vector2(bodyPart2.getWorldCenter().x - BODY_PART_RADIUS/PIXELS_PER_METER, tailPart.getWorldCenter().y);
+//        Vector2 lastTailJointPoint = new Vector2(tailPart.getWorldCenter().x + BODY_PART_RADIUS/PIXELS_PER_METER, tailPart.getWorldCenter().y);
+//
+
+//        DistanceJointDef distanceJointDef_head_center = new DistanceJointDef();
+//        distanceJointDef_head_center.initialize(headPart, bodyPart1,headJointPoint, centerHeadJointPoint);
+//        distanceJointDef_head_center.dampingRatio = 1;
+//        distanceJointDef_head_center.frequencyHz = 1000;
+//        distanceJointDef_head_center.length = JOINT_LENGTH;
+//        distanceJointDef_head_center.collideConnected = true;
+////        world.createJoint(distanceJointDef_head_center);
+
+
+//
+//        DistanceJointDef distanceJointDef_center_tail = new DistanceJointDef();
+//        distanceJointDef_center_tail.initialize(bodyPart1, bodyPart2, centerTailJointPoint, tailCenterJointPoint);
+//        distanceJointDef_center_tail.dampingRatio = 1;
+//        distanceJointDef_center_tail.frequencyHz = 1000;
+//        distanceJointDef_center_tail.length = JOINT_LENGTH;
+//        distanceJointDef_center_tail.collideConnected = true;
+//        world.createJoint(distanceJointDef_center_tail);
+//
+//        DistanceJointDef distanceJointDef_center_tail2 = new DistanceJointDef();
+//        distanceJointDef_center_tail2.initialize(bodyPart2, tailPart, tailLastJointPoint, lastTailJointPoint);
+//        distanceJointDef_center_tail2.dampingRatio = 1;
+//        distanceJointDef_center_tail2.frequencyHz = 1000;
+//        distanceJointDef_center_tail2.length = JOINT_LENGTH;
+//        distanceJointDef_center_tail2.collideConnected = true;
+//        world.createJoint(distanceJointDef_center_tail2);
+
+
     }
 
     private void createCreature() {
         headPart = addHead( worldWidth/2,worldHeight/2);
-        entities.add( new Entity( headPart, new Texture( Gdx.files.internal("head01.png"))));
-        bodyPartCenter = addBodyPart( worldWidth * 0.48f, worldHeight * 0.5f);
-        bodyPartTail = addBodyPart( worldWidth * 0.46f, worldHeight * 0.5f);
+        entities.add( new Head( headPart, new TextureAtlas( Gdx.files.internal("head.atlas"))));
+        bodyPart1 = addBodyPart( headPart.getPosition().x - HEAD_LENGTH - JOINT_LENGTH, worldHeight * 0.5f);
+        entities.add(new CreatureBody(bodyPart1, new TextureAtlas(Gdx.files.internal("body.atlas"))));
+        bodyPart2 = addBodyPart( bodyPart1.getPosition().x - BODY_LENGTH - JOINT_LENGTH , worldHeight * 0.5f);
+        entities.add(new CreatureBody(bodyPart2, new TextureAtlas(Gdx.files.internal("body.atlas"))));
+        tailPart = addTail(bodyPart2.getPosition().x - BODY_LENGTH - JOINT_LENGTH, worldHeight * 0.5f);
+        entities.add( new CreatureBody(tailPart, new TextureAtlas( Gdx.files.internal("body.atlas"))));
 
-//        headPart.setLinearDamping(1f);
-//        bodyPartCenter.setLinearDamping(1f);
-//        bodyPartTail.setLinearDamping(1f);
         centerReferenceX = headPart.getPosition().x * PIXELS_PER_METER;
         centerReferenceY = headPart.getPosition().y * PIXELS_PER_METER;
     }
@@ -306,8 +368,8 @@ public class GameScreen implements Screen, ContactListener{
                 touchDragY = i2;
 
                 headPart.setLinearDamping(0);
-                bodyPartCenter.setLinearDamping(0);
-                bodyPartTail.setLinearDamping(0);
+                bodyPart1.setLinearDamping(0);
+                bodyPart2.setLinearDamping(0);
 
                 return false;
             }
@@ -315,11 +377,9 @@ public class GameScreen implements Screen, ContactListener{
             @Override
             public boolean touchUp(int i, int i2, int i3, int i4) {
 
-                headPart.setLinearDamping(2f);
-                bodyPartCenter.setLinearDamping(2f);
-                bodyPartTail.setLinearDamping(2f);
-                forceX = 0;
-                forceY = 0;
+                headPart.setLinearDamping(1f);
+                bodyPart1.setLinearDamping(1f);
+                bodyPart2.setLinearDamping(1f);
 
                 return false;
             }
@@ -333,8 +393,6 @@ public class GameScreen implements Screen, ContactListener{
                 touchDragX = i;
                 touchDragY = i2;
 
-
-                //
                 setHeadAngle();
 
                 return false;
@@ -381,18 +439,19 @@ public class GameScreen implements Screen, ContactListener{
     private float deltaX=0;
     private float deltaY=0;
 
+
     private Body addHead(float x, float y){
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.DynamicBody;
         bodyDef.position.set(x,y);
         Body body = world.createBody(bodyDef);
-        CircleShape dynamicCircle = new CircleShape();
-        dynamicCircle.setRadius(5f/PIXELS_PER_METER);
+        PolygonShape shape = new PolygonShape();
+        shape.set(new Vector2[]{new Vector2(HEAD_LENGTH,-HEAD_HEIGHT),new Vector2(HEAD_LENGTH,HEAD_HEIGHT),new Vector2(-HEAD_LENGTH,-HEAD_HEIGHT),new Vector2(-HEAD_LENGTH,HEAD_HEIGHT)});
         FixtureDef fixtureDef = new FixtureDef();
-        fixtureDef.shape = dynamicCircle;
-        fixtureDef.density = 1.0f;
-        fixtureDef.friction = 1.0f;
-        fixtureDef.restitution = 0.5f;
+        fixtureDef.shape = shape;
+        fixtureDef.density = 1f;
+        fixtureDef.friction = 0;
+        fixtureDef.restitution = 0.3f;
         body.createFixture(fixtureDef);
         body.setFixedRotation(true);
         return body;
@@ -403,15 +462,33 @@ public class GameScreen implements Screen, ContactListener{
         bodyDef.type = BodyDef.BodyType.DynamicBody;
         bodyDef.position.set(x,y);
         Body body = world.createBody(bodyDef);
-        CircleShape dynamicCircle = new CircleShape();
-        dynamicCircle.setRadius(3f/PIXELS_PER_METER);
+        PolygonShape shape = new PolygonShape();
+        shape.set(new Vector2[]{new Vector2(BODY_LENGTH,-BODY_HEIGHT),new Vector2(BODY_LENGTH,BODY_HEIGHT),new Vector2(-BODY_LENGTH,-BODY_HEIGHT),new Vector2(-BODY_LENGTH,BODY_HEIGHT)});
         FixtureDef fixtureDef = new FixtureDef();
-        fixtureDef.shape = dynamicCircle;
-        fixtureDef.density = 0.01f;
-        fixtureDef.friction = 1.0f;
-        fixtureDef.restitution = 0.5f;
+        fixtureDef.shape = shape;
+        fixtureDef.density = 1.2f;
+        fixtureDef.friction = 0;
+        fixtureDef.restitution = 0.9f;
         body.createFixture(fixtureDef);
-        body.setAngularDamping(55);
+        body.setAngularDamping(3);
+        return body;
+    }
+
+    private Body addTail(float x, float y){
+        BodyDef bodyDef = new BodyDef();
+        bodyDef.type = BodyDef.BodyType.DynamicBody;
+        bodyDef.position.set(x,y);
+        Body body = world.createBody(bodyDef);
+        CircleShape dynamicCircle = new CircleShape();
+        dynamicCircle.setRadius(BODY_PART_RADIUS /PIXELS_PER_METER);
+        PolygonShape shape = new PolygonShape();
+        shape.set(new Vector2[]{new Vector2(BODY_LENGTH,-BODY_HEIGHT),new Vector2(BODY_LENGTH,BODY_HEIGHT),new Vector2(-BODY_LENGTH,-BODY_HEIGHT),new Vector2(-BODY_LENGTH,BODY_HEIGHT)});
+        FixtureDef fixtureDef = new FixtureDef();
+        fixtureDef.shape = shape;
+        fixtureDef.density = 1.2f;
+        fixtureDef.friction = 1;
+        fixtureDef.restitution = 0.9f;
+        body.createFixture(fixtureDef);
         return body;
     }
 
@@ -427,7 +504,7 @@ public class GameScreen implements Screen, ContactListener{
             float y = Gdx.input.getAccelerometerY();
             headPart.applyForceToCenter(y * forceFactor, -1f * x * forceFactor, true);
         }
-        world.step(BOX_STEP, BOX_VELOCITY_ITERATIONS, BOX_POSITION_ITERATIONS);
+        world.step(WORLD_STEP, VELOCITY_ITERATIONS, POSITION_ITERATIONS);
 
         for ( Entity entity: entities){
             entity.update();
@@ -443,20 +520,18 @@ public class GameScreen implements Screen, ContactListener{
         batch.begin();
 
         for(Sprite sprite:backgrounds){
-            sprite.draw(batch);
+//            sprite.draw(batch);
         }
         batch.end();
 
         debugRenderer.render(world, camera.combined.scale(PIXELS_PER_METER, PIXELS_PER_METER, PIXELS_PER_METER));
         for( Entity entity: entities){
-            entity.render( batch);
+            entity.render( batch, v);
         }
-
     }
 
-
-    float diffX = 0;
-    float diffY = 0;
+    private float diffX = 0;
+    private float diffY = 0;
 
     private void moveCamera() {
         diffX = headPart.getPosition().x * PIXELS_PER_METER - centerReferenceX;
