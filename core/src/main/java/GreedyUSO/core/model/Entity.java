@@ -24,9 +24,12 @@ public class Entity implements Renderable{
     private Sprite sprite;
     private boolean isAnimating;
 
+    private int frameOffsetX;
+    private int frameOffsetY;
+
     float stateTime;
 
-    public Entity( Body body, String atlasName, String frameName){
+    public Entity( Body body, String atlasName, String frameName, int frameOffsetX, int frameOffsetY){
         this.body = body;
         body.setUserData( this);
         this.animSheetAtlas = new TextureAtlas( Gdx.files.internal(atlasName));
@@ -34,6 +37,8 @@ public class Entity implements Renderable{
         this.animation = new Animation( FRAME_DURATION, animFrames);
         stateTime = 0f;
         this.isAnimating = false;
+        this.frameOffsetX = frameOffsetX;
+        this.frameOffsetY = frameOffsetY;
         update();
     }
 
@@ -48,9 +53,9 @@ public class Entity implements Renderable{
         }
         sprite = new Sprite( currentFrame);
         sprite.flip( true, false);
-        sprite.setOrigin(bodyWidth,sprite.getHeight()/2);
-        sprite.setX(posX - bodyWidth);
-        sprite.setY(posY - sprite.getHeight()/2);
+        sprite.setOrigin(bodyWidth +frameOffsetX ,sprite.getHeight()/2 + frameOffsetY);
+        sprite.setX(posX - bodyWidth -frameOffsetX);
+        sprite.setY(posY - sprite.getHeight()/2 -frameOffsetY);
         sprite.setRotation((float) Math.toDegrees(body.getAngle()));
         batch.begin();
         sprite.draw( batch);

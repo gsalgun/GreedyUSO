@@ -5,7 +5,7 @@ filter: Linear,Linear
 repeat: none
 body0
   rotate: false
-  xy: 2, 58
+  xy: 2, 56
   size: 78, 64
   orig: 78, 64
   offset: 0, 0
@@ -13,13 +13,13 @@ body0
 body1
   rotate: false
   xy: 2, 2
-  size: 66, 54
-  orig: 66, 54
+  size: 64, 52
+  orig: 64, 52
   offset: 0, 0
   index: -1
 body2
   rotate: false
-  xy: 70, 12
+  xy: 68, 10
   size: 52, 44
   orig: 52, 44
   offset: 0, 0
@@ -27,7 +27,7 @@ body2
 body3
   rotate: false
   xy: 82, 88
-  size: 40, 34
-  orig: 40, 34
+  size: 38, 32
+  orig: 38, 32
   offset: 0, 0
   index: -1

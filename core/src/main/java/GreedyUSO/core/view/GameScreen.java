@@ -15,9 +15,14 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.physics.box2d.joints.RevoluteJointDef;
 import com.badlogic.gdx.physics.box2d.joints.WeldJointDef;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Touchpad;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 
 import java.util.*;
 
@@ -64,6 +69,7 @@ public class GameScreen implements Screen, ContactListener{
     private Body evilBody;
 
     private Body headPart;
+    private Body bodyPart0;
     private Body bodyPart1;
     private Body bodyPart2;
     private Body bodyPart3;
@@ -77,9 +83,7 @@ public class GameScreen implements Screen, ContactListener{
     private float centerReferenceX;
     private float centerReferenceY;
 
-    float forceFactor = 50;
-//    private static final float FORCE_THRESHOLD = 8000;
-
+    float forceFactor = 60;
 
     private List<Body> toBeDestructed = new ArrayList<Body>();
     private List<Entity> entities = new ArrayList<Entity>();
@@ -109,24 +113,119 @@ public class GameScreen implements Screen, ContactListener{
         //camera.update();
         debugRenderer = new Box2DDebugRenderer();
         world.setContactListener(this);
-
-        //Walls
-//        createWall(0, -(camera.viewportHeight * 2) + 10, (camera.viewportWidth) * 2, 10.0f);
-//        createWall(0, (camera.viewportHeight * 2) + camera.viewportHeight-10,(camera.viewportWidth) * 2, 10.0f);
-//        createWall(-(camera.viewportWidth * 2) + 10, 0,10.0f,(camera.viewportHeight) * 2);
-//        createWall((camera.viewportWidth * 2) + camera.viewportWidth-10, 0,10.0f,(camera.viewportHeight) * 2);
-
-        createCreature();
+        createCreature(true);
         createJoints();
 
         createSmallEnemies();
 
         createEvilEnemy();
 
-        handleTouches();
         isAccelerometerAvailable = Gdx.input.isPeripheralAvailable(Input.Peripheral.Accelerometer);
         loadBackGrounds();
+        createTouchPad();
 
+    }
+
+    private Touchpad touchpad;
+
+    private void createTouchPad() {
+        Skin touchpadSkin = new Skin();
+        //Set background image
+        touchpadSkin.add("touchBackground", new Texture("touchBackground.png"));
+        //Set knob image
+        touchpadSkin.add("touchKnob", new Texture("touchKnob.png"));
+        //Create TouchPad Style
+        Touchpad.TouchpadStyle touchpadStyle = new Touchpad.TouchpadStyle();
+        //Create Drawable's from TouchPad skin
+        Drawable touchBackground = touchpadSkin.getDrawable("touchBackground");
+        Drawable touchKnob = touchpadSkin.getDrawable("touchKnob");
+        //Apply the Drawables to the TouchPad Style
+        touchpadStyle.background = touchBackground;
+        touchpadStyle.knob = touchKnob;
+        //Create new TouchPad with the created style
+        touchpad = new Touchpad(10, touchpadStyle);
+        //setBounds(x,y,width,height)
+        touchpad.setBounds(15, 15, 200, 200);
+        touchpad.addAction(Actions.alpha(0));
+        this.stage.addActor(touchpad);
+        Gdx.input.setInputProcessor(this.stage);
+        this.stage.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+            }
+
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                if (button == FAKE_BUTTON) {
+                    return true;
+                }
+                System.out.println("" + button);
+                touchpad.setPosition(x - touchpad.getWidth() / 2, y - touchpad.getHeight() / 2);
+                touchpad.invalidate();
+                touchpad.addAction(Actions.alpha(1));
+                InputEvent fakeEvent = new InputEvent();
+                fakeEvent.setType(InputEvent.Type.touchDown);
+                fakeEvent.setStageX(x);
+                fakeEvent.setStageY(y);
+                fakeEvent.setButton(FAKE_BUTTON);
+                touchpad.fire(fakeEvent);
+                return super.touchDown(event, x, y, pointer, button);
+            }
+
+            @Override
+            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                if (button == FAKE_BUTTON) {
+                    return;
+                }
+                touchpad.addAction(Actions.alpha(0));
+                headPart.setLinearDamping(3f);
+                InputEvent fakeEvent = new InputEvent();
+                fakeEvent.setType(InputEvent.Type.touchUp);
+                fakeEvent.setStageX(x);
+                fakeEvent.setStageY(y);
+                fakeEvent.setButton(FAKE_BUTTON);
+                touchpad.fire(fakeEvent);
+                super.touchUp(event, x, y, pointer, button);
+            }
+        });
+    }
+
+    private void checkDumping() {
+        System.out.println("x: "+ headPart.getPosition().x + " / y: "+headPart.getPosition().y);
+        if(headPart.getPosition().y > 2750/PIXELS_PER_METER || headPart.getPosition().y < -1950/PIXELS_PER_METER){
+            headPart.setLinearDamping(299);
+            return;
+        } else if(headPart.getPosition().y > 2650/PIXELS_PER_METER || headPart.getPosition().y < -1850/PIXELS_PER_METER){
+            headPart.setLinearDamping(25);
+            return;
+        }
+        if(headPart.getPosition().x > 3150/PIXELS_PER_METER || headPart.getPosition().x < -1870/PIXELS_PER_METER){
+            headPart.setLinearDamping(299);
+            return;
+        } else if(headPart.getPosition().x > 3050/PIXELS_PER_METER || headPart.getPosition().x < -1770/PIXELS_PER_METER){
+            headPart.setLinearDamping(25);
+            return;
+        }
+        if(touchpad.isTouched()){
+            headPart.setLinearDamping(0);
+        } else {
+            headPart.setLinearDamping(9);
+        }
+    }
+
+    private static int FAKE_BUTTON = 99;
+
+
+    private void handleTouchpadMove() {
+        if (touchpad.isTouched()) {
+
+            float xForce = forceFactor * touchpad.getKnobPercentX();
+            float yForce = forceFactor * touchpad.getKnobPercentY();
+            headPart.setLinearVelocity(xForce, yForce);
+            setHeadAngle();
+        }
+        checkDumping();
     }
 
     private void initializeUI() {
@@ -295,7 +394,7 @@ public class GameScreen implements Screen, ContactListener{
             smallEnemyFix.restitution = 0.5f;
             smallEnemyFix.density = 0.1f;
             enemyBody.createFixture(smallEnemyFix);
-            Entity entity = new Entity( enemyBody, "smallEnemy.atlas", "smallEnemy");
+            Entity entity = new Entity( enemyBody, "smallEnemy.atlas", "smallEnemy",0,0);
             enemyBody.setUserData( entity);
             enemyBody.setLinearDamping( 0.2f);
             entities.add( entity);
@@ -323,7 +422,7 @@ public class GameScreen implements Screen, ContactListener{
 
     }
 
-    private void createEvilEnemy() {
+private void createEvilEnemy() {
         BodyDef evilBodyDef = new BodyDef();
         evilBodyDef.position.set( new Vector2( 1000/PIXELS_PER_METER, 400/PIXELS_PER_METER));
         evilBodyDef.type = BodyDef.BodyType.DynamicBody;
@@ -336,7 +435,7 @@ public class GameScreen implements Screen, ContactListener{
         evilFixture.restitution = 0.5f;
         evilFixture.density = 5f;
         evilBody.createFixture(evilFixture);
-        entities.add( new Entity(evilBody, "evilEnemy.atlas", "evilBody"));
+        entities.add( new Entity(evilBody, "evilEnemy.atlas", "evilBody",0,0));
 
         circleShape.dispose();
 
@@ -373,7 +472,7 @@ public class GameScreen implements Screen, ContactListener{
         tentacleFix.restitution = 0f;
         tentacleFix.density = 0.1f;
         tentacleBody.createFixture( tentacleFix);
-        entities.add( new Entity( tentacleBody, "evilEnemy.atlas", "evil4"));
+        entities.add( new Entity( tentacleBody, "evilEnemy.atlas", "evil4",0,0));
 
         WeldJointDef revoluteJointDef = new WeldJointDef();
         revoluteJointDef.initialize( evilBody, tentacleBody, evilBody.getPosition());
@@ -382,7 +481,7 @@ public class GameScreen implements Screen, ContactListener{
         tentacleDef.position.set( tentacleBody.getPosition().add( 60f/PIXELS_PER_METER, 0));
         Body tentacleBody2 = world.createBody( tentacleDef);
         tentacleBody2.createFixture( tentacleFix);
-        entities.add( new Entity( tentacleBody2, "evilEnemy.atlas", "evil3"));
+        entities.add( new Entity( tentacleBody2, "evilEnemy.atlas", "evil3",0,0));
 
         RevoluteJointDef revoluteJointDef2 = new RevoluteJointDef();
         revoluteJointDef2.initialize( tentacleBody, tentacleBody2, tentacleBody2.getPosition());
@@ -401,7 +500,7 @@ public class GameScreen implements Screen, ContactListener{
                                         new Vector2( 7.5f/PIXELS_PER_METER, -20f/PIXELS_PER_METER)});
         tentacleFix.shape = polygonShape;
         tentacleBody3.createFixture( tentacleFix);
-        entities.add( new Entity( tentacleBody3, "evilEnemy.atlas", "evil6"));
+        entities.add( new Entity( tentacleBody3, "evilEnemy.atlas", "evil6",0,0));
 
         RevoluteJointDef revoluteJointDef3 = new RevoluteJointDef();
         revoluteJointDef3.initialize( tentacleBody2, tentacleBody3, tentacleBody3.getPosition());
@@ -415,7 +514,7 @@ public class GameScreen implements Screen, ContactListener{
         tentacleDef.position.set( tentacleBody3.getPosition().add(40f/PIXELS_PER_METER,0));
         Body tentacleBody4 = world.createBody( tentacleDef);
         tentacleBody4.createFixture( tentacleFix);
-        entities.add( new Entity( tentacleBody4, "evilEnemy.atlas", "evil5"));
+        entities.add( new Entity( tentacleBody4, "evilEnemy.atlas", "evil5",0,0));
 
         RevoluteJointDef revoluteJointDef4 = new RevoluteJointDef();
         revoluteJointDef4.initialize( tentacleBody3, tentacleBody4, tentacleBody4.getPosition());
@@ -466,18 +565,25 @@ public class GameScreen implements Screen, ContactListener{
     private void createJoints() {
 
         RevoluteJointDef revoluteJointDef_1 = new RevoluteJointDef();
-        revoluteJointDef_1.initialize(headPart, bodyPart1, bodyPart1.getPosition());
+        revoluteJointDef_1.initialize(headPart, bodyPart0, bodyPart0.getPosition());
         revoluteJointDef_1.localAnchorA.set(-HEAD_LENGTH-JOINT_LENGTH,0);
         revoluteJointDef_1.localAnchorB.set(BODY_LENGTH, 0);
         revoluteJointDef_1.collideConnected = true;
         world.createJoint(revoluteJointDef_1);
 
         RevoluteJointDef revoluteJointDef_2 = new RevoluteJointDef();
-        revoluteJointDef_2.initialize(bodyPart1, bodyPart2, bodyPart2.getPosition());
+        revoluteJointDef_2.initialize(bodyPart0, bodyPart1, bodyPart1.getPosition());
         revoluteJointDef_2.localAnchorA.set(-BODY_LENGTH-JOINT_LENGTH,0);
         revoluteJointDef_2.localAnchorB.set(BODY_LENGTH, 0);
         revoluteJointDef_2.collideConnected = true;
         world.createJoint(revoluteJointDef_2);
+
+        RevoluteJointDef revoluteJointDef_2_1 = new RevoluteJointDef();
+        revoluteJointDef_2_1.initialize(bodyPart1, bodyPart2, bodyPart2.getPosition());
+        revoluteJointDef_2_1.localAnchorA.set(-BODY_LENGTH-JOINT_LENGTH,0);
+        revoluteJointDef_2_1.localAnchorB.set(BODY_LENGTH, 0);
+        revoluteJointDef_2_1.collideConnected = true;
+        world.createJoint(revoluteJointDef_2_1);
 
         RevoluteJointDef revoluteJointDef_3 = new RevoluteJointDef();
         revoluteJointDef_3.initialize(bodyPart2, bodyPart3, bodyPart3.getPosition());
@@ -502,24 +608,77 @@ public class GameScreen implements Screen, ContactListener{
 
     }
 
-    private void createCreature() {
+    private void createCreature(boolean isUpped) {
         headPart = addHead( worldWidth/2,worldHeight/2);
-        Entity headEntity = new Entity( headPart, "head.atlas", "head");
-        headEntity.setAnimating(false);
-        entities.add( headEntity);
-        bodyPart1 = addBodyPart( headPart.getPosition().x - HEAD_LENGTH - JOINT_LENGTH, worldHeight * 0.5f, BODY_LENGTH, BODY_HEIGHT);
-        entities.add(new Entity(bodyPart1, "body.atlas", "body0"));
+        bodyPart0 = addBodyPart( headPart.getPosition().x - HEAD_LENGTH - JOINT_LENGTH, worldHeight * 0.5f, BODY_LENGTH, BODY_HEIGHT);
+        bodyPart1 = addBodyPart( bodyPart0.getPosition().x - BODY_LENGTH - JOINT_LENGTH, worldHeight * 0.5f, BODY_LENGTH, BODY_HEIGHT);
         bodyPart2 = addBodyPart( bodyPart1.getPosition().x - BODY_LENGTH - JOINT_LENGTH , worldHeight * 0.5f, BODY_LENGTH,BODY_HEIGHT);
-        entities.add(new Entity(bodyPart2, "body.atlas", "body0"));
-
         bodyPart3 = addBodyPart( bodyPart2.getPosition().x - BODY_LENGTH - JOINT_LENGTH , worldHeight * 0.5f, TAIL1_LENGTH,TAIL1_HEIGHT);
-        entities.add(new Entity(bodyPart3, "body.atlas", "body1"));
-
         bodyPart4 = addBodyPart( bodyPart3.getPosition().x - BODY_LENGTH - JOINT_LENGTH , worldHeight * 0.5f, TAIL2_LENGTH,TAIL2_HEIGHT);
-        entities.add(new Entity(bodyPart4, "body.atlas", "body2"));
-
         tailPart = addTail(bodyPart4.getPosition().x - BODY_LENGTH - JOINT_LENGTH, worldHeight * 0.5f, TAIL3_LENGTH,TAIL3_HEIGHT);
-        entities.add(new Entity(tailPart, "body.atlas", "body3"));
+
+        if(isUpped){
+            Entity headEntity = new Entity( headPart, "upHead.atlas", "head", 80,-4);
+            headEntity.setAnimating(false);
+            entities.add( headEntity);
+            entities.add(new Entity(bodyPart0, "upBody.atlas", "body0",0,0));
+            entities.add(new Entity(bodyPart1, "upBody.atlas", "body0",0,0));
+            entities.add(new Entity(bodyPart2, "upBody.atlas", "body0",0,0));
+            entities.add(new Entity(bodyPart3, "upBody.atlas", "body1",0,0));
+            entities.add(new Entity(bodyPart4, "upBody.atlas", "body2",0,0));
+            entities.add(new Entity(tailPart, "upBody.atlas", "body3",0,0));
+
+            Body flipUp1 = addFlipUp(bodyPart0, BODY_HEIGHT, BODY_LENGTH);
+            entities.add(new Entity(flipUp1,"upBody.atlas","flipUpBody",0,-27));
+
+            Body flipUp2 = addFlipUp(bodyPart1, BODY_HEIGHT, BODY_LENGTH);
+            entities.add(new Entity(flipUp2,"upBody.atlas","flipUpBody",0,-27));
+
+            Body flipUp3 = addFlipUp(bodyPart2, BODY_HEIGHT, BODY_LENGTH);
+            entities.add(new Entity(flipUp3,"upBody.atlas","flipUpBody",0,-27));
+
+            Body flipUp4 = addFlipUp(bodyPart3, TAIL1_HEIGHT, TAIL1_LENGTH);
+            entities.add(new Entity(flipUp4,"upBody.atlas","flipUpTail1",0,-18));
+
+            Body flipUp5 = addFlipUp(bodyPart4, TAIL2_HEIGHT, TAIL2_LENGTH);
+            entities.add(new Entity(flipUp5,"upBody.atlas","flipUpTail2",0,-9));
+
+            Body flipUp6 = addFlipUp(tailPart, TAIL3_HEIGHT, TAIL3_LENGTH);
+            entities.add(new Entity(flipUp6,"upBody.atlas","flipUpTail3",0,0));
+
+
+            Body flipDown1 = addFlipDown(bodyPart0, BODY_HEIGHT, BODY_LENGTH);
+            entities.add(new Entity(flipDown1,"upBody.atlas","flipDownBody",0,27));
+
+            Body flipDown2 = addFlipDown(bodyPart1, BODY_HEIGHT, BODY_LENGTH);
+            entities.add(new Entity(flipDown2,"upBody.atlas","flipDownBody",0,27));
+
+            Body flipDown3 = addFlipDown(bodyPart2, BODY_HEIGHT, BODY_LENGTH);
+            entities.add(new Entity(flipDown3,"upBody.atlas","flipDownBody",0,27));
+
+            Body flipDown4 = addFlipDown(bodyPart3, TAIL1_HEIGHT, TAIL1_LENGTH);
+            entities.add(new Entity(flipDown4,"upBody.atlas","flipDownTail1",0,18));
+
+            Body flipDown5 = addFlipDown(bodyPart4, TAIL2_HEIGHT, TAIL2_LENGTH);
+            entities.add(new Entity(flipDown5,"upBody.atlas","flipDownTail2",0,9));
+
+            Body flipDown6 = addFlipDown(tailPart, TAIL3_HEIGHT, TAIL3_LENGTH);
+            entities.add(new Entity(flipDown6,"upBody.atlas","flipDownTail3",0,0));
+
+
+
+
+        } else {
+            Entity headEntity = new Entity( headPart, "head.atlas", "head", 80,-4);
+            headEntity.setAnimating(false);
+            entities.add( headEntity);
+            entities.add(new Entity(bodyPart0, "body.atlas", "body0",0,0));
+            entities.add(new Entity(bodyPart1, "body.atlas", "body0",0,0));
+            entities.add(new Entity(bodyPart2, "body.atlas", "body0",0,0));
+            entities.add(new Entity(bodyPart3, "body.atlas", "body1",0,0));
+            entities.add(new Entity(bodyPart4, "body.atlas", "body2",0,0));
+            entities.add(new Entity(tailPart, "body.atlas", "body3", 0, 0));
+        }
 
         centerReferenceX = headPart.getPosition().x * PIXELS_PER_METER;
         centerReferenceY = headPart.getPosition().y * PIXELS_PER_METER;
@@ -656,6 +815,57 @@ public class GameScreen implements Screen, ContactListener{
         return body;
     }
 
+    private Body addFlipUp(Body body, float bodyHeight,float bodyLength){
+        BodyDef flipDef1 = new BodyDef();
+        flipDef1.type = BodyDef.BodyType.DynamicBody;
+        flipDef1.position.set(body.getPosition().x+bodyHeight,body.getPosition().y);
+        Body flipBody1 = world.createBody(flipDef1);
+        PolygonShape shape = new PolygonShape();
+        shape.set(new Vector2[]{new Vector2(bodyLength*0.2f,-bodyHeight*0.3f),new Vector2(bodyLength*0.2f,bodyHeight*0.3f),new Vector2(-bodyLength*0.2f,-bodyHeight*0.3f),new Vector2(-bodyLength*0.2f,bodyHeight*0.3f)});
+        FixtureDef flipFix1 = new FixtureDef();
+        flipFix1.shape = shape;
+        flipFix1.density = 0.1f;
+        flipFix1.friction = 0.00001f;
+        flipFix1.restitution = 0.3f;
+        flipBody1.createFixture(flipFix1);
+        flipBody1.setAngularDamping(55);
+
+        RevoluteJointDef flipJoint1 = new RevoluteJointDef();
+        flipJoint1.initialize(body, flipBody1, flipBody1.getPosition());
+        flipJoint1.localAnchorA.set(0, bodyHeight+JOINT_LENGTH*1.3f);
+        flipJoint1.localAnchorB.set(0, -bodyHeight*0.3f-JOINT_LENGTH*1.3f);
+        flipJoint1.collideConnected = true;
+        world.createJoint(flipJoint1);
+
+        return flipBody1;
+    }
+
+    private Body addFlipDown(Body body, float bodyHeight,float bodyLength){
+        BodyDef flipDef1 = new BodyDef();
+        flipDef1.type = BodyDef.BodyType.DynamicBody;
+        flipDef1.position.set(body.getPosition().x-bodyHeight,body.getPosition().y);
+        Body flipBody1 = world.createBody(flipDef1);
+        PolygonShape shape = new PolygonShape();
+        shape.set(new Vector2[]{new Vector2(bodyLength*0.2f,-bodyHeight*0.3f),new Vector2(bodyLength*0.2f,bodyHeight*0.3f),new Vector2(-bodyLength*0.2f,-bodyHeight*0.3f),new Vector2(-bodyLength*0.2f,bodyHeight*0.3f)});
+        FixtureDef flipFix1 = new FixtureDef();
+        flipFix1.shape = shape;
+        flipFix1.density = 0.1f;
+        flipFix1.friction = 0.00001f;
+        flipFix1.restitution = 0.3f;
+        flipBody1.createFixture(flipFix1);
+        flipBody1.setAngularDamping(55);
+
+        RevoluteJointDef flipJoint1 = new RevoluteJointDef();
+        flipJoint1.initialize(body, flipBody1, flipBody1.getPosition());
+        flipJoint1.localAnchorA.set(0, -bodyHeight-JOINT_LENGTH*1.3f);
+        flipJoint1.localAnchorB.set(0, +bodyHeight*0.3f+JOINT_LENGTH*1.3f);
+        flipJoint1.collideConnected = true;
+        world.createJoint(flipJoint1);
+
+        return flipBody1;
+    }
+
+
     private Body addTail(float x, float y, float bodyLength, float bodyHeight){
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.DynamicBody;
@@ -685,11 +895,15 @@ public class GameScreen implements Screen, ContactListener{
 
     @Override
     public void render(float v) {
-        if (isAccelerometerAvailable) {
-            float x = Gdx.input.getAccelerometerX();
-            float y = Gdx.input.getAccelerometerY();
-            headPart.applyForceToCenter(y * forceFactor, -1f * x * forceFactor, true);
-        }
+//        if (isAccelerometerAvailable) {
+//            float x = Gdx.input.getAccelerometerX();
+//            float y = Gdx.input.getAccelerometerY();
+//            headPart.applyForceToCenter(y * forceFactor, -1f * x * forceFactor, true);
+//        }
+
+        handleTouchpadMove();
+
+
         world.step(WORLD_STEP, VELOCITY_ITERATIONS, POSITION_ITERATIONS);
 
         for (Entity entity : entities) {
@@ -716,7 +930,7 @@ public class GameScreen implements Screen, ContactListener{
         }
         batch.end();
 
-		debugRenderer.render(world, camera.combined.scale(PIXELS_PER_METER, PIXELS_PER_METER, PIXELS_PER_METER));
+//		debugRenderer.render(world, camera.combined.scale(PIXELS_PER_METER, PIXELS_PER_METER, PIXELS_PER_METER));
         for(int i = entities.size()-1; i>=0; i--){
             entities.get(i).render( batch, v);
         }
@@ -760,7 +974,7 @@ public class GameScreen implements Screen, ContactListener{
     public void resume() {
     }
 
-    @Override
+      @Override
      public void beginContact(Contact contact) {
         Body bodyA = contact.getFixtureA().getBody();
         Body bodyB = contact.getFixtureB().getBody();

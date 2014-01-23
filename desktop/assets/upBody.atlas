@@ -1,0 +1,89 @@
+
+upBody.png
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+body0
+  rotate: false
+  xy: 2, 62
+  size: 78, 64
+  orig: 78, 64
+  offset: 0, 0
+  index: -1
+body1
+  rotate: false
+  xy: 2, 8
+  size: 64, 52
+  orig: 64, 52
+  offset: 0, 0
+  index: -1
+body2
+  rotate: false
+  xy: 180, 82
+  size: 52, 44
+  orig: 52, 44
+  offset: 0, 0
+  index: -1
+body3
+  rotate: false
+  xy: 180, 3
+  size: 38, 32
+  orig: 38, 32
+  offset: 0, 0
+  index: -1
+flipDownBody
+  rotate: false
+  xy: 82, 58
+  size: 47, 68
+  orig: 47, 68
+  offset: 0, 0
+  index: -1
+flipDownTail1
+  rotate: false
+  xy: 68, 2
+  size: 38, 54
+  orig: 38, 54
+  offset: 0, 0
+  index: -1
+flipDownTail2
+  rotate: false
+  xy: 148, 13
+  size: 30, 43
+  orig: 30, 43
+  offset: 0, 0
+  index: -1
+flipDownTail3
+  rotate: false
+  xy: 212, 46
+  size: 24, 34
+  orig: 24, 34
+  offset: 0, 0
+  index: -1
+flipUpBody
+  rotate: false
+  xy: 131, 58
+  size: 47, 68
+  orig: 47, 68
+  offset: 0, 0
+  index: -1
+flipUpTail1
+  rotate: false
+  xy: 108, 2
+  size: 38, 54
+  orig: 38, 54
+  offset: 0, 0
+  index: -1
+flipUpTail2
+  rotate: false
+  xy: 180, 37
+  size: 30, 43
+  orig: 30, 43
+  offset: 0, 0
+  index: -1
+flipUpTail3
+  rotate: false
+  xy: 220, 10
+  size: 24, 34
+  orig: 24, 34
+  offset: 0, 0
+  index: -1
