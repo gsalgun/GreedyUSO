@@ -10,8 +10,8 @@ import com.badlogic.gdx.physics.box2d.Shape;
 
 public class Entity implements Renderable{
 
-    public static final float FRAME_DURATION = 0.10f;
-
+    public static final float FRAME_DURATION = 0.05f;
+    
     private float posX;
     private float posY;
     private float bodyWidth;
@@ -64,11 +64,11 @@ public class Entity implements Renderable{
         Shape bodyShape = body.getFixtureList().get(0).getShape();
         if ( bodyShape instanceof  PolygonShape){
             ((PolygonShape)bodyShape).getVertex(1, vector2);
-            this.bodyWidth = vector2.x;
-            this.bodyHeight = vector2.y;
+            this.bodyWidth = vector2.x * GameScreen.PIXELS_PER_METER;
+            this.bodyHeight = vector2.y * GameScreen.PIXELS_PER_METER;
         }else{
-            this.bodyHeight = bodyShape.getRadius();
-            this.bodyWidth = bodyShape.getRadius();
+            this.bodyHeight = bodyShape.getRadius() * GameScreen.PIXELS_PER_METER;
+            this.bodyWidth = bodyShape.getRadius() * GameScreen.PIXELS_PER_METER;
         }
     }
 
