@@ -21,6 +21,7 @@ public class Entity implements Renderable{
     private TextureRegion[] animFrames;
     private TextureRegion currentFrame;
     private Animation animation;
+
     private Sprite sprite;
     private boolean isAnimating;
 
@@ -80,6 +81,5 @@ public class Entity implements Renderable{
     public void setAnimating( boolean isAnimating){
         this.isAnimating = isAnimating;
     }
-
 
 }
