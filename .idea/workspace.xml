@@ -2,7 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="daab4426-f815-4729-a87f-bb913acb831c" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/android/target/generated-sources/r/GreedyUSO/android/BuildConfig.java" afterPath="$PROJECT_DIR$/android/target/generated-sources/r/GreedyUSO/android/BuildConfig.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/main/java/GreedyUSO/core/view/GameScreen.java" afterPath="$PROJECT_DIR$/core/src/main/java/GreedyUSO/core/view/GameScreen.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/android/libs/armeabi-v7a/META-INF/MANIFEST.MF" afterPath="$PROJECT_DIR$/android/libs/armeabi-v7a/META-INF/MANIFEST.MF" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/android/libs/armeabi/META-INF/MANIFEST.MF" afterPath="$PROJECT_DIR$/android/libs/armeabi/META-INF/MANIFEST.MF" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="GreedyUSO.iws" />
@@ -58,7 +61,23 @@
       </breakpoint>
     </breakpoint_any>
     <ui_properties default_suspend_policy="SuspendAll" default_condition_enabled="true" />
-    <line_breakpoints default_suspend_policy="SuspendAll" default_condition_enabled="true" />
+    <line_breakpoints default_suspend_policy="SuspendAll" default_condition_enabled="true">
+      <breakpoint url="file://$PROJECT_DIR$/core/src/main/java/GreedyUSO/core/view/GameScreen.java" line="258" class="GreedyUSO.core.view.GameScreen" package="GreedyUSO.core.view">
+        <option name="ENABLED" value="true" />
+        <option name="LOG_ENABLED" value="false" />
+        <option name="LOG_EXPRESSION_ENABLED" value="false" />
+        <option name="REMOVE_AFTER_HIT" value="false" />
+        <option name="SUSPEND_POLICY" value="SuspendAll" />
+        <option name="SUSPEND" value="true" />
+        <option name="COUNT_FILTER_ENABLED" value="false" />
+        <option name="COUNT_FILTER" value="0" />
+        <option name="CONDITION_ENABLED" value="true" />
+        <option name="CLASS_FILTERS_ENABLED" value="false" />
+        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
+        <option name="CONDITION" value="" />
+        <option name="LOG_MESSAGE" value="" />
+      </breakpoint>
+    </line_breakpoints>
     <breakpoint_rules />
     <ui_properties />
   </component>
@@ -71,14 +90,24 @@
       <file leaf-file-name="GameScreen.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/core/src/main/java/GreedyUSO/core/view/GameScreen.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="482" column="36" selection-start="20637" selection-end="20637" vertical-scroll-proportion="0.7898449" vertical-offset="7702" max-vertical-offset="20682">
+            <state line="987" column="47" selection-start="46484" selection-end="46484" vertical-scroll-proportion="-2.8411765" vertical-offset="19698" max-vertical-offset="21222">
               <folding>
+                <element signature="imports" expanded="true" />
                 <element signature="e#2498#2504#0" expanded="true" />
                 <element signature="e#3104#3112#0" expanded="true" />
                 <element signature="e#3380#3386#0" expanded="true" />
-                <element signature="e#51607#51737#0" expanded="true" />
-                <element signature="e#51726#51727#0" expanded="true" />
+                <element signature="e#51895#52025#0" expanded="true" />
+                <element signature="e#52014#52015#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Input.class" pinned="false" current="false" current-in-tab="false">
+        <entry file="jar://$M2_REPO$/com/badlogicgames/gdx/gdx/1.0-SNAPSHOT/gdx-1.0-20140120.163209-198.jar!/com/badlogic/gdx/Input.class">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="7" column="10" selection-start="181" selection-end="181" vertical-scroll-proportion="-4.32" vertical-offset="0" max-vertical-offset="5184">
+              <folding />
             </state>
           </provider>
         </entry>
@@ -163,15 +192,6 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="SensorData.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/core/src/main/java/GreedyUSO/core/model/SensorData.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="7" column="13" selection-start="128" selection-end="128" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="378">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
     </leaf>
   </component>
   <component name="FindManager">
@@ -224,9 +244,9 @@
   </component>
   <component name="ProjectFrameBounds">
     <option name="x" value="52" />
-    <option name="y" value="-4" />
+    <option name="y" value="24" />
     <option name="width" value="1869" />
-    <option name="height" value="1205" />
+    <option name="height" value="1176" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
     <OptionsSetting value="true" id="Add" />
@@ -875,7 +895,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="52" y="-4" width="1869" height="1205" extended-state="6" />
+    <frame x="52" y="24" width="1869" height="1176" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -891,14 +911,14 @@
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32953465" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Build Variants" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32953465" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.5650522" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33048433" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24876441" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.26210827" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.26953125" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
@@ -931,13 +951,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/desktop/src/main/java/GreedyUSO/java/GameDesktop.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="13" column="32" selection-start="460" selection-end="460" vertical-scroll-proportion="0.0" vertical-offset="234" max-vertical-offset="414">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/core/pom.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state line="30" column="27" selection-start="881" selection-end="881" vertical-scroll-proportion="0.0" vertical-offset="183" max-vertical-offset="828">
@@ -1242,15 +1255,23 @@
         </state>
       </provider>
     </entry>
+    <entry file="jar://$M2_REPO$/com/badlogicgames/gdx/gdx/1.0-SNAPSHOT/gdx-1.0-20140120.163209-198.jar!/com/badlogic/gdx/Input.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="7" column="10" selection-start="181" selection-end="181" vertical-scroll-proportion="-4.32" vertical-offset="0" max-vertical-offset="5184">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/core/src/main/java/GreedyUSO/core/view/GameScreen.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="482" column="36" selection-start="20637" selection-end="20637" vertical-scroll-proportion="0.7898449" vertical-offset="7702" max-vertical-offset="20682">
+        <state line="987" column="47" selection-start="46484" selection-end="46484" vertical-scroll-proportion="-2.8411765" vertical-offset="19698" max-vertical-offset="21222">
           <folding>
+            <element signature="imports" expanded="true" />
             <element signature="e#2498#2504#0" expanded="true" />
             <element signature="e#3104#3112#0" expanded="true" />
             <element signature="e#3380#3386#0" expanded="true" />
-            <element signature="e#51607#51737#0" expanded="true" />
-            <element signature="e#51726#51727#0" expanded="true" />
+            <element signature="e#51895#52025#0" expanded="true" />
+            <element signature="e#52014#52015#0" expanded="true" />
           </folding>
         </state>
       </provider>
