@@ -915,19 +915,26 @@ public class GameScreen implements Screen, ContactListener{
 
     @Override
     public void render(float v) {
-//        if (isAccelerometerAvailable) {
-//            float x = Gdx.input.getAccelerometerX();
-//            float y = Gdx.input.getAccelerometerY();
-//            headPart.applyForceToCenter(y * forceFactor, -1f * x * forceFactor, true);
-//        }
-        if ( eatCount > 5 && !isLevelUp){
+        if (isAccelerometerAvailable) {
+            float accX = Gdx.input.getAccelerometerX();
+            float accY = Gdx.input.getAccelerometerY();
+            Gdx.app.log("GREEEDY", accX + " " + accY);
+            float x = accX / 10f * forceFactor;
+            float y = accY / 10f * forceFactor;
+            headPart.setLinearVelocity(y , -x);
+            setHeadAngle();
+            //headPart.applyForceToCenter(y * forceFactor, -1f * x * forceFactor, true);
+        }
+        if ( eatCount > 2 && !isLevelUp){
             levelComplete = true;
         }
         if(evilEnemyDestroyed){
             levelComplete = true;
         }
         if ( !isGameOver || !levelComplete){
-            handleTouchpadMove();
+            if ( !isAccelerometerAvailable){
+                handleTouchpadMove();
+            }
 
             world.step(WORLD_STEP, VELOCITY_ITERATIONS, POSITION_ITERATIONS);
 
