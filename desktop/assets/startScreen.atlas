@@ -1,0 +1,33 @@
+
+startScreen.png
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+bite-logo
+  rotate: false
+  xy: 2, 164
+  size: 1029, 453
+  orig: 1029, 453
+  offset: 0, 0
+  index: -1
+start-button
+  rotate: false
+  xy: 1284, 1259
+  size: 418, 160
+  orig: 418, 160
+  offset: 0, 0
+  index: -1
+start-button_over
+  rotate: false
+  xy: 2, 2
+  size: 418, 160
+  orig: 418, 160
+  offset: 0, 0
+  index: -1
+start-screen_BG
+  rotate: false
+  xy: 2, 619
+  size: 1280, 800
+  orig: 1280, 800
+  offset: 0, 0
+  index: -1

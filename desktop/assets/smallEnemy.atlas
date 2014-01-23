@@ -1,26 +1,26 @@
 
 smallEnemy.png
 format: RGBA8888
-filter: Nearest,Nearest
+filter: Linear,Linear
 repeat: none
 smallEnemy
   rotate: false
   xy: 2, 2
-  size: 78, 78
-  orig: 78, 78
-  offset: 0, 0
-  index: 2
-smallEnemy
-  rotate: false
-  xy: 82, 7
-  size: 78, 73
-  orig: 78, 73
+  size: 92, 92
+  orig: 92, 92
   offset: 0, 0
   index: 1
 smallEnemy
   rotate: false
-  xy: 162, 8
-  size: 72, 72
-  orig: 72, 72
+  xy: 96, 2
+  size: 92, 92
+  orig: 92, 92
+  offset: 0, 0
+  index: 2
+smallEnemy
+  rotate: false
+  xy: 190, 2
+  size: 92, 92
+  orig: 92, 92
   offset: 0, 0
   index: 3

@@ -2,16 +2,10 @@ package GreedyUSO.core.view;
 
 import GreedyUSO.core.model.Entity;
 import GreedyUSO.core.model.SensorData;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
-import com.badlogic.gdx.InputProcessor;
-import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.*;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.*;
-import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.physics.box2d.joints.RevoluteJointDef;
@@ -19,6 +13,7 @@ import com.badlogic.gdx.physics.box2d.joints.WeldJointDef;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Touchpad;
@@ -32,6 +27,9 @@ public class GameScreen implements Screen, ContactListener{
     private final int BODY_PART_RADIUS = 30;
     private final float HEAD_RADIUS = 50;
     private final AssetManager assetManager;
+    private final Game game;
+    private boolean isLevelUp;
+    private int eatCount = 0;
 
 
     private float HEAD_LENGTH=60 / PIXELS_PER_METER;
@@ -97,9 +95,21 @@ public class GameScreen implements Screen, ContactListener{
     private Stage stage;
     private Batch stageBatch;
     private Camera stageCamera;
+    private Body evilBodySensor;
 
-    public GameScreen( AssetManager assetManager){
+    private Set<Body> creatureParts = new HashSet<Body>();
+    private boolean isGameOver;
+    private boolean levelComplete;
+    private Sprite gameOverSprite;
+    private Sprite levelCompleteSprite;
+    private Sprite eatTextSprite;
+    private Map<Integer, Image> textImages;
+    private Random randomTextGenerator;
+
+    public GameScreen( AssetManager assetManager, Game game, boolean isLevelUp){
+        this.isLevelUp = isLevelUp;
         this.assetManager = assetManager;
+        this.game = game;
     }
 
     public void initialize() {
@@ -117,7 +127,7 @@ public class GameScreen implements Screen, ContactListener{
         camera.position.set( screenWidth * .5f, screenHeight * .5f, 0);
         debugRenderer = new Box2DDebugRenderer();
         world.setContactListener(this);
-        createCreature(false);
+        createCreature(isLevelUp);
         createJoints();
 
         createSmallEnemies();
@@ -127,7 +137,18 @@ public class GameScreen implements Screen, ContactListener{
         isAccelerometerAvailable = Gdx.input.isPeripheralAvailable(Input.Peripheral.Accelerometer);
         loadBackGrounds();
         createTouchPad();
+        //handleTouches();
 
+        TextureAtlas textsAtlas = assetManager.get("texts.atlas", TextureAtlas.class);
+        gameOverSprite = new Sprite( textsAtlas.findRegion("game-over"));
+        levelCompleteSprite = new Sprite( textsAtlas.findRegion("level-complete"));
+        textImages = new HashMap<Integer, Image>();
+        textImages.put(0, new Image(textsAtlas.findRegion("nam-nam")));
+        textImages.put(1, new Image(textsAtlas.findRegion("wow")));
+        textImages.put(2, new Image(textsAtlas.findRegion("yuck!")));
+        textImages.put(3, new Image(textsAtlas.findRegion("yummy")));
+
+        randomTextGenerator = new Random();
     }
 
     private Touchpad touchpad;
@@ -161,6 +182,16 @@ public class GameScreen implements Screen, ContactListener{
 
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                if ( isGameOver){
+                    StartScreen startScreen = new StartScreen( assetManager, game);
+                    startScreen.initialize();
+                    game.setScreen( startScreen);
+                }else if ( levelComplete){
+                    GameScreen gameScreen = new GameScreen( assetManager, game, true);
+                    gameScreen.initialize();
+                    game.setScreen( gameScreen);
+                }
+
                 if (button == FAKE_BUTTON) {
                     return true;
                 }
@@ -294,8 +325,6 @@ public class GameScreen implements Screen, ContactListener{
         Sprite background75 = new Sprite( assetManager.get( "BG_G5.png", Texture.class));
 
 
-
-
         background11.setPosition(-2560,2400);
         background12.setPosition(-1280,2400);
         background13.setPosition(0    ,2400);
@@ -408,7 +437,7 @@ public class GameScreen implements Screen, ContactListener{
             smallEnemySensorDef.position.set( new Vector2( posX / PIXELS_PER_METER, posY / PIXELS_PER_METER));
             smallEnemySensorDef.type = BodyDef.BodyType.DynamicBody;
             Body sensorBody = world.createBody( smallEnemySensorDef);
-            circleShape.setRadius( 80f / PIXELS_PER_METER);
+            circleShape.setRadius( 200f / PIXELS_PER_METER);
             FixtureDef sensorFix = new FixtureDef();
             sensorFix.isSensor = true;
             sensorFix.shape = circleShape;
@@ -426,7 +455,7 @@ public class GameScreen implements Screen, ContactListener{
 
     }
 
-private void createEvilEnemy() {
+    private void createEvilEnemy() {
         BodyDef evilBodyDef = new BodyDef();
         evilBodyDef.position.set( new Vector2( 1000/PIXELS_PER_METER, 400/PIXELS_PER_METER));
         evilBodyDef.type = BodyDef.BodyType.DynamicBody;
@@ -441,10 +470,21 @@ private void createEvilEnemy() {
         evilBody.createFixture(evilFixture);
         entities.add( new Entity(this.assetManager,evilBody, "evilEnemy.atlas", "evilBody",0,0));
 
+        evilBodySensor = world.createBody( evilBodyDef);
+        circleShape.setRadius( 480f/PIXELS_PER_METER);
+        FixtureDef evilSensorFix = new FixtureDef();
+        evilSensorFix.shape = circleShape;
+        evilSensorFix.isSensor = true;
+        evilBodySensor.createFixture(evilSensorFix);
+
+        WeldJointDef sensorJoint = new WeldJointDef();
+        sensorJoint.initialize( evilBody, evilBodySensor, evilBody.getPosition());
+        world.createJoint( sensorJoint);
+
         circleShape.dispose();
 
         BodyDef evilBodyMouthDef = new BodyDef();
-        evilBodyMouthDef.position.set( new Vector2( 1040f/PIXELS_PER_METER, 400/PIXELS_PER_METER));
+        evilBodyMouthDef.position.set( new Vector2( 959.9f/PIXELS_PER_METER, 400/PIXELS_PER_METER));
         evilBodyMouthDef.type = BodyDef.BodyType.DynamicBody;
         evilBodyMouth = world.createBody( evilBodyMouthDef);
         PolygonShape polygonShape = new PolygonShape();
@@ -555,6 +595,7 @@ private void createEvilEnemy() {
         }
 
         evilBody.setTransform(evilBody.getPosition(), angle);
+        evilBodyMouth.setTransform( evilBodyMouth.getPosition(), angle);
     }
 
     private void createWall(float x, float y, float width, float height){
@@ -614,12 +655,19 @@ private void createEvilEnemy() {
 
     private void createCreature(boolean isUpped) {
         headPart = addHead( worldWidth/2,worldHeight/2);
+        creatureParts.add( headPart);
         bodyPart0 = addBodyPart( headPart.getPosition().x - HEAD_LENGTH - JOINT_LENGTH, worldHeight * 0.5f, BODY_LENGTH, BODY_HEIGHT);
+        creatureParts.add( bodyPart0);
         bodyPart1 = addBodyPart( bodyPart0.getPosition().x - BODY_LENGTH - JOINT_LENGTH, worldHeight * 0.5f, BODY_LENGTH, BODY_HEIGHT);
+        creatureParts.add( bodyPart1);
         bodyPart2 = addBodyPart( bodyPart1.getPosition().x - BODY_LENGTH - JOINT_LENGTH , worldHeight * 0.5f, BODY_LENGTH,BODY_HEIGHT);
+        creatureParts.add( bodyPart2);
         bodyPart3 = addBodyPart( bodyPart2.getPosition().x - BODY_LENGTH - JOINT_LENGTH , worldHeight * 0.5f, TAIL1_LENGTH,TAIL1_HEIGHT);
+        creatureParts.add( bodyPart3);
         bodyPart4 = addBodyPart( bodyPart3.getPosition().x - BODY_LENGTH - JOINT_LENGTH , worldHeight * 0.5f, TAIL2_LENGTH,TAIL2_HEIGHT);
+        creatureParts.add( bodyPart4);
         tailPart = addTail(bodyPart4.getPosition().x - BODY_LENGTH - JOINT_LENGTH, worldHeight * 0.5f, TAIL3_LENGTH,TAIL3_HEIGHT);
+        creatureParts.add( tailPart);
 
         if(isUpped){
             Entity headEntity = new Entity(this.assetManager, headPart, "upHead.atlas", "head", 80,-4);
@@ -707,38 +755,43 @@ private void createEvilEnemy() {
 
             @Override
             public boolean touchDown(int i, int i2, int i3, int i4) {
-                touchDragX = i;
-                touchDragY = i2;
-
-                headPart.setLinearDamping(0);
-                bodyPart1.setLinearDamping(0);
-                bodyPart2.setLinearDamping(0);
+//                touchDragX = i;
+//                touchDragY = i2;
+//
+//                headPart.setLinearDamping(0);
+//                bodyPart1.setLinearDamping(0);
+//                bodyPart2.setLinearDamping(0);
 
                 return false;
             }
 
             @Override
             public boolean touchUp(int i, int i2, int i3, int i4) {
+                if ( isGameOver){
+                    StartScreen startScreen = new StartScreen( assetManager, game);
+                    startScreen.initialize();
+                    game.setScreen( startScreen);
+                }
 
-                headPart.setLinearDamping(1f);
-                bodyPart1.setLinearDamping(1f);
-                bodyPart2.setLinearDamping(1f);
+//                headPart.setLinearDamping(1f);
+//                bodyPart1.setLinearDamping(1f);
+//                bodyPart2.setLinearDamping(1f);
 
                 return false;
             }
 
             @Override
             public boolean touchDragged(int i, int i2, int i3) {
-                deltaX = i - touchDragX;
-                deltaY = touchDragY - i2;
-                float xForce = forceFactor * deltaX;
-                float yForce = forceFactor * deltaY;
-                headPart.applyForceToCenter(xForce, yForce, true);
-
-                touchDragX = i;
-                touchDragY = i2;
-
-                setHeadAngle();
+//                deltaX = i - touchDragX;
+//                deltaY = touchDragY - i2;
+//                float xForce = forceFactor * deltaX;
+//                float yForce = forceFactor * deltaY;
+//                headPart.applyForceToCenter(xForce, yForce, true);
+//
+//                touchDragX = i;
+//                touchDragY = i2;
+//
+//                setHeadAngle();
                 return false;
             }
 
@@ -896,7 +949,6 @@ private void createEvilEnemy() {
         stage.dispose();
     }
 
-
     @Override
     public void render(float v) {
 //        if (isAccelerometerAvailable) {
@@ -904,27 +956,29 @@ private void createEvilEnemy() {
 //            float y = Gdx.input.getAccelerometerY();
 //            headPart.applyForceToCenter(y * forceFactor, -1f * x * forceFactor, true);
 //        }
-
-        handleTouchpadMove();
-
-
-        world.step(WORLD_STEP, VELOCITY_ITERATIONS, POSITION_ITERATIONS);
-
-        for (Entity entity : entities) {
-            entity.update();
+        if ( eatCount > 2 && !isLevelUp){
+            levelComplete = true;
         }
-        handleToBeDestructed();
-        for ( Body smallEnemy: smallEnemies){
-            if ( smallEnemy.getLinearVelocity().x < 1f && smallEnemy.getLinearVelocity().y < 1f){
-                ((Entity)smallEnemy.getUserData()).setAnimating(false);
+        if ( !isGameOver || !levelComplete){
+            handleTouchpadMove();
+
+            world.step(WORLD_STEP, VELOCITY_ITERATIONS, POSITION_ITERATIONS);
+
+            for (Entity entity : entities) {
+                entity.update();
             }
+            handleToBeDestructed();
+            for ( Body smallEnemy: smallEnemies){
+                if ( smallEnemy.getLinearVelocity().x < 0.2f && smallEnemy.getLinearVelocity().y < 0.2f){
+                    ((Entity)smallEnemy.getUserData()).setAnimating(false);
+                }
+            }
+            updateEvilEnemy();
         }
-        updateEvilEnemy();
         moveCamera();
         camera.update();
         batch.setProjectionMatrix(camera.combined);
-
-
+        stageBatch.setProjectionMatrix( stageCamera.combined);
         Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
 
         batch.begin();
@@ -933,14 +987,25 @@ private void createEvilEnemy() {
             sprite.draw(batch);
         }
         batch.end();
-
+        if ( isGameOver){
+            stageBatch.begin();
+            gameOverSprite.setPosition( stage.getWidth()/2 - gameOverSprite.getWidth()/2, stage.getHeight()/2 - gameOverSprite.getHeight()/2);
+            gameOverSprite.draw( stageBatch);
+            stageBatch.end();
+            return;
+        }else if (levelComplete){
+            stageBatch.begin();
+            levelCompleteSprite.setPosition( stage.getWidth()/2 - levelCompleteSprite.getWidth()/2, stage.getHeight()/2 - levelCompleteSprite.getHeight()/2);
+            levelCompleteSprite.draw( stageBatch);
+            stageBatch.end();
+            return;
+        }
 //		debugRenderer.render(world, camera.combined.scale(PIXELS_PER_METER, PIXELS_PER_METER, PIXELS_PER_METER));
         for(int i = entities.size()-1; i>=0; i--){
             entities.get(i).render( batch, v);
         }
 
         stage.act( v);
-        stageBatch.setProjectionMatrix( stageCamera.combined);
         stageBatch.begin();
         stage.draw();
         stageBatch.end();
@@ -988,19 +1053,14 @@ private void createEvilEnemy() {
         Body toBeRemovedSensor = null;
         if ( bodyA.equals( headPart) && smallEnemies.contains( bodyB)){
             ((Entity)headPart.getUserData()).setAnimating(false);
-            if ( bodyB.equals( evilBodyMouth)){
-                scoreLabel.setText("GAME OVER");
-            }
             for ( Body sensorBody: sensors){
                 if ( ((SensorData)sensorBody.getUserData()).ownerBody.equals( bodyB)){
                     toBeRemovedSensor = sensorBody;
                 }
             }
             toBeRemovedBody = bodyB;
+            eatCount++;
         } else if ( bodyB.equals( headPart) && smallEnemies.contains( bodyA)){
-            if ( bodyA.equals( evilBodyMouth)){
-                scoreLabel.setText("GAME OVER");
-            }
             ((Entity)headPart.getUserData()).setAnimating(false);
             for ( Body sensorBody: sensors){
                 if ( ((SensorData)sensorBody.getUserData()).ownerBody.equals( bodyA)){
@@ -1008,18 +1068,28 @@ private void createEvilEnemy() {
                 }
             }
             toBeRemovedBody = bodyA;
+            eatCount++;
         }else if ( bodyA.equals( headPart) && sensors.contains( bodyB)){
-            //toBeRemoved = bodyB;
-            ((SensorData)bodyB.getUserData()).ownerBody.setLinearVelocity(new Vector2(headPart.getLinearVelocity().x * 0.7f, headPart.getLinearVelocity().y * 0.7f));
+            ((SensorData)bodyB.getUserData()).ownerBody.setLinearVelocity(new Vector2(headPart.getLinearVelocity().x * 0.9f, headPart.getLinearVelocity().y * 0.9f));
             ((Entity)((SensorData)bodyB.getUserData()).ownerBody.getUserData()).setAnimating(true);
             ((Entity)headPart.getUserData()).setAnimating(true);
-            //toBeRemovedJoint = bodyB.getJointList().get(0).joint;
         }else if ( bodyB.equals( headPart) && sensors.contains( bodyA)){
-            //toBeRemoved = bodyA;
-            ((SensorData)bodyA.getUserData()).ownerBody.setLinearVelocity(new Vector2(headPart.getLinearVelocity().x * 0.7f, headPart.getLinearVelocity().y * 0.7f));
+            ((SensorData)bodyA.getUserData()).ownerBody.setLinearVelocity(new Vector2(headPart.getLinearVelocity().x * 0.9f, headPart.getLinearVelocity().y * 0.9f));
             ((Entity)headPart.getUserData()).setAnimating(true);
-            //toBeRemovedJoint = bodyA.getJointList().get(0).joint;
+        }else if ( creatureParts.contains( bodyA) && bodyB.equals( evilBodySensor)){
+            ((Entity)evilBody.getUserData()).setAnimating(true);
+        }else if ( creatureParts.contains( bodyB) && bodyA.equals( evilBodySensor)){
+            ((Entity)evilBody.getUserData()).setAnimating(true);
+        }else if ( creatureParts.contains( bodyA) && bodyB.equals( evilBodyMouth)){
+            isGameOver = true;
+        }else if ( creatureParts.contains(bodyB) && bodyA.equals( evilBodyMouth)){
+            isGameOver = true;
+        }else if ( bodyA.equals( headPart) && bodyB.equals( evilBody)){
+            destroyEvilEnemy();
+        }else if ( bodyB.equals( headPart) && bodyA.equals( evilBody)){
+            destroyEvilEnemy();
         }
+
         if ( toBeRemovedBody != null){
             smallEnemies.remove( toBeRemovedBody);
             toBeDestructed.add( toBeRemovedBody);
@@ -1031,6 +1101,13 @@ private void createEvilEnemy() {
         }
     }
 
+    private void destroyEvilEnemy() {
+        toBeDestructed.add( evilBody);
+        entities.remove( evilBody.getUserData());
+        toBeDestructed.add( evilBodyMouth);
+        toBeDestructed.add( evilBodySensor);
+    }
+
     private void handleToBeDestructed(){
         List<Body> temp = new ArrayList<Body>( toBeDestructed);
         for( Body aBody: temp){
@@ -1038,8 +1115,23 @@ private void createEvilEnemy() {
             toBeDestructed.remove(aBody);
         }
     }
+
     @Override
     public void endContact(Contact contact) {
+        if ( contact.getFixtureA() == null || contact.getFixtureB() == null){
+            return;
+        }
+        Body bodyA = contact.getFixtureA().getBody();
+        Body bodyB = contact.getFixtureB().getBody();
+        if ( bodyA.equals( headPart) && sensors.contains( bodyB)){
+            ((Entity)headPart.getUserData()).setAnimating(false);
+        }else if ( bodyB.equals( headPart) && sensors.contains( bodyA)){
+            ((Entity)headPart.getUserData()).setAnimating(false);
+        }else if ( creatureParts.contains( bodyA) && bodyB.equals( evilBodySensor)){
+            ((Entity)evilBody.getUserData()).setAnimating(false);
+        }else if ( creatureParts.contains( bodyB) && bodyA.equals( evilBodySensor)){
+            ((Entity)evilBody.getUserData()).setAnimating(false);
+        }
 
     }
 

@@ -3,7 +3,11 @@
   <component name="Encoding" useUTFGuessing="true" native2AsciiForPropertiesFiles="false">
     <file url="file://$PROJECT_DIR$/android/tools" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/desktop/content/body/pack.json" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/desktop/content/evilEnemy/pack.json" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/desktop/content/head/pack.json" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/desktop/content/smallEnemy/pack.json" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/desktop/content/startScreen/pack.json" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/desktop/content/texts/pack.json" charset="UTF-8" />
   </component>
 </project>
 

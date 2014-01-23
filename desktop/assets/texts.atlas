@@ -1,0 +1,47 @@
+
+texts.png
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+game-over
+  rotate: false
+  xy: 861, 55
+  size: 761, 170
+  orig: 761, 170
+  offset: 0, 0
+  index: -1
+level-complete
+  rotate: false
+  xy: 2, 58
+  size: 857, 167
+  orig: 857, 167
+  offset: 0, 0
+  index: -1
+nam-nam
+  rotate: false
+  xy: 1624, 134
+  size: 159, 91
+  orig: 159, 91
+  offset: 0, 0
+  index: -1
+wow
+  rotate: false
+  xy: 1785, 175
+  size: 124, 50
+  orig: 124, 50
+  offset: 0, 0
+  index: -1
+yuck!
+  rotate: false
+  xy: 1624, 69
+  size: 138, 63
+  orig: 138, 63
+  offset: 0, 0
+  index: -1
+yummy
+  rotate: false
+  xy: 2, 2
+  size: 178, 54
+  orig: 178, 54
+  offset: 0, 0
+  index: -1

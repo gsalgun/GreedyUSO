@@ -2,12 +2,16 @@ package GreedyUSO.core;
 
 import GreedyUSO.core.view.SplashScreen;
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.assets.AssetManager;
 
 public class GreedyGame extends Game {
 
+    private AssetManager assetManager;
+
     @Override
     public void create() {
-        SplashScreen splashScreen = new SplashScreen( this);
+        assetManager = new AssetManager();
+        SplashScreen splashScreen = new SplashScreen( this, assetManager);
         setScreen(splashScreen);
     }
 
@@ -34,6 +38,7 @@ public class GreedyGame extends Game {
 
     @Override
     public void dispose() {
-
+        assetManager.clear();
+        assetManager.dispose();
     }
 }

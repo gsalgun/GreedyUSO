@@ -21,8 +21,8 @@ public class SplashScreen implements Screen{
     private ShapeRenderer shapeRenderer;
     private Game game;
 
-    public SplashScreen( Game game) {
-        this.assetManager = new AssetManager();
+    public SplashScreen( Game game, AssetManager assetManager) {
+        this.assetManager = assetManager;
         this.shapeRenderer = new ShapeRenderer();
         this.game = game;
 
@@ -35,10 +35,11 @@ public class SplashScreen implements Screen{
         spriteBatch.draw(peakLogo, logoX, logoY);
         spriteBatch.end();
         if ( this.assetManager.update()){
-            GameScreen gameScreen = new GameScreen( assetManager);
-            gameScreen.initialize();
-            game.setScreen( gameScreen);
+            StartScreen startScreen = new StartScreen( assetManager, game);
+            startScreen.initialize();
+            game.setScreen( startScreen);
         }
+        System.out.println("SplashScreen");
 
     }
 
@@ -62,6 +63,8 @@ public class SplashScreen implements Screen{
         assetManager.load("body.atlas", TextureAtlas.class);
         assetManager.load("upHead.atlas", TextureAtlas.class);
         assetManager.load("upBody.atlas", TextureAtlas.class);
+        assetManager.load("startScreen.atlas", TextureAtlas.class);
+        assetManager.load("texts.atlas", TextureAtlas.class);
     }
 
     private void loadPeakLogo() {
