@@ -18,7 +18,6 @@ import com.badlogic.gdx.physics.box2d.joints.WeldJointDef;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.sun.jmx.remote.internal.ArrayQueue;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -111,7 +110,7 @@ public class GameScreen implements Screen, ContactListener{
         world = new World( new Vector2(0, 0), true);
         world.setVelocityThreshold(1000);
         camera = new OrthographicCamera();
-        camera.setToOrtho( false, screenWidth, screenHeight);
+        camera.setToOrtho(false, screenWidth, screenHeight);
         camera.position.set( screenWidth * .5f, screenHeight * .5f, 0);
         //camera.update();
         debugRenderer = new Box2DDebugRenderer();
@@ -140,7 +139,7 @@ public class GameScreen implements Screen, ContactListener{
         stage = new Stage();
         stageBatch = new SpriteBatch();
         stageCamera = new OrthographicCamera( screenWidth, screenHeight);
-        stage.setCamera( stageCamera);
+        stage.setCamera(stageCamera);
 
         Skin hudSkin = new Skin();
         Pixmap pixmap = new Pixmap(1,1, Pixmap.Format.RGBA8888);
@@ -285,7 +284,7 @@ public class GameScreen implements Screen, ContactListener{
         FixtureDef smallEnemyFix = new FixtureDef();
         smallEnemyFix.shape = circleShape;
         smallEnemyFix.restitution = 0.5f;
-        smallEnemyFix.density = 0f;
+        smallEnemyFix.density = 1f;
         enemyBody.createFixture(smallEnemyFix);
         smallEnemies.add(enemyBody);
         entities.add( new Entity( enemyBody, "smallEnemy.atlas", "smallEnemy"));
@@ -406,12 +405,12 @@ public class GameScreen implements Screen, ContactListener{
     private void createCreature() {
         headPart = addHead( worldWidth/2,worldHeight/2);
         Entity headEntity = new Entity( headPart, "head.atlas", "head");
-        headEntity.setAnimating( false);
+        headEntity.setAnimating(false);
         entities.add( headEntity);
-        bodyPart1 = addBodyPart( headPart.getPosition().x - HEAD_LENGTH - JOINT_LENGTH, worldHeight * 0.5f);
-        entities.add( new Entity( bodyPart1, "body.atlas", "body0"));
+        bodyPart1 = addBodyPart( headPart.getPosition().x - HEAD_LENGTH - JOINT_LENGTH, worldHeight * 0.5f, BODY_LENGTH, BODY_HEIGHT);
+        entities.add(new Entity(bodyPart1, "body.atlas", "body0"));
         bodyPart2 = addBodyPart( bodyPart1.getPosition().x - BODY_LENGTH - JOINT_LENGTH , worldHeight * 0.5f, BODY_LENGTH,BODY_HEIGHT);
-        entities.add(new Entity( bodyPart2, "body.atlas", "body0"));
+        entities.add(new Entity(bodyPart2, "body.atlas", "body0"));
 
         bodyPart3 = addBodyPart( bodyPart2.getPosition().x - BODY_LENGTH - JOINT_LENGTH , worldHeight * 0.5f, TAIL1_LENGTH,TAIL1_HEIGHT);
         entities.add(new Entity(bodyPart3, "body.atlas", "body1"));
@@ -420,7 +419,7 @@ public class GameScreen implements Screen, ContactListener{
         entities.add(new Entity(bodyPart4, "body.atlas", "body2"));
 
         tailPart = addTail(bodyPart4.getPosition().x - BODY_LENGTH - JOINT_LENGTH, worldHeight * 0.5f, TAIL3_LENGTH,TAIL3_HEIGHT);
-        entities.add( new Entity( tailPart, "body.atlas", "body3"));
+        entities.add(new Entity(tailPart, "body.atlas", "body3"));
 
         centerReferenceX = headPart.getPosition().x * PIXELS_PER_METER;
         centerReferenceY = headPart.getPosition().y * PIXELS_PER_METER;
@@ -611,7 +610,7 @@ public class GameScreen implements Screen, ContactListener{
         }
         batch.end();
 
-//		debugRenderer.render(world, camera.combined.scale(PIXELS_PER_METER, PIXELS_PER_METER, PIXELS_PER_METER));
+		debugRenderer.render(world, camera.combined.scale(PIXELS_PER_METER, PIXELS_PER_METER, PIXELS_PER_METER));
         for(int i = entities.size()-1; i>=0; i--){
             entities.get(i).render( batch, v);
         }
@@ -655,7 +654,7 @@ public class GameScreen implements Screen, ContactListener{
     }
 
     @Override
- public void beginContact(Contact contact) {
+     public void beginContact(Contact contact) {
         Body bodyA = contact.getFixtureA().getBody();
         Body bodyB = contact.getFixtureB().getBody();
         Body toBeRemoved = null;
@@ -671,11 +670,11 @@ public class GameScreen implements Screen, ContactListener{
             toBeRemoved = bodyA;
         }else if ( bodyA.equals( headPart) && sensors.contains( bodyB)){
             toBeRemoved = bodyB;
-            ((SensorData)bodyB.getUserData()).ownerBody.setLinearVelocity(new Vector2( -10 * forceFactor,0));
+            ((SensorData)bodyB.getUserData()).ownerBody.setLinearVelocity( new Vector2( headPart.getLinearVelocity().x * 0.4f, headPart.getLinearVelocity().y * 0.4f));
             ((Entity)headPart.getUserData()).setAnimating(true);
         }else if ( bodyB.equals( headPart) && sensors.contains( bodyA)){
             toBeRemoved = bodyA;
-            ((SensorData)bodyA.getUserData()).ownerBody.setLinearVelocity(new Vector2( -10 * forceFactor,0));
+            ((SensorData)bodyA.getUserData()).ownerBody.setLinearVelocity( new Vector2( headPart.getLinearVelocity().x * 0.4f, headPart.getLinearVelocity().y * 0.4f));
             ((Entity)headPart.getUserData()).setAnimating(true);
         }
         if ( toBeRemoved != null){
