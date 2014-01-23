@@ -60,6 +60,8 @@ public class SplashScreen implements Screen{
         assetManager.load("smallEnemy.atlas", TextureAtlas.class);
         assetManager.load("head.atlas", TextureAtlas.class);
         assetManager.load("body.atlas", TextureAtlas.class);
+        assetManager.load("upHead.atlas", TextureAtlas.class);
+        assetManager.load("upBody.atlas", TextureAtlas.class);
     }
 
     private void loadPeakLogo() {

@@ -115,10 +115,9 @@ public class GameScreen implements Screen, ContactListener{
         camera = new OrthographicCamera();
         camera.setToOrtho(false, screenWidth, screenHeight);
         camera.position.set( screenWidth * .5f, screenHeight * .5f, 0);
-        //camera.update();
         debugRenderer = new Box2DDebugRenderer();
         world.setContactListener(this);
-        createCreature(true);
+        createCreature(false);
         createJoints();
 
         createSmallEnemies();
@@ -440,7 +439,7 @@ private void createEvilEnemy() {
         evilFixture.restitution = 0.5f;
         evilFixture.density = 5f;
         evilBody.createFixture(evilFixture);
-        entities.add(this.assetManager, new Entity(evilBody, "evilEnemy.atlas", "evilBody",0,0));
+        entities.add( new Entity(this.assetManager,evilBody, "evilEnemy.atlas", "evilBody",0,0));
 
         circleShape.dispose();
 
@@ -623,66 +622,66 @@ private void createEvilEnemy() {
         tailPart = addTail(bodyPart4.getPosition().x - BODY_LENGTH - JOINT_LENGTH, worldHeight * 0.5f, TAIL3_LENGTH,TAIL3_HEIGHT);
 
         if(isUpped){
-            Entity headEntity = new Entity( headPart, "upHead.atlas", "head", 80,-4);
+            Entity headEntity = new Entity(this.assetManager, headPart, "upHead.atlas", "head", 80,-4);
             headEntity.setAnimating(false);
             entities.add( headEntity);
-            entities.add(new Entity(bodyPart0, "upBody.atlas", "body0",0,0));
-            entities.add(new Entity(bodyPart1, "upBody.atlas", "body0",0,0));
-            entities.add(new Entity(bodyPart2, "upBody.atlas", "body0",0,0));
-            entities.add(new Entity(bodyPart3, "upBody.atlas", "body1",0,0));
-            entities.add(new Entity(bodyPart4, "upBody.atlas", "body2",0,0));
-            entities.add(new Entity(tailPart, "upBody.atlas", "body3",0,0));
+            entities.add(new Entity(this.assetManager,bodyPart0, "upBody.atlas", "body0",0,0));
+            entities.add(new Entity(this.assetManager,bodyPart1, "upBody.atlas", "body0",0,0));
+            entities.add(new Entity(this.assetManager,bodyPart2, "upBody.atlas", "body0",0,0));
+            entities.add(new Entity(this.assetManager,bodyPart3, "upBody.atlas", "body1",0,0));
+            entities.add(new Entity(this.assetManager,bodyPart4, "upBody.atlas", "body2",0,0));
+            entities.add(new Entity(this.assetManager,tailPart, "upBody.atlas", "body3",0,0));
 
             Body flipUp1 = addFlipUp(bodyPart0, BODY_HEIGHT, BODY_LENGTH);
-            entities.add(new Entity(flipUp1,"upBody.atlas","flipUpBody",0,-27));
+            entities.add(new Entity(this.assetManager,flipUp1,"upBody.atlas","flipUpBody",0,-27));
 
             Body flipUp2 = addFlipUp(bodyPart1, BODY_HEIGHT, BODY_LENGTH);
-            entities.add(new Entity(flipUp2,"upBody.atlas","flipUpBody",0,-27));
+            entities.add(new Entity(this.assetManager,flipUp2,"upBody.atlas","flipUpBody",0,-27));
 
             Body flipUp3 = addFlipUp(bodyPart2, BODY_HEIGHT, BODY_LENGTH);
-            entities.add(new Entity(flipUp3,"upBody.atlas","flipUpBody",0,-27));
+            entities.add(new Entity(this.assetManager,flipUp3,"upBody.atlas","flipUpBody",0,-27));
 
             Body flipUp4 = addFlipUp(bodyPart3, TAIL1_HEIGHT, TAIL1_LENGTH);
-            entities.add(new Entity(flipUp4,"upBody.atlas","flipUpTail1",0,-18));
+            entities.add(new Entity(this.assetManager,flipUp4,"upBody.atlas","flipUpTail1",0,-18));
 
             Body flipUp5 = addFlipUp(bodyPart4, TAIL2_HEIGHT, TAIL2_LENGTH);
-            entities.add(new Entity(flipUp5,"upBody.atlas","flipUpTail2",0,-9));
+            entities.add(new Entity(this.assetManager,flipUp5,"upBody.atlas","flipUpTail2",0,-9));
 
             Body flipUp6 = addFlipUp(tailPart, TAIL3_HEIGHT, TAIL3_LENGTH);
-            entities.add(new Entity(flipUp6,"upBody.atlas","flipUpTail3",0,0));
+            entities.add(new Entity(this.assetManager,flipUp6,"upBody.atlas","flipUpTail3",0,0));
 
 
             Body flipDown1 = addFlipDown(bodyPart0, BODY_HEIGHT, BODY_LENGTH);
-            entities.add(new Entity(flipDown1,"upBody.atlas","flipDownBody",0,27));
+            entities.add(new Entity(this.assetManager,flipDown1,"upBody.atlas","flipDownBody",0,27));
 
             Body flipDown2 = addFlipDown(bodyPart1, BODY_HEIGHT, BODY_LENGTH);
-            entities.add(new Entity(flipDown2,"upBody.atlas","flipDownBody",0,27));
+            entities.add(new Entity(this.assetManager,flipDown2,"upBody.atlas","flipDownBody",0,27));
 
             Body flipDown3 = addFlipDown(bodyPart2, BODY_HEIGHT, BODY_LENGTH);
-            entities.add(new Entity(flipDown3,"upBody.atlas","flipDownBody",0,27));
+            entities.add(new Entity(this.assetManager,flipDown3,"upBody.atlas","flipDownBody",0,27));
 
             Body flipDown4 = addFlipDown(bodyPart3, TAIL1_HEIGHT, TAIL1_LENGTH);
-            entities.add(new Entity(flipDown4,"upBody.atlas","flipDownTail1",0,18));
+            entities.add(new Entity(this.assetManager,flipDown4,"upBody.atlas","flipDownTail1",0,18));
 
             Body flipDown5 = addFlipDown(bodyPart4, TAIL2_HEIGHT, TAIL2_LENGTH);
-            entities.add(new Entity(flipDown5,"upBody.atlas","flipDownTail2",0,9));
+            entities.add(new Entity(this.assetManager,flipDown5,"upBody.atlas","flipDownTail2",0,9));
 
             Body flipDown6 = addFlipDown(tailPart, TAIL3_HEIGHT, TAIL3_LENGTH);
-            entities.add(new Entity(flipDown6,"upBody.atlas","flipDownTail3",0,0));
+            entities.add(new Entity(this.assetManager,flipDown6,"upBody.atlas","flipDownTail3",0,0));
 
 
 
 
         } else {
-            Entity headEntity = new Entity( headPart, "head.atlas", "head", 80,-4);
+            Entity headEntity = new Entity(this.assetManager, headPart, "head.atlas", "head", 80,-4);
             headEntity.setAnimating(false);
             entities.add( headEntity);
-            entities.add(new Entity(bodyPart0, "body.atlas", "body0",0,0));
-            entities.add(new Entity(bodyPart1, "body.atlas", "body0",0,0));
-            entities.add(new Entity(bodyPart2, "body.atlas", "body0",0,0));
-            entities.add(new Entity(bodyPart3, "body.atlas", "body1",0,0));
-            entities.add(new Entity(bodyPart4, "body.atlas", "body2",0,0));
-            entities.add(new Entity(tailPart, "body.atlas", "body3", 0, 0));
+            entities.add(new Entity(this.assetManager,bodyPart0, "body.atlas", "body0",0,0));
+            entities.add(new Entity(this.assetManager,bodyPart1, "body.atlas", "body0",0,0));
+            entities.add(new Entity(this.assetManager,bodyPart2, "body.atlas", "body0",0,0));
+            entities.add(new Entity(this.assetManager,bodyPart3, "body.atlas", "body1",0,0));
+            entities.add(new Entity(this.assetManager,bodyPart4, "body.atlas", "body2",0,0));
+            entities.add(new Entity(this.assetManager,tailPart, "body.atlas", "body3", 0, 0));
         }
 
         centerReferenceX = headPart.getPosition().x * PIXELS_PER_METER;
