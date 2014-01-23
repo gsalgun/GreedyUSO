@@ -2,7 +2,10 @@ package GreedyUSO.core.view;
 
 import GreedyUSO.core.model.Entity;
 import GreedyUSO.core.model.SensorData;
-import com.badlogic.gdx.*;
+import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.g2d.*;
@@ -468,6 +471,17 @@ private void createEvilEnemy() {
     evilBody.createFixture(evilFixture);
     entities.add(new Entity(this.assetManager, evilBody, "evilEnemy.atlas", "evilBody", 0, 0));
 
+    evilBodySensor = world.createBody( evilBodyDef);
+    circleShape.setRadius( 480f/PIXELS_PER_METER);
+    FixtureDef evilSensorFix = new FixtureDef();
+    evilSensorFix.shape = circleShape;
+    evilSensorFix.isSensor = true;
+    evilBodySensor.createFixture(evilSensorFix);
+
+    WeldJointDef sensorJoint = new WeldJointDef();
+    sensorJoint.initialize( evilBody, evilBodySensor, evilBody.getPosition());
+    world.createJoint( sensorJoint);
+
     circleShape.dispose();
 
     BodyDef evilBodyMouthDef = new BodyDef();
@@ -660,7 +674,7 @@ private void createEvilEnemy() {
         }
 
         evilBody.setTransform(evilBody.getPosition(), angle);
-        evilBodyMouth.setTransform( evilBodyMouth.getPosition(), angle);
+        evilBodyMouth.setTransform(evilBodyMouth.getPosition(), angle);
     }
 
     private void createWall(float x, float y, float width, float height){
@@ -1051,6 +1065,7 @@ private void createEvilEnemy() {
             }
             toBeRemovedBody = bodyB;
             eatCount++;
+            handleTextAnimation( bodyB);
         } else if ( bodyB.equals( headPart) && smallEnemies.contains( bodyA)){
             ((Entity)headPart.getUserData()).setAnimating(false);
             for ( Body sensorBody: sensors){
@@ -1060,6 +1075,7 @@ private void createEvilEnemy() {
             }
             toBeRemovedBody = bodyA;
             eatCount++;
+            handleTextAnimation( bodyA);
         }else if ( bodyA.equals( headPart) && sensors.contains( bodyB)){
             ((SensorData)bodyB.getUserData()).ownerBody.setLinearVelocity(new Vector2(headPart.getLinearVelocity().x * 0.9f, headPart.getLinearVelocity().y * 0.9f));
             ((Entity)((SensorData)bodyB.getUserData()).ownerBody.getUserData()).setAnimating(true);
@@ -1090,6 +1106,18 @@ private void createEvilEnemy() {
             sensors.remove( toBeRemovedSensor);
             toBeDestructed.add( toBeRemovedSensor);
         }
+    }
+
+    private void handleTextAnimation( Body body) {
+        final Image textImage = textImages.get( randomTextGenerator.nextInt(4));
+        textImage.setPosition( stage.getWidth()/2, stage.getHeight() * 0.7f);
+        textImage.addAction( Actions.sequence( Actions.fadeIn( 0.5f), Actions.fadeOut(0.5f), Actions.run( new Runnable() {
+            @Override
+            public void run() {
+                textImage.remove();
+            }
+        })));
+        stage.addActor( textImage);
     }
 
     private void destroyEvilEnemy() {
