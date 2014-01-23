@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="daab4426-f815-4729-a87f-bb913acb831c" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/main/java/GreedyUSO/core/model/Entity.java" afterPath="$PROJECT_DIR$/core/src/main/java/GreedyUSO/core/model/Entity.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/main/java/GreedyUSO/core/view/GameScreen.java" afterPath="$PROJECT_DIR$/core/src/main/java/GreedyUSO/core/view/GameScreen.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
@@ -58,6 +59,53 @@
       </breakpoint>
     </breakpoint_any>
     <ui_properties default_suspend_policy="SuspendAll" default_condition_enabled="true" />
+    <line_breakpoints>
+      <breakpoint url="file://$PROJECT_DIR$/core/src/main/java/GreedyUSO/core/view/GameScreen.java" line="698" class="GreedyUSO.core.view.GameScreen" package="GreedyUSO.core.view">
+        <option name="ENABLED" value="true" />
+        <option name="LOG_ENABLED" value="false" />
+        <option name="LOG_EXPRESSION_ENABLED" value="false" />
+        <option name="REMOVE_AFTER_HIT" value="false" />
+        <option name="SUSPEND_POLICY" value="SuspendAll" />
+        <option name="SUSPEND" value="true" />
+        <option name="COUNT_FILTER_ENABLED" value="false" />
+        <option name="COUNT_FILTER" value="0" />
+        <option name="CONDITION_ENABLED" value="true" />
+        <option name="CLASS_FILTERS_ENABLED" value="false" />
+        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
+        <option name="CONDITION" value="" />
+        <option name="LOG_MESSAGE" value="" />
+      </breakpoint>
+      <breakpoint url="file://$PROJECT_DIR$/core/src/main/java/GreedyUSO/core/view/GameScreen.java" line="378" class="GreedyUSO.core.view.GameScreen" package="GreedyUSO.core.view">
+        <option name="ENABLED" value="true" />
+        <option name="LOG_ENABLED" value="false" />
+        <option name="LOG_EXPRESSION_ENABLED" value="false" />
+        <option name="REMOVE_AFTER_HIT" value="false" />
+        <option name="SUSPEND_POLICY" value="SuspendAll" />
+        <option name="SUSPEND" value="true" />
+        <option name="COUNT_FILTER_ENABLED" value="false" />
+        <option name="COUNT_FILTER" value="0" />
+        <option name="CONDITION_ENABLED" value="true" />
+        <option name="CLASS_FILTERS_ENABLED" value="false" />
+        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
+        <option name="CONDITION" value="" />
+        <option name="LOG_MESSAGE" value="" />
+      </breakpoint>
+      <breakpoint url="file://$PROJECT_DIR$/core/src/main/java/GreedyUSO/core/view/GameScreen.java" line="387" class="GreedyUSO.core.view.GameScreen" package="GreedyUSO.core.view">
+        <option name="ENABLED" value="true" />
+        <option name="LOG_ENABLED" value="false" />
+        <option name="LOG_EXPRESSION_ENABLED" value="false" />
+        <option name="REMOVE_AFTER_HIT" value="false" />
+        <option name="SUSPEND_POLICY" value="SuspendAll" />
+        <option name="SUSPEND" value="true" />
+        <option name="COUNT_FILTER_ENABLED" value="false" />
+        <option name="COUNT_FILTER" value="0" />
+        <option name="CONDITION_ENABLED" value="true" />
+        <option name="CLASS_FILTERS_ENABLED" value="false" />
+        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
+        <option name="CONDITION" value="" />
+        <option name="LOG_MESSAGE" value="" />
+      </breakpoint>
+    </line_breakpoints>
     <breakpoint_rules />
     <ui_properties />
   </component>
@@ -70,56 +118,71 @@
       <file leaf-file-name="GameScreen.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/core/src/main/java/GreedyUSO/core/view/GameScreen.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="663" column="13" selection-start="26581" selection-end="26581" vertical-scroll-proportion="0.35825107" vertical-offset="11680" max-vertical-offset="12852">
+            <state line="389" column="50" selection-start="17552" selection-end="17552" vertical-scroll-proportion="0.82288826" vertical-offset="6398" max-vertical-offset="15138">
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#2232#2238#0" expanded="true" />
-                <element signature="e#2929#2937#0" expanded="true" />
-                <element signature="e#5405#5413#0" expanded="true" />
+                <element signature="e#2153#2159#0" expanded="true" />
+                <element signature="e#2730#2736#0" expanded="true" />
+                <element signature="e#2789#2797#0" expanded="true" />
+                <element signature="e#5265#5273#0" expanded="true" />
+                <element signature="e#34458#34464#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="smallEnemy_01.png" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/desktop/content/smallEnemy/smallEnemy_01.png">
+      <file leaf-file-name="World.class" pinned="false" current="false" current-in-tab="false">
+        <entry file="jar://$M2_REPO$/com/badlogicgames/gdx/gdx/1.0-SNAPSHOT/gdx-1.0-20140120.163209-198.jar!/com/badlogic/gdx/physics/box2d/World.class">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="165" column="0" selection-start="8169" selection-end="8169" vertical-scroll-proportion="-24.04" vertical-offset="2351" max-vertical-offset="3060">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="evil3.png" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/desktop/content/evilEnemy/evil3.png">
           <provider selected="true" editor-type-id="images">
             <state />
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Renderable.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/core/src/main/java/GreedyUSO/core/model/Renderable.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="9" column="47" selection-start="193" selection-end="193" vertical-scroll-proportion="0.0" vertical-offset="162" max-vertical-offset="306">
-              <folding />
-            </state>
+      <file leaf-file-name="evil5.png" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/desktop/content/evilEnemy/evil5.png">
+          <provider selected="true" editor-type-id="images">
+            <state />
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Skin.class" pinned="false" current="false" current-in-tab="false">
-        <entry file="jar://$M2_REPO$/com/badlogicgames/gdx/gdx/1.0-SNAPSHOT/gdx-1.0-20140120.163209-198.jar!/com/badlogic/gdx/scenes/scene2d/ui/Skin.class">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="52" column="58" selection-start="2585" selection-end="2585" vertical-scroll-proportion="0.0" vertical-offset="936" max-vertical-offset="1548">
-              <folding />
-            </state>
+      <file leaf-file-name="evil4.png" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/desktop/content/evilEnemy/evil4.png">
+          <provider selected="true" editor-type-id="images">
+            <state />
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Label.class" pinned="false" current="false" current-in-tab="false">
-        <entry file="jar://$M2_REPO$/com/badlogicgames/gdx/gdx/1.0-SNAPSHOT/gdx-1.0-20140120.163209-198.jar!/com/badlogic/gdx/scenes/scene2d/ui/Label.class">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="83" column="15" selection-start="3620" selection-end="3620" vertical-scroll-proportion="0.0" vertical-offset="1494" max-vertical-offset="1710">
-              <folding />
-            </state>
+      <file leaf-file-name="evil6.png" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/desktop/content/evilEnemy/evil6.png">
+          <provider selected="true" editor-type-id="images">
+            <state />
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="OrthographicCamera.class" pinned="false" current="false" current-in-tab="false">
-        <entry file="jar://$M2_REPO$/com/badlogicgames/gdx/gdx/1.0-SNAPSHOT/gdx-1.0-20140120.163209-198.jar!/com/badlogic/gdx/graphics/OrthographicCamera.class">
+      <file leaf-file-name="evilBody_01.png" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/desktop/content/evilEnemy/evilBody_01.png">
+          <provider selected="true" editor-type-id="images">
+            <state />
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Random.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="jar:///usr/local/java/jdk1.7.0_45/src.zip!/java/util/Random.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="10" column="11" selection-start="318" selection-end="318" vertical-scroll-proportion="0.0" vertical-offset="180" max-vertical-offset="594">
-              <folding />
+            <state line="237" column="15" selection-start="8723" selection-end="8723" vertical-scroll-proportion="0.0" vertical-offset="3576" max-vertical-offset="10116">
+              <folding>
+                <element signature="e#0#23202#0" expanded="false" />
+                <element signature="imports" expanded="false" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -127,25 +190,16 @@
       <file leaf-file-name="Entity.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/core/src/main/java/GreedyUSO/core/model/Entity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="63" column="0" selection-start="2069" selection-end="2069" vertical-scroll-proportion="0.0" vertical-offset="1134" max-vertical-offset="1548">
+            <state line="35" column="33" selection-start="1215" selection-end="1215" vertical-scroll-proportion="0.0" vertical-offset="432" max-vertical-offset="1404">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="GreedyGame.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/core/src/main/java/GreedyUSO/core/GreedyGame.java">
+      <file leaf-file-name="Game.class" pinned="false" current="false" current-in-tab="false">
+        <entry file="jar://$M2_REPO$/com/badlogicgames/gdx/gdx/1.0-SNAPSHOT/gdx-1.0-20140120.163209-198.jar!/com/badlogic/gdx/Game.class">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="21" column="0" selection-start="427" selection-end="427" vertical-scroll-proportion="0.0" vertical-offset="378" max-vertical-offset="810">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Animation.class" pinned="false" current="false" current-in-tab="false">
-        <entry file="jar://$M2_REPO$/com/badlogicgames/gdx/gdx/1.0-SNAPSHOT/gdx-1.0-20140120.163209-198.jar!/com/badlogic/gdx/graphics/g2d/Animation.class">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="18" column="11" selection-start="628" selection-end="628" vertical-scroll-proportion="0.0" vertical-offset="324" max-vertical-offset="774">
+            <state line="24" column="0" selection-start="736" selection-end="736" vertical-scroll-proportion="-16.56" vertical-offset="0" max-vertical-offset="522">
               <folding />
             </state>
           </provider>
@@ -754,8 +808,9 @@
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32953465" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32953465" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39940238" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3988604" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32953465" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -771,7 +826,6 @@
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.26210827" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32953465" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
     </layout>
@@ -802,71 +856,16 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/core/src/main/java/GreedyUSO/core/model/Entity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="63" column="0" selection-start="2065" selection-end="2065" vertical-scroll-proportion="0.0" vertical-offset="1134" max-vertical-offset="1548">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/core/src/main/java/GreedyUSO/core/GreedyGame.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="21" column="0" selection-start="427" selection-end="427" vertical-scroll-proportion="0.0" vertical-offset="378" max-vertical-offset="810">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$M2_REPO$/com/badlogicgames/gdx/gdx/1.0-SNAPSHOT/gdx-1.0-20140120.163209-198.jar!/com/badlogic/gdx/graphics/g2d/Animation.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="18" column="11" selection-start="628" selection-end="628" vertical-scroll-proportion="0.0" vertical-offset="324" max-vertical-offset="774">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/core/src/main/java/GreedyUSO/core/view/GameScreen.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="329" column="57" selection-start="11239" selection-end="11239" vertical-scroll-proportion="0.0" vertical-offset="5922" max-vertical-offset="6588">
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#2232#2238#0" expanded="true" />
-            <element signature="e#2929#2937#0" expanded="true" />
-            <element signature="e#5405#5413#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$M2_REPO$/com/badlogicgames/gdx/gdx/1.0-SNAPSHOT/gdx-1.0-20140120.030136-196.jar!/com/badlogic/gdx/physics/box2d/Body.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="108" column="16" selection-start="4933" selection-end="4933" vertical-scroll-proportion="0.0" vertical-offset="1944" max-vertical-offset="4374" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/desktop/src/main/java/GreedyUSO/java/GameDesktop.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="13" column="32" selection-start="460" selection-end="460" vertical-scroll-proportion="0.0" vertical-offset="234" max-vertical-offset="414">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/core/src/main/java/GreedyUSO/core/GreedyGame.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="16" column="26" selection-start="377" selection-end="377" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="810">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$M2_REPO$/com/badlogicgames/gdx/gdx-backend-lwjgl/1.0-SNAPSHOT/gdx-backend-lwjgl-1.0-20140120.030259-195.jar!/com/badlogic/gdx/backends/lwjgl/LwjglApplication.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="86" column="16" selection-start="4350" selection-end="4350" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1746" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/core/src/main/java/GreedyUSO/core/view/GameScreen.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="304" column="51" selection-start="10705" selection-end="10705" vertical-scroll-proportion="0.0" vertical-offset="5472" max-vertical-offset="6588">
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#2232#2238#0" expanded="true" />
-            <element signature="e#2929#2937#0" expanded="true" />
-            <element signature="e#5405#5413#0" expanded="true" />
+            <element signature="e#2153#2159#0" expanded="true" />
+            <element signature="e#2730#2736#0" expanded="true" />
+            <element signature="e#2789#2797#0" expanded="true" />
+            <element signature="e#5265#5273#0" expanded="true" />
+            <element signature="e#34458#34464#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -900,9 +899,11 @@
         <state line="266" column="27" selection-start="9326" selection-end="9326" vertical-scroll-proportion="0.0" vertical-offset="4788" max-vertical-offset="6552">
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#2232#2238#0" expanded="true" />
-            <element signature="e#2929#2937#0" expanded="true" />
-            <element signature="e#5405#5413#0" expanded="true" />
+            <element signature="e#2153#2159#0" expanded="true" />
+            <element signature="e#2730#2736#0" expanded="true" />
+            <element signature="e#2789#2797#0" expanded="true" />
+            <element signature="e#5265#5273#0" expanded="true" />
+            <element signature="e#34458#34464#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -931,9 +932,11 @@
         <state line="56" column="0" selection-start="1815" selection-end="1815" vertical-scroll-proportion="0.0" vertical-offset="1008" max-vertical-offset="4698">
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#2232#2238#0" expanded="true" />
-            <element signature="e#2929#2937#0" expanded="true" />
-            <element signature="e#5405#5413#0" expanded="true" />
+            <element signature="e#2153#2159#0" expanded="true" />
+            <element signature="e#2730#2736#0" expanded="true" />
+            <element signature="e#2789#2797#0" expanded="true" />
+            <element signature="e#5265#5273#0" expanded="true" />
+            <element signature="e#34458#34464#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1114,28 +1117,79 @@
         <state />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/core/src/main/java/GreedyUSO/core/GreedyGame.java">
+    <entry file="jar:///usr/local/java/jdk1.7.0_45/src.zip!/java/util/Random.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="21" column="0" selection-start="427" selection-end="427" vertical-scroll-proportion="0.0" vertical-offset="70" max-vertical-offset="792">
+        <state line="237" column="15" selection-start="8723" selection-end="8723" vertical-scroll-proportion="0.0" vertical-offset="3576" max-vertical-offset="10116">
+          <folding>
+            <element signature="e#0#23202#0" expanded="false" />
+            <element signature="imports" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$M2_REPO$/com/badlogicgames/gdx/gdx/1.0-SNAPSHOT/gdx-1.0-20140120.163209-198.jar!/com/badlogic/gdx/Game.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="24" column="0" selection-start="736" selection-end="736" vertical-scroll-proportion="-16.56" vertical-offset="0" max-vertical-offset="522">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/core/src/main/java/GreedyUSO/core/model/Entity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="63" column="0" selection-start="2069" selection-end="2069" vertical-scroll-proportion="0.0" vertical-offset="1134" max-vertical-offset="1548">
+        <state line="35" column="33" selection-start="1215" selection-end="1215" vertical-scroll-proportion="0.0" vertical-offset="432" max-vertical-offset="1404">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/desktop/content/evilEnemy/evilBody_01.png">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/desktop/content/evilEnemy/evil4.png">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/desktop/content/evilEnemy/evil3.png">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/desktop/content/evilEnemy/evil6.png">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/desktop/content/evilEnemy/evil5.png">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="jar://$M2_REPO$/com/badlogicgames/gdx/gdx/1.0-SNAPSHOT/gdx-1.0-20140120.163209-198.jar!/com/badlogic/gdx/physics/box2d/World.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="165" column="0" selection-start="8169" selection-end="8169" vertical-scroll-proportion="-24.04" vertical-offset="2351" max-vertical-offset="3060">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/core/src/main/java/GreedyUSO/core/GreedyGame.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="10" column="0" selection-start="226" selection-end="226" vertical-scroll-proportion="0.21686748" vertical-offset="0" max-vertical-offset="792">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/core/src/main/java/GreedyUSO/core/view/GameScreen.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="663" column="13" selection-start="26581" selection-end="26581" vertical-scroll-proportion="0.35825107" vertical-offset="11680" max-vertical-offset="12852">
+        <state line="389" column="50" selection-start="17552" selection-end="17552" vertical-scroll-proportion="0.82288826" vertical-offset="6398" max-vertical-offset="15138">
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#2232#2238#0" expanded="true" />
-            <element signature="e#2929#2937#0" expanded="true" />
-            <element signature="e#5405#5413#0" expanded="true" />
+            <element signature="e#2153#2159#0" expanded="true" />
+            <element signature="e#2730#2736#0" expanded="true" />
+            <element signature="e#2789#2797#0" expanded="true" />
+            <element signature="e#5265#5273#0" expanded="true" />
+            <element signature="e#34458#34464#0" expanded="true" />
           </folding>
         </state>
       </provider>

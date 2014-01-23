@@ -33,7 +33,7 @@ public class Entity implements Renderable{
         this.animFrames = animSheetAtlas.findRegions(frameName).toArray(TextureRegion.class);
         this.animation = new Animation( FRAME_DURATION, animFrames);
         stateTime = 0f;
-        this.isAnimating = true;
+        this.isAnimating = false;
         update();
     }
 

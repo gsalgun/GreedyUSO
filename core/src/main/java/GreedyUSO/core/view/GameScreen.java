@@ -19,10 +19,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public class GameScreen implements Screen, ContactListener{
 
@@ -64,10 +61,7 @@ public class GameScreen implements Screen, ContactListener{
     private Label scoreLabel;
     private List<Body> sensors = new ArrayList<Body>();
     public static final float PIXELS_PER_METER = 15f;
-
-    public static float ConvertToBox( float x){
-        return x * WORLD_TO_BOX;
-    }
+    private Body evilBody;
 
     private Body headPart;
     private Body bodyPart1;
@@ -276,37 +270,54 @@ public class GameScreen implements Screen, ContactListener{
         smallEnemies = new HashSet<Body>();
 
         BodyDef smallEnemyDef = new BodyDef();
-        smallEnemyDef.position.set( new Vector2( 100 / PIXELS_PER_METER, 200 / PIXELS_PER_METER));
-        smallEnemyDef.type = BodyDef.BodyType.DynamicBody;
-        Body enemyBody = world.createBody( smallEnemyDef);
-        CircleShape circleShape = new CircleShape();
-        circleShape.setRadius( 20f / PIXELS_PER_METER);
-        FixtureDef smallEnemyFix = new FixtureDef();
-        smallEnemyFix.shape = circleShape;
-        smallEnemyFix.restitution = 0.5f;
-        smallEnemyFix.density = 1f;
-        enemyBody.createFixture(smallEnemyFix);
-        smallEnemies.add(enemyBody);
-        entities.add( new Entity( enemyBody, "smallEnemy.atlas", "smallEnemy"));
-
-        smallEnemyDef.position.set( new Vector2( 200 / PIXELS_PER_METER, 100 / PIXELS_PER_METER));
-        enemyBody = world.createBody( smallEnemyDef);
-        enemyBody.createFixture( smallEnemyFix);
-        smallEnemies.add( enemyBody);
-        entities.add( new Entity( enemyBody, "smallEnemy.atlas", "smallEnemy"));
-
+        Body enemyBody;
         BodyDef smallEnemySensorDef = new BodyDef();
-        smallEnemySensorDef.position.set( new Vector2( 200 / PIXELS_PER_METER, 100 / PIXELS_PER_METER));
-        smallEnemySensorDef.type = BodyDef.BodyType.StaticBody;
-        Body sensorBody = world.createBody( smallEnemySensorDef);
-        circleShape.setRadius( 80f / PIXELS_PER_METER);
-        FixtureDef sensorFix = new FixtureDef();
-        sensorFix.isSensor = true;
-        sensorFix.shape = circleShape;
-        sensorBody.createFixture( sensorFix);
-        sensorBody.setUserData( new SensorData( enemyBody));
-        sensors.add( sensorBody);
+        CircleShape circleShape = new CircleShape();
+        Random randomX = new Random();
+        Random randomY = new Random();
+        for ( int i = 0; i < 50; i++){
+            int posX = randomX.nextInt(6400);
+            int posY = randomY.nextInt(5600);
+            if ( posX > 3840){
+                posX = posX - 6400;
+            }
+            if ( posY > 3200){
+                posY  = posY - 5600;
+            }
+            //create the enemy
+            smallEnemyDef.position.set( new Vector2( posX / PIXELS_PER_METER, posY / PIXELS_PER_METER));
+            smallEnemyDef.type = BodyDef.BodyType.DynamicBody;
+            enemyBody = world.createBody( smallEnemyDef);
 
+            circleShape.setRadius( 20f / PIXELS_PER_METER);
+            FixtureDef smallEnemyFix = new FixtureDef();
+            smallEnemyFix.shape = circleShape;
+            smallEnemyFix.restitution = 0.5f;
+            smallEnemyFix.density = 0.1f;
+            enemyBody.createFixture(smallEnemyFix);
+            Entity entity = new Entity( enemyBody, "smallEnemy.atlas", "smallEnemy");
+            enemyBody.setUserData( entity);
+            enemyBody.setLinearDamping( 0.2f);
+            entities.add( entity);
+            smallEnemies.add(enemyBody);
+
+            //create its sensor
+            smallEnemySensorDef.position.set( new Vector2( posX / PIXELS_PER_METER, posY / PIXELS_PER_METER));
+            smallEnemySensorDef.type = BodyDef.BodyType.DynamicBody;
+            Body sensorBody = world.createBody( smallEnemySensorDef);
+            circleShape.setRadius( 80f / PIXELS_PER_METER);
+            FixtureDef sensorFix = new FixtureDef();
+            sensorFix.isSensor = true;
+            sensorFix.shape = circleShape;
+            sensorBody.createFixture( sensorFix);
+            sensorBody.setUserData( new SensorData( enemyBody));
+            sensors.add(sensorBody);
+
+            //create a joint so if they move, they move together
+            WeldJointDef weldJointDef = new WeldJointDef();
+            weldJointDef.initialize( enemyBody, sensorBody, enemyBody.getPosition());
+            world.createJoint( weldJointDef);
+        }
 
         circleShape.dispose();
 
@@ -316,16 +327,16 @@ public class GameScreen implements Screen, ContactListener{
         BodyDef evilBodyDef = new BodyDef();
         evilBodyDef.position.set( new Vector2( 1000/PIXELS_PER_METER, 400/PIXELS_PER_METER));
         evilBodyDef.type = BodyDef.BodyType.DynamicBody;
-        Body evilBody = world.createBody( evilBodyDef);
+        evilBody = world.createBody( evilBodyDef);
+        evilBody.setLinearVelocity( -75f / PIXELS_PER_METER, 0);
         CircleShape circleShape = new CircleShape();
         circleShape.setRadius( 80f / PIXELS_PER_METER);
         FixtureDef evilFixture = new FixtureDef();
         evilFixture.shape = circleShape;
         evilFixture.restitution = 0.5f;
         evilFixture.density = 5f;
-        evilBody.createFixture( evilFixture);
-        smallEnemies.add( evilBody);
-        entities.add( new Entity( evilBody, "evilEnemy.atlas", "evilBody"));
+        evilBody.createFixture(evilFixture);
+        entities.add( new Entity(evilBody, "evilEnemy.atlas", "evilBody"));
 
         circleShape.dispose();
 
@@ -343,15 +354,104 @@ public class GameScreen implements Screen, ContactListener{
         evilBodyMouthFixture.restitution = 0.5f;
         evilBodyMouthFixture.density = 5f;
         evilBodyMouth.createFixture(evilBodyMouthFixture);
-        smallEnemies.add(evilBodyMouth);
 
         WeldJointDef weldJointDef = new WeldJointDef();
-        weldJointDef.initialize( evilBody, evilBodyMouth, evilBody.getPosition());
+        weldJointDef.initialize(evilBody, evilBodyMouth, evilBody.getPosition());
         world.createJoint( weldJointDef);
+
+        //create tentacles
+        BodyDef tentacleDef = new BodyDef();
+        tentacleDef.type = BodyDef.BodyType.DynamicBody;
+        tentacleDef.position.set( evilBody.getPosition().x - 80f/PIXELS_PER_METER, evilBody.getPosition().y + 80f/PIXELS_PER_METER);
+        Body tentacleBody = world.createBody( tentacleDef);
+        polygonShape.set( new Vector2[]{new Vector2( -10f/PIXELS_PER_METER, -30f/PIXELS_PER_METER),
+                                        new Vector2( -10f/PIXELS_PER_METER, 30f/PIXELS_PER_METER),
+                                        new Vector2( 10f/PIXELS_PER_METER, 30f/PIXELS_PER_METER),
+                                        new Vector2( 10f/PIXELS_PER_METER, -30f/PIXELS_PER_METER)});
+        FixtureDef tentacleFix = new FixtureDef();
+        tentacleFix.shape = polygonShape;
+        tentacleFix.restitution = 0f;
+        tentacleFix.density = 0.1f;
+        tentacleBody.createFixture( tentacleFix);
+        entities.add( new Entity( tentacleBody, "evilEnemy.atlas", "evil4"));
+
+        WeldJointDef revoluteJointDef = new WeldJointDef();
+        revoluteJointDef.initialize( evilBody, tentacleBody, evilBody.getPosition());
+        world.createJoint( revoluteJointDef);
+        //2
+        tentacleDef.position.set( tentacleBody.getPosition().add( 60f/PIXELS_PER_METER, 0));
+        Body tentacleBody2 = world.createBody( tentacleDef);
+        tentacleBody2.createFixture( tentacleFix);
+        entities.add( new Entity( tentacleBody2, "evilEnemy.atlas", "evil3"));
+
+        RevoluteJointDef revoluteJointDef2 = new RevoluteJointDef();
+        revoluteJointDef2.initialize( tentacleBody, tentacleBody2, tentacleBody2.getPosition());
+        revoluteJointDef2.localAnchorA.set(0,  10f/PIXELS_PER_METER + JOINT_LENGTH);
+        revoluteJointDef2.localAnchorB.set(0,  -10f/PIXELS_PER_METER - JOINT_LENGTH);
+//        revoluteJointDef2.localAnchorA.set( Vector2.Zero);
+//        revoluteJointDef2.localAnchorB.set( Vector2.Zero);
+        world.createJoint( revoluteJointDef2);
+
+        //3
+        tentacleDef.position.set( tentacleBody2.getPosition().add( 50f/PIXELS_PER_METER,0));
+        Body tentacleBody3 = world.createBody( tentacleDef);
+        polygonShape.set( new Vector2[]{new Vector2( -7.5f/PIXELS_PER_METER, -20f/PIXELS_PER_METER),
+                                        new Vector2( -7.5f/PIXELS_PER_METER, 20f/PIXELS_PER_METER),
+                                        new Vector2( 7.5f/PIXELS_PER_METER, 20f/PIXELS_PER_METER),
+                                        new Vector2( 7.5f/PIXELS_PER_METER, -20f/PIXELS_PER_METER)});
+        tentacleFix.shape = polygonShape;
+        tentacleBody3.createFixture( tentacleFix);
+        entities.add( new Entity( tentacleBody3, "evilEnemy.atlas", "evil6"));
+
+        RevoluteJointDef revoluteJointDef3 = new RevoluteJointDef();
+        revoluteJointDef3.initialize( tentacleBody2, tentacleBody3, tentacleBody3.getPosition());
+//        revoluteJointDef3.localAnchorA.set( -30f/PIXELS_PER_METER, 0);
+//        revoluteJointDef3.localAnchorB.set( 20f/PIXELS_PER_METER,0);
+        revoluteJointDef3.localAnchorA.set( Vector2.Zero);
+        revoluteJointDef3.localAnchorB.set( Vector2.Zero);
+        world.createJoint( revoluteJointDef3);
+
+        //4
+        tentacleDef.position.set( tentacleBody3.getPosition().add(40f/PIXELS_PER_METER,0));
+        Body tentacleBody4 = world.createBody( tentacleDef);
+        tentacleBody4.createFixture( tentacleFix);
+        entities.add( new Entity( tentacleBody4, "evilEnemy.atlas", "evil5"));
+
+        RevoluteJointDef revoluteJointDef4 = new RevoluteJointDef();
+        revoluteJointDef4.initialize( tentacleBody3, tentacleBody4, tentacleBody4.getPosition());
+//        revoluteJointDef4.localAnchorA.set(-20f/PIXELS_PER_METER, 0);
+//        revoluteJointDef4.localAnchorB.set( 20f/PIXELS_PER_METER, 0);
+        revoluteJointDef4.localAnchorA.set( Vector2.Zero);
+        revoluteJointDef4.localAnchorB.set( Vector2.Zero);
+        world.createJoint( revoluteJointDef4);
 
         polygonShape.dispose();
 
+    }
 
+    private void updateEvilEnemy(){
+        Vector2 myPosition = headPart.getPosition();
+        Vector2 direction = myPosition.sub( evilBody.getPosition());
+        direction.nor();
+        evilBody.setLinearVelocity( direction.x * 10f, direction.y * 10f);
+        Vector2 velocity = evilBody.getLinearVelocity();
+
+        xFactor = velocity.x;
+        yFactor = velocity.y;
+
+        if ( xFactor == 0) {
+            angle = yFactor > 0 ? 0 : (float) Math.toRadians(360);
+        } else if (yFactor == 0) {
+            angle = (float) (xFactor > 0 ? Math.toRadians(180) : 3 * Math.toRadians(180));
+        } else {
+            angle = (float) (Math.atan(yFactor / xFactor) + Math.toRadians(180));
+        }
+
+        if (xFactor > 0) {
+            angle += Math.toRadians(180);
+        }
+
+        evilBody.setTransform(evilBody.getPosition(), angle);
     }
 
     private void createWall(float x, float y, float width, float height){
@@ -596,6 +696,12 @@ public class GameScreen implements Screen, ContactListener{
             entity.update();
         }
         handleToBeDestructed();
+        for ( Body smallEnemy: smallEnemies){
+            if ( smallEnemy.getLinearVelocity().x < 1f && smallEnemy.getLinearVelocity().y < 1f){
+                ((Entity)smallEnemy.getUserData()).setAnimating(false);
+            }
+        }
+        updateEvilEnemy();
         moveCamera();
         camera.update();
         batch.setProjectionMatrix(camera.combined);
@@ -634,6 +740,7 @@ public class GameScreen implements Screen, ContactListener{
     }
     @Override
     public void resize(int width, int height) {
+        stage.setViewport( width, height, false);
     }
 
     @Override
@@ -657,37 +764,57 @@ public class GameScreen implements Screen, ContactListener{
      public void beginContact(Contact contact) {
         Body bodyA = contact.getFixtureA().getBody();
         Body bodyB = contact.getFixtureB().getBody();
-        Body toBeRemoved = null;
+        Body toBeRemovedBody = null;
+        Body toBeRemovedSensor = null;
         if ( bodyA.equals( headPart) && smallEnemies.contains( bodyB)){
+            ((Entity)headPart.getUserData()).setAnimating(false);
             if ( bodyB.equals( evilBodyMouth)){
                 scoreLabel.setText("GAME OVER");
             }
-            toBeRemoved = bodyB;
+            for ( Body sensorBody: sensors){
+                if ( ((SensorData)sensorBody.getUserData()).ownerBody.equals( bodyB)){
+                    toBeRemovedSensor = sensorBody;
+                }
+            }
+            toBeRemovedBody = bodyB;
         } else if ( bodyB.equals( headPart) && smallEnemies.contains( bodyA)){
             if ( bodyA.equals( evilBodyMouth)){
                 scoreLabel.setText("GAME OVER");
             }
-            toBeRemoved = bodyA;
+            ((Entity)headPart.getUserData()).setAnimating(false);
+            for ( Body sensorBody: sensors){
+                if ( ((SensorData)sensorBody.getUserData()).ownerBody.equals( bodyA)){
+                    toBeRemovedSensor = sensorBody;
+                }
+            }
+            toBeRemovedBody = bodyA;
         }else if ( bodyA.equals( headPart) && sensors.contains( bodyB)){
-            toBeRemoved = bodyB;
-            ((SensorData)bodyB.getUserData()).ownerBody.setLinearVelocity( new Vector2( headPart.getLinearVelocity().x * 0.4f, headPart.getLinearVelocity().y * 0.4f));
+            //toBeRemoved = bodyB;
+            ((SensorData)bodyB.getUserData()).ownerBody.setLinearVelocity(new Vector2(headPart.getLinearVelocity().x * 0.7f, headPart.getLinearVelocity().y * 0.7f));
+            ((Entity)((SensorData)bodyB.getUserData()).ownerBody.getUserData()).setAnimating(true);
             ((Entity)headPart.getUserData()).setAnimating(true);
+            //toBeRemovedJoint = bodyB.getJointList().get(0).joint;
         }else if ( bodyB.equals( headPart) && sensors.contains( bodyA)){
-            toBeRemoved = bodyA;
-            ((SensorData)bodyA.getUserData()).ownerBody.setLinearVelocity( new Vector2( headPart.getLinearVelocity().x * 0.4f, headPart.getLinearVelocity().y * 0.4f));
+            //toBeRemoved = bodyA;
+            ((SensorData)bodyA.getUserData()).ownerBody.setLinearVelocity(new Vector2(headPart.getLinearVelocity().x * 0.7f, headPart.getLinearVelocity().y * 0.7f));
             ((Entity)headPart.getUserData()).setAnimating(true);
+            //toBeRemovedJoint = bodyA.getJointList().get(0).joint;
         }
-        if ( toBeRemoved != null){
-            smallEnemies.remove( toBeRemoved);
-            toBeDestructed.add( toBeRemoved);
-            entities.remove( toBeRemoved.getUserData());
+        if ( toBeRemovedBody != null){
+            smallEnemies.remove( toBeRemovedBody);
+            toBeDestructed.add( toBeRemovedBody);
+            entities.remove(toBeRemovedBody.getUserData());
+        }
+        if ( toBeRemovedSensor != null){
+            sensors.remove( toBeRemovedSensor);
+            toBeDestructed.add( toBeRemovedSensor);
         }
     }
 
     private void handleToBeDestructed(){
         List<Body> temp = new ArrayList<Body>( toBeDestructed);
         for( Body aBody: temp){
-            world.destroyBody( aBody);
+            world.destroyBody(aBody);
             toBeDestructed.remove(aBody);
         }
     }
