@@ -1,7 +1,7 @@
 package GreedyUSO.core.model;
 
 import GreedyUSO.core.view.GameScreen;
-import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -26,10 +26,10 @@ public class Entity implements Renderable{
 
     float stateTime;
 
-    public Entity( Body body, String atlasName, String frameName){
+    public Entity( AssetManager assetManager, Body body, String atlasName, String frameName){
         this.body = body;
         body.setUserData( this);
-        this.animSheetAtlas = new TextureAtlas( Gdx.files.internal(atlasName));
+        this.animSheetAtlas = assetManager.get(atlasName, TextureAtlas.class);
         this.animFrames = animSheetAtlas.findRegions(frameName).toArray(TextureRegion.class);
         this.animation = new Animation( FRAME_DURATION, animFrames);
         stateTime = 0f;

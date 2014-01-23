@@ -1,15 +1,14 @@
 package GreedyUSO.core;
 
-import GreedyUSO.core.view.GameScreen;
+import GreedyUSO.core.view.SplashScreen;
 import com.badlogic.gdx.Game;
 
 public class GreedyGame extends Game {
 
     @Override
     public void create() {
-        GameScreen gameScreen = new GameScreen();
-        gameScreen.initialize();
-        setScreen(gameScreen);
+        SplashScreen splashScreen = new SplashScreen( this);
+        setScreen(splashScreen);
     }
 
     @Override

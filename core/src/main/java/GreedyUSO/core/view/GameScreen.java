@@ -6,6 +6,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -25,6 +26,7 @@ public class GameScreen implements Screen, ContactListener{
 
     private final int BODY_PART_RADIUS = 30;
     private final float HEAD_RADIUS = 50;
+    private final AssetManager assetManager;
 
 
     private float HEAD_LENGTH=60 / PIXELS_PER_METER;
@@ -92,6 +94,9 @@ public class GameScreen implements Screen, ContactListener{
     private Batch stageBatch;
     private Camera stageCamera;
 
+    public GameScreen( AssetManager assetManager){
+        this.assetManager = assetManager;
+    }
 
     public void initialize() {
         screenWidth = Gdx.graphics.getWidth();
@@ -154,41 +159,41 @@ public class GameScreen implements Screen, ContactListener{
     private List<Sprite> backgrounds = new ArrayList<Sprite>();
 
     private void loadBackGrounds() {
-        Sprite background11 = new Sprite(new Texture(Gdx.files.internal("BG_A1.png")));
-        Sprite background12 = new Sprite(new Texture(Gdx.files.internal("BG_A2.png")));
-        Sprite background13 = new Sprite(new Texture(Gdx.files.internal("BG_A3.png")));
-        Sprite background14 = new Sprite(new Texture(Gdx.files.internal("BG_A4.png")));
-        Sprite background15 = new Sprite(new Texture(Gdx.files.internal("BG_A5.png")));
-        Sprite background21 = new Sprite(new Texture(Gdx.files.internal("BG_B1.png")));
-        Sprite background22 = new Sprite(new Texture(Gdx.files.internal("BG_B2.png")));
-        Sprite background23 = new Sprite(new Texture(Gdx.files.internal("BG_B3.png")));
-        Sprite background24 = new Sprite(new Texture(Gdx.files.internal("BG_B4.png")));
-        Sprite background25 = new Sprite(new Texture(Gdx.files.internal("BG_B5.png")));
-        Sprite background31 = new Sprite(new Texture(Gdx.files.internal("BG_C1.png")));
-        Sprite background32 = new Sprite(new Texture(Gdx.files.internal("BG_C2.png")));
-        Sprite background33 = new Sprite(new Texture(Gdx.files.internal("BG_C3.png")));
-        Sprite background34 = new Sprite(new Texture(Gdx.files.internal("BG_C4.png")));
-        Sprite background35 = new Sprite(new Texture(Gdx.files.internal("BG_C5.png")));
-        Sprite background41 = new Sprite(new Texture(Gdx.files.internal("BG_D1.png")));
-        Sprite background42 = new Sprite(new Texture(Gdx.files.internal("BG_D2.png")));
-        Sprite background43 = new Sprite(new Texture(Gdx.files.internal("BG_D3.png")));
-        Sprite background44 = new Sprite(new Texture(Gdx.files.internal("BG_D4.png")));
-        Sprite background45 = new Sprite(new Texture(Gdx.files.internal("BG_D5.png")));
-        Sprite background51 = new Sprite(new Texture(Gdx.files.internal("BG_E1.png")));
-        Sprite background52 = new Sprite(new Texture(Gdx.files.internal("BG_E2.png")));
-        Sprite background53 = new Sprite(new Texture(Gdx.files.internal("BG_E3.png")));
-        Sprite background54 = new Sprite(new Texture(Gdx.files.internal("BG_E4.png")));
-        Sprite background55 = new Sprite(new Texture(Gdx.files.internal("BG_E5.png")));
-        Sprite background61 = new Sprite(new Texture(Gdx.files.internal("BG_F1.png")));
-        Sprite background62 = new Sprite(new Texture(Gdx.files.internal("BG_F2.png")));
-        Sprite background63 = new Sprite(new Texture(Gdx.files.internal("BG_F3.png")));
-        Sprite background64 = new Sprite(new Texture(Gdx.files.internal("BG_F4.png")));
-        Sprite background65 = new Sprite(new Texture(Gdx.files.internal("BG_F5.png")));
-        Sprite background71 = new Sprite(new Texture(Gdx.files.internal("BG_G1.png")));
-        Sprite background72 = new Sprite(new Texture(Gdx.files.internal("BG_G2.png")));
-        Sprite background73 = new Sprite(new Texture(Gdx.files.internal("BG_G3.png")));
-        Sprite background74 = new Sprite(new Texture(Gdx.files.internal("BG_G4.png")));
-        Sprite background75 = new Sprite(new Texture(Gdx.files.internal("BG_G5.png")));
+        Sprite background11 = new Sprite( assetManager.get( "BG_A1.png", Texture.class));
+        Sprite background12 = new Sprite( assetManager.get( "BG_A2.png", Texture.class));
+        Sprite background13 = new Sprite( assetManager.get( "BG_A3.png", Texture.class));
+        Sprite background14 = new Sprite( assetManager.get( "BG_A4.png", Texture.class));
+        Sprite background15 = new Sprite( assetManager.get( "BG_A5.png", Texture.class));
+        Sprite background21 = new Sprite( assetManager.get( "BG_B1.png", Texture.class));
+        Sprite background22 = new Sprite( assetManager.get( "BG_B2.png", Texture.class));
+        Sprite background23 = new Sprite( assetManager.get( "BG_B3.png", Texture.class));
+        Sprite background24 = new Sprite( assetManager.get( "BG_B4.png", Texture.class));
+        Sprite background25 = new Sprite( assetManager.get( "BG_B5.png", Texture.class));
+        Sprite background31 = new Sprite( assetManager.get( "BG_C1.png", Texture.class));
+        Sprite background32 = new Sprite( assetManager.get( "BG_C2.png", Texture.class));
+        Sprite background33 = new Sprite( assetManager.get( "BG_C3.png", Texture.class));
+        Sprite background34 = new Sprite( assetManager.get( "BG_C4.png", Texture.class));
+        Sprite background35 = new Sprite( assetManager.get( "BG_C5.png", Texture.class));
+        Sprite background41 = new Sprite( assetManager.get( "BG_D1.png", Texture.class));
+        Sprite background42 = new Sprite( assetManager.get( "BG_D2.png", Texture.class));
+        Sprite background43 = new Sprite( assetManager.get( "BG_D3.png", Texture.class));
+        Sprite background44 = new Sprite( assetManager.get( "BG_D4.png", Texture.class));
+        Sprite background45 = new Sprite( assetManager.get( "BG_D5.png", Texture.class));
+        Sprite background51 = new Sprite( assetManager.get( "BG_E1.png", Texture.class));
+        Sprite background52 = new Sprite( assetManager.get( "BG_E2.png", Texture.class));
+        Sprite background53 = new Sprite( assetManager.get( "BG_E3.png", Texture.class));
+        Sprite background54 = new Sprite( assetManager.get( "BG_E4.png", Texture.class));
+        Sprite background55 = new Sprite( assetManager.get( "BG_E5.png", Texture.class));
+        Sprite background61 = new Sprite( assetManager.get( "BG_F1.png", Texture.class));
+        Sprite background62 = new Sprite( assetManager.get( "BG_F2.png", Texture.class));
+        Sprite background63 = new Sprite( assetManager.get( "BG_F3.png", Texture.class));
+        Sprite background64 = new Sprite( assetManager.get( "BG_F4.png", Texture.class));
+        Sprite background65 = new Sprite( assetManager.get( "BG_F5.png", Texture.class));
+        Sprite background71 = new Sprite( assetManager.get( "BG_G1.png", Texture.class));
+        Sprite background72 = new Sprite( assetManager.get( "BG_G2.png", Texture.class));
+        Sprite background73 = new Sprite( assetManager.get( "BG_G3.png", Texture.class));
+        Sprite background74 = new Sprite( assetManager.get( "BG_G4.png", Texture.class));
+        Sprite background75 = new Sprite( assetManager.get( "BG_G5.png", Texture.class));
 
 
 
@@ -295,7 +300,7 @@ public class GameScreen implements Screen, ContactListener{
             smallEnemyFix.restitution = 0.5f;
             smallEnemyFix.density = 0.1f;
             enemyBody.createFixture(smallEnemyFix);
-            Entity entity = new Entity( enemyBody, "smallEnemy.atlas", "smallEnemy");
+            Entity entity = new Entity( this.assetManager, enemyBody, "smallEnemy.atlas", "smallEnemy");
             enemyBody.setUserData( entity);
             enemyBody.setLinearDamping( 0.2f);
             entities.add( entity);
@@ -336,7 +341,7 @@ public class GameScreen implements Screen, ContactListener{
         evilFixture.restitution = 0.5f;
         evilFixture.density = 5f;
         evilBody.createFixture(evilFixture);
-        entities.add( new Entity(evilBody, "evilEnemy.atlas", "evilBody"));
+        entities.add( new Entity(this.assetManager, evilBody, "evilEnemy.atlas", "evilBody"));
 
         circleShape.dispose();
 
@@ -373,7 +378,7 @@ public class GameScreen implements Screen, ContactListener{
         tentacleFix.restitution = 0f;
         tentacleFix.density = 0.1f;
         tentacleBody.createFixture( tentacleFix);
-        entities.add( new Entity( tentacleBody, "evilEnemy.atlas", "evil4"));
+        entities.add( new Entity( this.assetManager, tentacleBody, "evilEnemy.atlas", "evil4"));
 
         WeldJointDef revoluteJointDef = new WeldJointDef();
         revoluteJointDef.initialize( evilBody, tentacleBody, evilBody.getPosition());
@@ -382,7 +387,7 @@ public class GameScreen implements Screen, ContactListener{
         tentacleDef.position.set( tentacleBody.getPosition().add( 60f/PIXELS_PER_METER, 0));
         Body tentacleBody2 = world.createBody( tentacleDef);
         tentacleBody2.createFixture( tentacleFix);
-        entities.add( new Entity( tentacleBody2, "evilEnemy.atlas", "evil3"));
+        entities.add( new Entity( this.assetManager, tentacleBody2, "evilEnemy.atlas", "evil3"));
 
         RevoluteJointDef revoluteJointDef2 = new RevoluteJointDef();
         revoluteJointDef2.initialize( tentacleBody, tentacleBody2, tentacleBody2.getPosition());
@@ -401,7 +406,7 @@ public class GameScreen implements Screen, ContactListener{
                                         new Vector2( 7.5f/PIXELS_PER_METER, -20f/PIXELS_PER_METER)});
         tentacleFix.shape = polygonShape;
         tentacleBody3.createFixture( tentacleFix);
-        entities.add( new Entity( tentacleBody3, "evilEnemy.atlas", "evil6"));
+        entities.add( new Entity( this.assetManager, tentacleBody3, "evilEnemy.atlas", "evil6"));
 
         RevoluteJointDef revoluteJointDef3 = new RevoluteJointDef();
         revoluteJointDef3.initialize( tentacleBody2, tentacleBody3, tentacleBody3.getPosition());
@@ -415,7 +420,7 @@ public class GameScreen implements Screen, ContactListener{
         tentacleDef.position.set( tentacleBody3.getPosition().add(40f/PIXELS_PER_METER,0));
         Body tentacleBody4 = world.createBody( tentacleDef);
         tentacleBody4.createFixture( tentacleFix);
-        entities.add( new Entity( tentacleBody4, "evilEnemy.atlas", "evil5"));
+        entities.add( new Entity( this.assetManager, tentacleBody4, "evilEnemy.atlas", "evil5"));
 
         RevoluteJointDef revoluteJointDef4 = new RevoluteJointDef();
         revoluteJointDef4.initialize( tentacleBody3, tentacleBody4, tentacleBody4.getPosition());
@@ -504,22 +509,22 @@ public class GameScreen implements Screen, ContactListener{
 
     private void createCreature() {
         headPart = addHead( worldWidth/2,worldHeight/2);
-        Entity headEntity = new Entity( headPart, "head.atlas", "head");
+        Entity headEntity = new Entity( this.assetManager, headPart, "head.atlas", "head");
         headEntity.setAnimating(false);
         entities.add( headEntity);
         bodyPart1 = addBodyPart( headPart.getPosition().x - HEAD_LENGTH - JOINT_LENGTH, worldHeight * 0.5f, BODY_LENGTH, BODY_HEIGHT);
-        entities.add(new Entity(bodyPart1, "body.atlas", "body0"));
+        entities.add(new Entity( this.assetManager, bodyPart1, "body.atlas", "body0"));
         bodyPart2 = addBodyPart( bodyPart1.getPosition().x - BODY_LENGTH - JOINT_LENGTH , worldHeight * 0.5f, BODY_LENGTH,BODY_HEIGHT);
-        entities.add(new Entity(bodyPart2, "body.atlas", "body0"));
+        entities.add(new Entity( this.assetManager, bodyPart2, "body.atlas", "body0"));
 
         bodyPart3 = addBodyPart( bodyPart2.getPosition().x - BODY_LENGTH - JOINT_LENGTH , worldHeight * 0.5f, TAIL1_LENGTH,TAIL1_HEIGHT);
-        entities.add(new Entity(bodyPart3, "body.atlas", "body1"));
+        entities.add(new Entity( this.assetManager, bodyPart3, "body.atlas", "body1"));
 
         bodyPart4 = addBodyPart( bodyPart3.getPosition().x - BODY_LENGTH - JOINT_LENGTH , worldHeight * 0.5f, TAIL2_LENGTH,TAIL2_HEIGHT);
-        entities.add(new Entity(bodyPart4, "body.atlas", "body2"));
+        entities.add(new Entity( this.assetManager, bodyPart4, "body.atlas", "body2"));
 
         tailPart = addTail(bodyPart4.getPosition().x - BODY_LENGTH - JOINT_LENGTH, worldHeight * 0.5f, TAIL3_LENGTH,TAIL3_HEIGHT);
-        entities.add(new Entity(tailPart, "body.atlas", "body3"));
+        entities.add(new Entity( this.assetManager, tailPart, "body.atlas", "body3"));
 
         centerReferenceX = headPart.getPosition().x * PIXELS_PER_METER;
         centerReferenceY = headPart.getPosition().y * PIXELS_PER_METER;
@@ -740,7 +745,9 @@ public class GameScreen implements Screen, ContactListener{
     }
     @Override
     public void resize(int width, int height) {
-        stage.setViewport( width, height, false);
+        if ( stage != null){
+            stage.setViewport( width, height, false);
+        }
     }
 
     @Override
