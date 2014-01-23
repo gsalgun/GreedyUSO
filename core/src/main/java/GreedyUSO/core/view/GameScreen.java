@@ -925,7 +925,7 @@ public class GameScreen implements Screen, ContactListener{
             setHeadAngle();
             //headPart.applyForceToCenter(y * forceFactor, -1f * x * forceFactor, true);
         }
-        if ( eatCount > 2 && !isLevelUp){
+        if ( eatCount > 5 && !isLevelUp){
             levelComplete = true;
         }
         if(evilEnemyDestroyed){
