@@ -272,17 +272,20 @@ public class GameScreen implements Screen, ContactListener{
 
         Skin hudSkin = new Skin();
         Pixmap pixmap = new Pixmap(1,1, Pixmap.Format.RGBA8888);
-        pixmap.setColor( Color.WHITE);
+        pixmap.setColor( Color.alpha(0.1f));
         pixmap.fill();
-        hudSkin.add("white", new Texture( pixmap));
-        hudSkin.add("default", new BitmapFont());
+        hudSkin.add("transparent", new Texture( pixmap));
+        hudSkin.add("default", assetManager.get("40pt.fnt"), BitmapFont.class);
 
         Label.LabelStyle labelStyle = new Label.LabelStyle();
         labelStyle.font = hudSkin.getFont("default");
-        labelStyle.background = hudSkin.newDrawable("white", Color.BLUE);
+        labelStyle.fontColor = Color.WHITE;
+        labelStyle.font.setColor( Color.WHITE);
+        //labelStyle.background = hudSkin.newDrawable("white", Color.BLUE);
         hudSkin.add("default", labelStyle);
-        scoreLabel = new Label("1000", hudSkin);
-        scoreLabel.setPosition(-screenWidth / 2, -screenHeight / 2);
+        scoreLabel = new Label("0", hudSkin);
+        scoreLabel.scale(2f);
+        scoreLabel.setPosition( stage.getWidth()/2 - scoreLabel.getWidth()/2, stage.getHeight() - scoreLabel.getHeight());
         stage.addActor(scoreLabel);
     }
 
@@ -1125,6 +1128,8 @@ private void createEvilEnemy() {
             }
         })));
         stage.addActor( textImage);
+        scoreLabel.setText( String.valueOf( eatCount * 10));
+
     }
 
     private void destroyEvilEnemy() {
