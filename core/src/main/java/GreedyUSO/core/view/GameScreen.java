@@ -7,6 +7,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.math.Vector2;
@@ -492,7 +493,7 @@ public class GameScreen implements Screen, ContactListener{
         circleShape.dispose();
 
         BodyDef evilBodyMouthDef = new BodyDef();
-        evilBodyMouthDef.position.set(new Vector2(1040f / PIXELS_PER_METER, 400 / PIXELS_PER_METER));
+        evilBodyMouthDef.position.set(new Vector2(1050f / PIXELS_PER_METER, 400 / PIXELS_PER_METER));
         evilBodyMouthDef.type = BodyDef.BodyType.DynamicBody;
         evilBodyMouth = world.createBody(evilBodyMouthDef);
         PolygonShape polygonShape = new PolygonShape();
@@ -918,16 +919,16 @@ public class GameScreen implements Screen, ContactListener{
 
     @Override
     public void render(float v) {
-        if (isAccelerometerAvailable) {
-            float accX = Gdx.input.getAccelerometerX();
-            float accY = Gdx.input.getAccelerometerY();
-            Gdx.app.log("GREEEDY", accX + " " + accY);
-            float x = accX / 10f * forceFactor;
-            float y = accY / 10f * forceFactor;
-            headPart.setLinearVelocity(y , -x);
-            setHeadAngle();
-            //headPart.applyForceToCenter(y * forceFactor, -1f * x * forceFactor, true);
-        }
+//        if (isAccelerometerAvailable) {
+//            float accX = Gdx.input.getAccelerometerX();
+//            float accY = Gdx.input.getAccelerometerY();
+//            Gdx.app.log("GREEEDY", accX + " " + accY);
+//            float x = accX / 10f * forceFactor;
+//            float y = accY / 10f * forceFactor;
+//            headPart.setLinearVelocity(y , -x);
+//            setHeadAngle();
+//            //headPart.applyForceToCenter(y * forceFactor, -1f * x * forceFactor, true);
+//        }
         if ( eatCount > 5 && !isLevelUp){
             levelComplete = true;
         }
@@ -969,12 +970,20 @@ public class GameScreen implements Screen, ContactListener{
             gameOverSprite.setPosition( stage.getWidth()/2 - gameOverSprite.getWidth()/2, stage.getHeight()/2 - gameOverSprite.getHeight()/2);
             gameOverSprite.draw( stageBatch);
             stageBatch.end();
+            if(!gameOverPlayed){
+                assetManager.get( "gameOver.wav", Sound.class).play();
+                gameOverPlayed = true;
+            }
             return;
         }else if (levelComplete){
             stageBatch.begin();
             levelCompleteSprite.setPosition( stage.getWidth()/2 - levelCompleteSprite.getWidth()/2, stage.getHeight()/2 - levelCompleteSprite.getHeight()/2);
             levelCompleteSprite.draw( stageBatch);
             stageBatch.end();
+            if(!levelCompletePlayed){
+                assetManager.get( "levelComplete.mp3", Sound.class).play();
+                levelCompletePlayed =true;
+            }
             return;
         }
 //		debugRenderer.render(world, camera.combined.scale(PIXELS_PER_METER, PIXELS_PER_METER, PIXELS_PER_METER));
@@ -987,6 +996,9 @@ public class GameScreen implements Screen, ContactListener{
         stage.draw();
         stageBatch.end();
     }
+
+    private boolean levelCompletePlayed = false;
+    private boolean gameOverPlayed = false;
 
     private float diffX = 0;
     private float diffY = 0;
@@ -1037,6 +1049,9 @@ public class GameScreen implements Screen, ContactListener{
             }
             toBeRemovedBody = bodyB;
             eatCount++;
+            if(eatCount<=5 || isLevelUp){
+                assetManager.get( "chomp.wav", Sound.class).play();
+            }
             handleTextAnimation( bodyB);
         } else if ( bodyB.equals( headPart) && smallEnemies.contains( bodyA)){
             ((Entity)headPart.getUserData()).setAnimating(false);
@@ -1047,6 +1062,9 @@ public class GameScreen implements Screen, ContactListener{
             }
             toBeRemovedBody = bodyA;
             eatCount++;
+            if(eatCount<=5 || isLevelUp){
+                assetManager.get( "chomp.wav", Sound.class).play();
+            }
             handleTextAnimation( bodyA);
         }else if ( bodyA.equals( headPart) && sensors.contains( bodyB)){
             ((SensorData)bodyB.getUserData()).ownerBody.setLinearVelocity(new Vector2(headPart.getLinearVelocity().x *2, headPart.getLinearVelocity().y *2));
@@ -1068,7 +1086,6 @@ public class GameScreen implements Screen, ContactListener{
         }else if ( bodyB.equals( headPart) && bodyA.equals( evilBody)){
             destroyEvilEnemy();
         }
-
         if ( toBeRemovedBody != null){
             smallEnemies.remove( toBeRemovedBody);
             toBeDestructed.add( toBeRemovedBody);

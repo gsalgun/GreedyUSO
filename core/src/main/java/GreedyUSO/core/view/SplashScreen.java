@@ -4,6 +4,7 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -67,6 +68,9 @@ public class SplashScreen implements Screen{
         assetManager.load("startScreen.atlas", TextureAtlas.class);
         assetManager.load("texts.atlas", TextureAtlas.class);
         assetManager.load("40pt.fnt", BitmapFont.class);
+        assetManager.load("chomp.wav", Sound.class);
+        assetManager.load("gameOver.wav", Sound.class);
+        assetManager.load("levelComplete.mp3", Sound.class);
     }
 
     private void loadPeakLogo() {
